@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KRPC.Client.Services.SpaceCenter;
 
 namespace KerbalKontroller
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            var connection = new KRPC.Client.Connection("ksp");
+            var vessel = connection.SpaceCenter().ActiveVessel;
+
+            vessel.Control.Pitch = 0.5f;
         }
     }
 }
