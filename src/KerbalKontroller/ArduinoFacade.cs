@@ -1,5 +1,6 @@
 ﻿using ArduinoDriver.SerialProtocol;
 using ArduinoUploader.Hardware;
+using KerbalKontroller.Config;
 using System;
 
 namespace KerbalKontroller
@@ -10,18 +11,20 @@ namespace KerbalKontroller
         private const float HALF_MAXIMUM_INPUT = 511.5f;
 
         private readonly ArduinoDriver.ArduinoDriver ArduinoDriver;
+        private readonly PinConfiguration pinConfiguration;
 
-        public ArduinoFacade()
+        public ArduinoFacade(PinConfiguration pinConfiguration)
         {
             ArduinoDriver = new ArduinoDriver.ArduinoDriver(ArduinoModel.Leonardo, true);
+            this.pinConfiguration = pinConfiguration;
         }
 
         public JoystickAxis ReadLeftJoystick()
         {
             return new JoystickAxis
             {
-                XValue = ReadAnalogPin(0),
-                YValue = ReadAnalogPin(1, true)
+                XValue = ReadAnalogPin(pinConfiguration.LeftJoyStickX),
+                YValue = ReadAnalogPin(pinConfiguration.LeftJoyStickY, true)
             };
         }
 
