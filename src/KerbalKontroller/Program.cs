@@ -1,4 +1,5 @@
 ﻿using KerbalKontroller.Clients;
+using KerbalKontroller.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Core;
 
@@ -14,15 +15,19 @@ namespace KerbalKontroller
             var log = serviceProvider.GetService<Logger>();
 
             var krpc = serviceProvider.GetService<KRPCClient>();
-            var driver = serviceProvider.GetService<ArduinoClient>();
+            var driver = serviceProvider.GetService<IHardwareClient>();
 
             var vessel = krpc.GetActiveVessel();
 
             while (true)
             {
-                var leftJoystick = driver.ReadLeftJoystick();
+                var leftJoystick = driver.ReadLeftJoyStick();
+                var sasSwitch = driver.ReadSASSwitch();
+
                 vessel.Control.Yaw = leftJoystick.XValue;
                 vessel.Control.Pitch = leftJoystick.YValue;
+
+                vessel.Control.SAS = sasSwitch.Active;
             }
         }
     }

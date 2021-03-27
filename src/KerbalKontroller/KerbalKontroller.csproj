@@ -228,6 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\ArduinoClient.cs" />
+    <Compile Include="Resources\ButtonState.cs" />
     <Compile Include="Resources\JoystickAxis.cs" />
     <Compile Include="Config\AppSettings.cs" />
     <Compile Include="Config\PinConfiguration.cs" />
