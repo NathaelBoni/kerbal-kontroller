@@ -1,5 +1,6 @@
 ﻿using KerbalKontroller.Clients;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog.Core;
 
 namespace KerbalKontroller
 {
@@ -9,6 +10,8 @@ namespace KerbalKontroller
         {
             var serviceCollection = new ServiceCollection();
             var serviceProvider = ServiceConfigurator.Configure(serviceCollection);
+
+            var log = serviceProvider.GetService<Logger>();
 
             var krpc = serviceProvider.GetService<KRPCClient>();
             var driver = serviceProvider.GetService<ArduinoClient>();

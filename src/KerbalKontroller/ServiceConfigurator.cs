@@ -4,7 +4,10 @@ using KerbalKontroller.Config;
 using KerbalKontroller.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Events;
 using System;
+using System.IO;
 
 namespace KerbalKontroller
 {
@@ -12,6 +15,18 @@ namespace KerbalKontroller
     {
         public static ServiceProvider Configure(IServiceCollection services)
         {
+            services.AddScoped(_ =>
+            {
+                return new LoggerConfiguration()
+                    .WriteTo.Logger(__ =>
+                        __.WriteTo.Console()
+                        .Filter.ByIncludingOnly(log => log.Level != LogEventLevel.Error))
+                    .WriteTo.Logger(__ =>
+                        __.WriteTo.File($"{AppDomain.CurrentDomain.BaseDirectory}/Log/error.txt", rollOnFileSizeLimit: true, fileSizeLimitBytes: 10000000)
+                        .Filter.ByIncludingOnly(log => log.Level == LogEventLevel.Error))
+                    .CreateLogger();
+            });
+
             services.AddSingleton(_ =>
             {
                 return new ConfigurationBuilder()
