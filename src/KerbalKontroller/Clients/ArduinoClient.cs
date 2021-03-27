@@ -1,22 +1,25 @@
 ﻿using ArduinoDriver.SerialProtocol;
 using ArduinoUploader.Hardware;
 using KerbalKontroller.Config;
+using KerbalKontroller.Interfaces;
+using KerbalKontroller.Resources;
 using System;
 
-namespace KerbalKontroller
+namespace KerbalKontroller.Clients
 {
-    public class ArduinoFacade
+    public class ArduinoClient : IHardwareClient
     {
-        private const float DEAD_ZONE_THRESHOLD = 0.018f;
         private const float HALF_MAXIMUM_INPUT = 511.5f;
 
         private readonly ArduinoDriver.ArduinoDriver ArduinoDriver;
         private readonly PinConfiguration pinConfiguration;
+        private readonly float deadZoneThreshold;
 
-        public ArduinoFacade(PinConfiguration pinConfiguration)
+        public ArduinoClient(PinConfiguration pinConfiguration, AppSettings appSettings, ArduinoModel model)
         {
-            ArduinoDriver = new ArduinoDriver.ArduinoDriver(ArduinoModel.Leonardo, true);
+            ArduinoDriver = new ArduinoDriver.ArduinoDriver(model, true);
             this.pinConfiguration = pinConfiguration;
+            deadZoneThreshold = appSettings.JoystickDeadZone;
         }
 
         public JoystickAxis ReadLeftJoystick()
@@ -28,6 +31,11 @@ namespace KerbalKontroller
             };
         }
 
+        public JoystickAxis ReadRightJoystick()
+        {
+            throw new NotImplementedException();
+        }
+
         private float ReadAnalogPin(byte pin, bool inverted = false)
         {
             var analogResponse = ArduinoDriver.Send(new AnalogReadRequest(pin));
@@ -36,17 +44,11 @@ namespace KerbalKontroller
 
         private float AnalogConversor(int analogValue, bool inverted)
         {
-            var deadZone = DEAD_ZONE_THRESHOLD;
+            var deadZone = deadZoneThreshold;
             var convertedValue = (analogValue / HALF_MAXIMUM_INPUT) - 1;
 
             if (Math.Abs(convertedValue) < deadZone) return 0;
             return inverted ? - convertedValue : convertedValue;
         }
-    }
-
-    public class JoystickAxis
-    {
-        public float XValue { get; set; }
-        public float YValue { get; set; }
     }
 }

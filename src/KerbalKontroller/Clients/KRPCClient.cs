@@ -1,7 +1,7 @@
 ﻿using KRPC.Client;
 using KRPC.Client.Services.SpaceCenter;
 
-namespace KerbalKontroller
+namespace KerbalKontroller.Clients
 {
     public class KRPCClient
     {

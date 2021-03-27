@@ -1,6 +1,5 @@
-﻿using KerbalKontroller.Config;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using KerbalKontroller.Clients;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KerbalKontroller
 {
@@ -8,15 +7,11 @@ namespace KerbalKontroller
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-                .SetBasePath($"{AppDomain.CurrentDomain.BaseDirectory}/Config")
-                .AddJsonFile("appsettings.json", false)
-                .Build();
+            var serviceCollection = new ServiceCollection();
+            var serviceProvider = ServiceConfigurator.Configure(serviceCollection);
 
-            var pinConfig = config.GetSection(nameof(PinConfiguration)).Get<PinConfiguration>();
-
-            var krpc = new KRPCClient();
-            var driver = new ArduinoFacade(pinConfig);
+            var krpc = serviceProvider.GetService<KRPCClient>();
+            var driver = serviceProvider.GetService<ArduinoClient>();
 
             var vessel = krpc.GetActiveVessel();
 
