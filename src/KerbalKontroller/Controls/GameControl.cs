@@ -27,11 +27,12 @@ namespace KerbalKontroller.Controls
             logger.Information("Controls added - starting KerbalKontroller");
 
             Vessel activeVessel;
-            ControlType activeControl = ControlType.None;
+            ControlType? activeControl = null;
+            IControl control;
 
             while (true)
             {
-                if (kRPCClient.IsGamePaused()) activeControl = ControlType.None;
+                if (!kRPCClient.IsInFlight() || kRPCClient.IsGamePaused()) activeControl = null;
                 else
                 {
                     activeVessel = kRPCClient.GetActiveVessel();
@@ -40,7 +41,8 @@ namespace KerbalKontroller.Controls
 
                 try
                 {
-                    controls.First(_ => _.ControlType == activeControl).ControlLoop();
+                    control = controls.FirstOrDefault(_ => _.ControlType == activeControl);
+                    if (control != null) control.ControlLoop();
                 }
                 catch (System.Exception ex)
                 {

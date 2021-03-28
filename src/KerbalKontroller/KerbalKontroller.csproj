@@ -233,7 +233,6 @@
     <Compile Include="Clients\ArduinoClient.cs" />
     <Compile Include="Controls\GameControl.cs" />
     <Compile Include="Controls\KerbalControl.cs" />
-    <Compile Include="Controls\NoneControl.cs" />
     <Compile Include="Controls\PlaneControl.cs" />
     <Compile Include="Controls\RoverControl.cs" />
     <Compile Include="Controls\SpaceShipControl.cs" />

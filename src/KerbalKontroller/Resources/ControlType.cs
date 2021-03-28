@@ -5,7 +5,6 @@
         SpaceShip,
         Plane,
         Rover,
-        Kerbal,
-        None = 99
+        Kerbal
     }
 }

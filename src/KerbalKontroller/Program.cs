@@ -1,6 +1,5 @@
 ﻿using KerbalKontroller.Controls;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog.Core;
 
 namespace KerbalKontroller
 {

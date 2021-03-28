@@ -64,7 +64,6 @@ namespace KerbalKontroller
             services.AddSingleton<IControl, PlaneControl>();
             services.AddSingleton<IControl, RoverControl>();
             services.AddSingleton<IControl, KerbalControl>();
-            services.AddSingleton<IControl, NoneControl>();
             services.AddSingleton<GameControl>();
 
             return services.BuildServiceProvider();

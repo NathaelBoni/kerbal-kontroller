@@ -62,6 +62,8 @@ namespace KerbalKontroller.Clients
             }
         }
 
+        public bool IsInFlight() => krpc.CurrentGameScene == GameScene.Flight;
+
         public bool IsGamePaused() => krpc.Paused;
 
         public void PauseGame() => krpc.Paused = true;

@@ -9,14 +9,15 @@ namespace KerbalKontroller.Resources.Helpers
         private static readonly VesselType[] planeControlTypes = { VesselType.Plane };
         private static readonly VesselType[] roverControlTypes = { VesselType.Rover };
 
-        public static ControlType SelectControlType(Vessel vessel)
+        public static ControlType? SelectControlType(Vessel vessel)
         {
+            if (vessel == null) return null;
             if (vessel.Parts.Root.Name.StartsWith("kerbalEVA")) return ControlType.Kerbal;
             if (spaceShipControlTypes.Contains(vessel.Type)) return ControlType.SpaceShip;
             if (planeControlTypes.Contains(vessel.Type)) return ControlType.Plane;
             if (roverControlTypes.Contains(vessel.Type)) return ControlType.Rover;
 
-            return ControlType.None;
+            return null;
         }
     }
 }
