@@ -18,7 +18,6 @@ namespace KerbalKontroller
             var driver = serviceProvider.GetService<IHardwareClient>();
 
             var vessel = krpc.GetActiveVessel();
-            Resources.LedState sasLedState;
 
             while (true)
             {
@@ -30,9 +29,8 @@ namespace KerbalKontroller
 
                 vessel.Control.SAS = sasSwitch.Active;
 
-                sasLedState = sasSwitch.Active ? Resources.LedState.On : Resources.LedState.Off;
-                driver.WriteSASLed(sasLedState);
-                log.Information(sasLedState.ToString());
+                driver.WriteSASLed(sasSwitch.Active);
+                log.Information(sasSwitch.Active.ToString());
             }
         }
     }

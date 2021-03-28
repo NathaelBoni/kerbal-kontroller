@@ -5,6 +5,7 @@ using KerbalKontroller.Config;
 using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
 using System;
+using System.Linq;
 
 namespace KerbalKontroller.Clients
 {
@@ -21,6 +22,9 @@ namespace KerbalKontroller.Clients
             ArduinoDriver = new ArduinoDriver.ArduinoDriver(model, true);
             this.pinConfiguration = pinConfiguration;
             deadZoneThreshold = appSettings.JoystickDeadZone;
+
+            SetInputPins();
+            SetOutputPins();
         }
 
         public JoystickAxis ReadLeftJoyStick()
@@ -319,7 +323,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.KerbalBoard),
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalBoardButton),
             };
         }
 
@@ -327,7 +331,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.KerbalParachute),
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalParachuteButton),
             };
         }
 
@@ -335,7 +339,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.KerbalJetPack),
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalJetPackButton),
             };
         }
 
@@ -403,79 +407,99 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public void WriteLandingGearLed(LedState ledState)
+        public void WriteLandingGearLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.LandingGearLed, ledState);
         }
 
-        public void WriteBrakesLed(LedState ledState)
+        public void WriteBrakesLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.BrakesLed, ledState);
         }
 
-        public void WriteLightsLed(LedState ledState)
+        public void WriteLightsLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.LightsLed, ledState);
         }
 
-        public void WriteSASLed(LedState ledState)
+        public void WriteSASLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASLed, ledState);
         }
 
-        public void WriteRCSLed(LedState ledState)
+        public void WriteRCSLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.RCSLed, ledState);
         }
 
-        public void WritePrecisionLed(LedState ledState)
+        public void WritePrecisionLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.PrecisionLed, ledState);
         }
 
-        public void WriteSASFreeLed(LedState ledState)
+        public void WriteSASFreeLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASFreeLed, ledState);
         }
 
-        public void WriteSASProgradeLed(LedState ledState)
+        public void WriteSASProgradeLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASProgradeLed, ledState);
         }
 
-        public void WriteSASRetrogadeLed(LedState ledState)
+        public void WriteSASRetrogadeLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASRetrogadeLed, ledState);
         }
 
-        public void WriteSASRadialInLed(LedState ledState)
+        public void WriteSASRadialInLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASRadialInLed, ledState);
         }
 
-        public void WriteSASRadialOutLed(LedState ledState)
+        public void WriteSASRadialOutLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASRadialOutLed, ledState);
         }
 
-        public void WriteSASNormalLed(LedState ledState)
+        public void WriteSASNormalLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASNormalLed, ledState);
         }
 
-        public void WriteSASAntiNormalLed(LedState ledState)
+        public void WriteSASAntiNormalLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASAntiNormalLed, ledState);
         }
 
-        public void WriteSASTargetLed(LedState ledState)
+        public void WriteSASTargetLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASTargetLed, ledState);
         }
 
-        public void WriteSASAntiTargetLed(LedState ledState)
+        public void WriteSASAntiTargetLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASAntiTargetLed, ledState);
+        }
+
+        private void SetInputPins()
+        {
+            var inputPins = pinConfiguration.GetType().GetProperties()
+                .Where(_ => _.CustomAttributes.Any(__ => __.AttributeType == typeof(PinModeAttribute) &&
+                    (PinModes)__.ConstructorArguments[0].Value == PinModes.Input));
+
+            foreach (var prop in inputPins)
+                ArduinoDriver.Send(new PinModeRequest((byte)prop.GetValue(pinConfiguration), PinMode.Input));
+        }
+
+        private void SetOutputPins()
+        {
+            var outputPins = pinConfiguration.GetType().GetProperties()
+                .Where(_ => _.CustomAttributes.Any(__ => __.AttributeType == typeof(PinModeAttribute) &&
+                    (PinModes)__.ConstructorArguments[0].Value == PinModes.Output));
+
+            foreach (var prop in outputPins)
+                ArduinoDriver.Send(new PinModeRequest((byte)prop.GetValue(pinConfiguration), PinMode.Output));
         }
 
         private float ReadFromAnalogPin(byte pin, bool inverted = false)
@@ -490,10 +514,10 @@ namespace KerbalKontroller.Clients
             return digitalResponse.PinValue == DigitalValue.High;
         }
 
-        private void WriteToDigitalPin(byte pin, LedState ledState)
+        private void WriteToDigitalPin(byte pin, bool ledState)
         {
-            var digitalValue = DigitalValueConversor(ledState);
-            ArduinoDriver.Send(new DigitalWriteRequest(13, digitalValue));
+            var digitalValue = ledState ? DigitalValue.High : DigitalValue.Low;
+            ArduinoDriver.Send(new DigitalWriteRequest(pin, digitalValue));
         }
 
         private float AnalogConversor(int analogValue, bool inverted)
@@ -503,12 +527,6 @@ namespace KerbalKontroller.Clients
 
             if (Math.Abs(convertedValue) < deadZone) return 0;
             return inverted ? -convertedValue : convertedValue;
-        }
-
-        private DigitalValue DigitalValueConversor(LedState ledState)
-        {
-            if (ledState == LedState.Off) return DigitalValue.Low;
-            return DigitalValue.High;
         }
     }
 }

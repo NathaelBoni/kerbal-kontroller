@@ -1,8 +1,8 @@
 ﻿namespace KerbalKontroller.Resources
 {
-    public enum LedState
+    public enum PinModes
     {
-        Off,
-        On
+        Input,
+        Output
     }
 }

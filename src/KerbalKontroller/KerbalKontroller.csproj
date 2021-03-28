@@ -236,7 +236,8 @@
     <Compile Include="Interfaces\IHardwareClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\LedState.cs" />
+    <Compile Include="Resources\PinModes.cs" />
+    <Compile Include="Resources\Attributes\PinModeAttribute.cs" />
     <Compile Include="ServiceConfigurator.cs" />
   </ItemGroup>
   <ItemGroup>

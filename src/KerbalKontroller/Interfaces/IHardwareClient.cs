@@ -51,20 +51,20 @@ namespace KerbalKontroller.Interfaces
         ButtonState ReadPauseButton();
         ButtonState ReadQuickSaveButton();
         ButtonState ReadQuickLoadButton();
-        void WriteLandingGearLed(LedState ledState);
-        void WriteBrakesLed(LedState ledState);
-        void WriteLightsLed(LedState ledState);
-        void WriteSASLed(LedState ledState);
-        void WriteRCSLed(LedState ledState);
-        void WritePrecisionLed(LedState ledState);
-        void WriteSASFreeLed(LedState ledState);
-        void WriteSASProgradeLed(LedState ledState);
-        void WriteSASRetrogadeLed(LedState ledState);
-        void WriteSASRadialInLed(LedState ledState);
-        void WriteSASRadialOutLed(LedState ledState);
-        void WriteSASNormalLed(LedState ledState);
-        void WriteSASAntiNormalLed(LedState ledState);
-        void WriteSASTargetLed(LedState ledState);
-        void WriteSASAntiTargetLed(LedState ledState);
+        void WriteLandingGearLed(bool ledState);
+        void WriteBrakesLed(bool ledState);
+        void WriteLightsLed(bool ledState);
+        void WriteSASLed(bool ledState);
+        void WriteRCSLed(bool ledState);
+        void WritePrecisionLed(bool ledState);
+        void WriteSASFreeLed(bool ledState);
+        void WriteSASProgradeLed(bool ledState);
+        void WriteSASRetrogadeLed(bool ledState);
+        void WriteSASRadialInLed(bool ledState);
+        void WriteSASRadialOutLed(bool ledState);
+        void WriteSASNormalLed(bool ledState);
+        void WriteSASAntiNormalLed(bool ledState);
+        void WriteSASTargetLed(bool ledState);
+        void WriteSASAntiTargetLed(bool ledState);
     }
 }
