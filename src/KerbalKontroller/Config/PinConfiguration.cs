@@ -53,5 +53,20 @@
         public byte PauseButton { get; set; }
         public byte QuickSaveButton { get; set; }
         public byte QuickLoadButton { get; set; }
+        public byte LandingGearLed { get; set; }
+        public byte BrakesLed { get; set; }
+        public byte LightsLed { get; set; }
+        public byte SASLed { get; set; }
+        public byte RCSLed { get; set; }
+        public byte PrecisionLed { get; set; }
+        public byte SASFreeLed { get; set; }
+        public byte SASProgradeLed { get; set; }
+        public byte SASRetrogadeLed { get; set; }
+        public byte SASRadialInLed { get; set; }
+        public byte SASRadialOutLed { get; set; }
+        public byte SASNormalLed { get; set; }
+        public byte SASAntiNormalLed { get; set; }
+        public byte SASTargetLed { get; set; }
+        public byte SASAntiTargetLed { get; set; }
     }
 }
