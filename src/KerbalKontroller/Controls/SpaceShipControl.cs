@@ -1,16 +1,20 @@
-﻿using KerbalKontroller.Interfaces;
+﻿using KerbalKontroller.Clients;
+using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
 using Serilog.Core;
+using System;
 
 namespace KerbalKontroller.Controls
 {
     public class SpaceShipControl : IControl
     {
+        private readonly KRPCClient krpcClient;
         private readonly IHardwareClient hardwareClient;
         private readonly Logger logger;
 
-        public SpaceShipControl(IHardwareClient hardwareClient, Logger logger)
+        public SpaceShipControl(KRPCClient krpcClient, IHardwareClient hardwareClient, Logger logger)
         {
+            this.krpcClient = krpcClient;
             this.hardwareClient = hardwareClient;
             this.logger = logger;
         }
@@ -19,7 +23,7 @@ namespace KerbalKontroller.Controls
 
         public void ControlLoop()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -25,15 +25,24 @@ namespace KerbalKontroller.Controls
 
         public void Start()
         {
-            Vessel vessel;
+            Vessel activeVessel;
             ControlType activeControl = ControlType.None;
 
             while (true)
             {
-                vessel = kRPCClient.GetActiveVessel();
-                activeControl = ActiveControlHelper.SelectControlType(vessel);
+                if (kRPCClient.IsGamePaused())
+                    activeControl = ControlType.None;
+                else
+                {
+                    activeVessel = kRPCClient.GetActiveVessel();
+                    activeControl = ActiveControlHelper.SelectControlType(activeVessel);
+                }
 
-                controls.First(_ => _.ControlType == activeControl).ControlLoop();
+                try
+                {
+                    controls.First(_ => _.ControlType == activeControl).ControlLoop();
+                }
+                catch { }
             }
         }
     }
