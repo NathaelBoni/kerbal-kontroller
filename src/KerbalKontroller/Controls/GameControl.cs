@@ -3,7 +3,6 @@ using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
 using KerbalKontroller.Resources.Helpers;
 using KRPC.Client.Services.SpaceCenter;
-using Serilog;
 using Serilog.Core;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +24,14 @@ namespace KerbalKontroller.Controls
 
         public void Start()
         {
+            logger.Information("Controls added - starting KerbalKontroller");
+
             Vessel activeVessel;
             ControlType activeControl = ControlType.None;
 
             while (true)
             {
-                if (kRPCClient.IsGamePaused())
-                    activeControl = ControlType.None;
+                if (kRPCClient.IsGamePaused()) activeControl = ControlType.None;
                 else
                 {
                     activeVessel = kRPCClient.GetActiveVessel();
@@ -42,7 +42,11 @@ namespace KerbalKontroller.Controls
                 {
                     controls.First(_ => _.ControlType == activeControl).ControlLoop();
                 }
-                catch { }
+                catch (System.Exception ex)
+                {
+                    logger.Error(ex, $"Fatal error - {activeControl} control type failed");
+                    throw;
+                }
             }
         }
     }

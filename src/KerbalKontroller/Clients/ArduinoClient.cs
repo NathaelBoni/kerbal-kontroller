@@ -21,13 +21,26 @@ namespace KerbalKontroller.Clients
 
         public ArduinoClient(PinConfiguration pinConfiguration, AppSettings appSettings, ArduinoModel model, Logger logger)
         {
-            arduinoDriver = new ArduinoDriver.ArduinoDriver(model, true);
-            this.pinConfiguration = pinConfiguration;
             this.logger = logger;
+            this.logger.Information("Configuring Arduino...");
+
+            try
+            {
+                arduinoDriver = new ArduinoDriver.ArduinoDriver(model, true);
+            }
+            catch (System.IO.IOException ex)
+            {
+                this.logger.Error(ex, "Fatal error - unable to connect to Arduino");
+                throw;
+            }
+
+            this.pinConfiguration = pinConfiguration;
             deadZoneThreshold = appSettings.JoystickDeadZone;
 
             SetInputPins();
             SetOutputPins();
+
+            this.logger.Information("Arduino configured!");
         }
 
         public JoystickAxis ReadLeftJoyStick()
@@ -44,7 +57,7 @@ namespace KerbalKontroller.Clients
             return new JoystickAxis
             {
                 XValue = ReadFromAnalogPin(pinConfiguration.RightJoyStickX),
-                YValue = ReadFromAnalogPin(pinConfiguration.RightJoyStickY),
+                YValue = ReadFromAnalogPin(pinConfiguration.RightJoyStickY)
             };
         }
 
@@ -62,7 +75,7 @@ namespace KerbalKontroller.Clients
             return new JoystickAxis
             {
                 XValue = ReadFromAnalogPin(pinConfiguration.ExtraRightJoyStickX),
-                YValue = ReadFromAnalogPin(pinConfiguration.ExtraRightJoyStickY),
+                YValue = ReadFromAnalogPin(pinConfiguration.ExtraRightJoyStickY)
             };
         }
 
@@ -70,7 +83,7 @@ namespace KerbalKontroller.Clients
         {
             return new JoystickAxis
             {
-                YValue = ReadFromAnalogPin(pinConfiguration.AnalogThrottle),
+                YValue = ReadFromAnalogPin(pinConfiguration.AnalogThrottle)
             };
         }
 
@@ -78,7 +91,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.FullThrottleButton),
+                Active = ReadFromDigitalPin(pinConfiguration.FullThrottleButton)
             };
         }
 
@@ -86,7 +99,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.CutOffThrottleButton),
+                Active = ReadFromDigitalPin(pinConfiguration.CutOffThrottleButton)
             };
         }
 
@@ -94,7 +107,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.StageButton),
+                Active = ReadFromDigitalPin(pinConfiguration.StageButton)
             };
         }
 
@@ -102,7 +115,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.AbortButton),
+                Active = ReadFromDigitalPin(pinConfiguration.AbortButton)
             };
         }
 
@@ -110,7 +123,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.LandingGearSwitch),
+                Active = ReadFromDigitalPin(pinConfiguration.LandingGearSwitch)
             };
         }
 
@@ -118,7 +131,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.BrakesSwitch),
+                Active = ReadFromDigitalPin(pinConfiguration.BrakesSwitch)
             };
         }
 
@@ -126,7 +139,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.BrakesButton),
+                Active = ReadFromDigitalPin(pinConfiguration.BrakesButton)
             };
         }
 
@@ -134,7 +147,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.LightsSwitch),
+                Active = ReadFromDigitalPin(pinConfiguration.LightsSwitch)
             };
         }
 
@@ -142,7 +155,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASSwitch),
+                Active = ReadFromDigitalPin(pinConfiguration.SASSwitch)
             };
         }
 
@@ -150,7 +163,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.RCSSwitch),
+                Active = ReadFromDigitalPin(pinConfiguration.RCSSwitch)
             };
         }
 
@@ -158,7 +171,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.PrecisionSwitch),
+                Active = ReadFromDigitalPin(pinConfiguration.PrecisionSwitch)
             };
         }
 
@@ -166,7 +179,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action1Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action1Button)
             };
         }
 
@@ -174,7 +187,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action2Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action2Button)
             };
         }
 
@@ -182,7 +195,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action3Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action3Button)
             };
         }
 
@@ -190,7 +203,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action4Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action4Button)
             };
         }
 
@@ -198,7 +211,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action5Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action5Button)
             };
         }
 
@@ -206,7 +219,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action6Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action6Button)
             };
         }
 
@@ -214,7 +227,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action7Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action7Button)
             };
         }
 
@@ -222,7 +235,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action8Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action8Button)
             };
         }
 
@@ -230,7 +243,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action9Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action9Button)
             };
         }
 
@@ -238,7 +251,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.Action10Button),
+                Active = ReadFromDigitalPin(pinConfiguration.Action10Button)
             };
         }
 
@@ -246,7 +259,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASFreeButton),
+                Active = ReadFromDigitalPin(pinConfiguration.SASFreeButton)
             };
         }
 
@@ -254,7 +267,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASProgradeButton),
+                Active = ReadFromDigitalPin(pinConfiguration.SASProgradeButton)
             };
         }
 
@@ -262,7 +275,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASRetrogadeButton),
+                Active = ReadFromDigitalPin(pinConfiguration.SASRetrogadeButton)
             };
         }
 
@@ -270,7 +283,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASRadialInButton),
+                Active = ReadFromDigitalPin(pinConfiguration.SASRadialInButton)
             };
         }
 
@@ -278,7 +291,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASRadialOutButton),
+                Active = ReadFromDigitalPin(pinConfiguration.SASRadialOutButton)
             };
         }
 
@@ -286,7 +299,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASNormalButton),
+                Active = ReadFromDigitalPin(pinConfiguration.SASNormalButton)
             };
         }
 
@@ -294,7 +307,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASAntiNormalButton),
+                Active = ReadFromDigitalPin(pinConfiguration.SASAntiNormalButton)
             };
         }
 
@@ -302,7 +315,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASTargetButton),
+                Active = ReadFromDigitalPin(pinConfiguration.SASTargetButton)
             };
         }
 
@@ -310,7 +323,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASAntiTargetButton),
+                Active = ReadFromDigitalPin(pinConfiguration.SASAntiTargetButton)
             };
         }
 
@@ -318,7 +331,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.KerbalUseButton),
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalUseButton)
             };
         }
 
@@ -326,7 +339,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.KerbalBoardButton),
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalBoardButton)
             };
         }
 
@@ -334,7 +347,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.KerbalParachuteButton),
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalParachuteButton)
             };
         }
 
@@ -342,7 +355,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.KerbalJetPackButton),
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalJetPackButton)
             };
         }
 
@@ -350,7 +363,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.OrbitalViewButton),
+                Active = ReadFromDigitalPin(pinConfiguration.OrbitalViewButton)
             };
         }
 
@@ -358,7 +371,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.TimeWarpPlusButton),
+                Active = ReadFromDigitalPin(pinConfiguration.TimeWarpPlusButton)
             };
         }
 
@@ -366,7 +379,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.TimeWarpMinusButton),
+                Active = ReadFromDigitalPin(pinConfiguration.TimeWarpMinusButton)
             };
         }
 
@@ -374,7 +387,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.NextVesselButton),
+                Active = ReadFromDigitalPin(pinConfiguration.NextVesselButton)
             };
         }
 
@@ -382,7 +395,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.PreviousVesselButton),
+                Active = ReadFromDigitalPin(pinConfiguration.PreviousVesselButton)
             };
         }
 
@@ -390,7 +403,15 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.PauseButton),
+                Active = ReadFromDigitalPin(pinConfiguration.PauseButton)
+            };
+        }
+
+        public ButtonState ReadUnpauseButton()
+        {
+            return new ButtonState
+            {
+                Active = ReadFromDigitalPin(pinConfiguration.UnpauseButton)
             };
         }
 
@@ -398,7 +419,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.QuickSaveButton),
+                Active = ReadFromDigitalPin(pinConfiguration.QuickSaveButton)
             };
         }
 
@@ -406,7 +427,7 @@ namespace KerbalKontroller.Clients
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.QuickLoadButton),
+                Active = ReadFromDigitalPin(pinConfiguration.QuickLoadButton)
             };
         }
 

@@ -11,8 +11,6 @@ namespace KerbalKontroller
             var serviceCollection = new ServiceCollection();
             var serviceProvider = ServiceConfigurator.Configure(serviceCollection);
 
-            var log = serviceProvider.GetService<Logger>();
-
             var gameControl = serviceProvider.GetService<GameControl>();
 
             gameControl.Start();
