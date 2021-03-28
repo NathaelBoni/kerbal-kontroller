@@ -1,13 +1,14 @@
 ﻿using ArduinoUploader.Hardware;
 using KerbalKontroller.Clients;
 using KerbalKontroller.Config;
+using KerbalKontroller.Controls;
 using KerbalKontroller.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Core;
 using Serilog.Events;
 using System;
-using System.IO;
 
 namespace KerbalKontroller
 {
@@ -54,9 +55,17 @@ namespace KerbalKontroller
             {
                 var pinConfiguration = _.GetService<PinConfiguration>();
                 var appSettings = _.GetService<AppSettings>();
+                var logger = _.GetService<Logger>();
 
-                return new ArduinoClient(pinConfiguration, appSettings, GetArduinoModel(appSettings.ArduinoModel));
+                return new ArduinoClient(pinConfiguration, appSettings, GetArduinoModel(appSettings.ArduinoModel), logger);
             });
+
+            services.AddSingleton<IControl, SpaceShipControl>();
+            services.AddSingleton<IControl, PlaneControl>();
+            services.AddSingleton<IControl, RoverControl>();
+            services.AddSingleton<IControl, KerbalControl>();
+            services.AddSingleton<IControl, NoneControl>();
+            services.AddSingleton<GameControl>();
 
             return services.BuildServiceProvider();
         }

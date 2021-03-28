@@ -6,6 +6,7 @@ using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
 using System;
 using System.Linq;
+using Serilog.Core;
 
 namespace KerbalKontroller.Clients
 {
@@ -13,14 +14,16 @@ namespace KerbalKontroller.Clients
     {
         private const float HALF_MAXIMUM_INPUT = 511.5f;
 
-        private readonly ArduinoDriver.ArduinoDriver ArduinoDriver;
+        private readonly ArduinoDriver.ArduinoDriver arduinoDriver;
         private readonly PinConfiguration pinConfiguration;
+        private readonly Logger logger;
         private readonly float deadZoneThreshold;
 
-        public ArduinoClient(PinConfiguration pinConfiguration, AppSettings appSettings, ArduinoModel model)
+        public ArduinoClient(PinConfiguration pinConfiguration, AppSettings appSettings, ArduinoModel model, Logger logger)
         {
-            ArduinoDriver = new ArduinoDriver.ArduinoDriver(model, true);
+            arduinoDriver = new ArduinoDriver.ArduinoDriver(model, true);
             this.pinConfiguration = pinConfiguration;
+            this.logger = logger;
             deadZoneThreshold = appSettings.JoystickDeadZone;
 
             SetInputPins();
@@ -489,7 +492,7 @@ namespace KerbalKontroller.Clients
                     (PinModes)__.ConstructorArguments[0].Value == PinModes.Input));
 
             foreach (var prop in inputPins)
-                ArduinoDriver.Send(new PinModeRequest((byte)prop.GetValue(pinConfiguration), PinMode.Input));
+                arduinoDriver.Send(new PinModeRequest((byte)prop.GetValue(pinConfiguration), PinMode.Input));
         }
 
         private void SetOutputPins()
@@ -499,25 +502,25 @@ namespace KerbalKontroller.Clients
                     (PinModes)__.ConstructorArguments[0].Value == PinModes.Output));
 
             foreach (var prop in outputPins)
-                ArduinoDriver.Send(new PinModeRequest((byte)prop.GetValue(pinConfiguration), PinMode.Output));
+                arduinoDriver.Send(new PinModeRequest((byte)prop.GetValue(pinConfiguration), PinMode.Output));
         }
 
         private float ReadFromAnalogPin(byte pin, bool inverted = false)
         {
-            var analogResponse = ArduinoDriver.Send(new AnalogReadRequest(pin));
+            var analogResponse = arduinoDriver.Send(new AnalogReadRequest(pin));
             return AnalogConversor(analogResponse.PinValue, inverted);
         }
 
         private bool ReadFromDigitalPin(byte pin)
         {
-            var digitalResponse = ArduinoDriver.Send(new DigitalReadRequest(pin));
+            var digitalResponse = arduinoDriver.Send(new DigitalReadRequest(pin));
             return digitalResponse.PinValue == DigitalValue.High;
         }
 
         private void WriteToDigitalPin(byte pin, bool ledState)
         {
             var digitalValue = ledState ? DigitalValue.High : DigitalValue.Low;
-            ArduinoDriver.Send(new DigitalWriteRequest(pin, digitalValue));
+            arduinoDriver.Send(new DigitalWriteRequest(pin, digitalValue));
         }
 
         private float AnalogConversor(int analogValue, bool inverted)
