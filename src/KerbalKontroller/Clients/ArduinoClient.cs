@@ -534,6 +534,7 @@ namespace KerbalKontroller.Clients
 
         private bool ReadFromDigitalPin(byte pin)
         {
+            if (pin == 0) return false;
             var digitalResponse = arduinoDriver.Send(new DigitalReadRequest(pin));
             return digitalResponse.PinValue == DigitalValue.High;
         }
