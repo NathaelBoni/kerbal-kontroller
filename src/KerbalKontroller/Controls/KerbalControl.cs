@@ -8,13 +8,13 @@ namespace KerbalKontroller.Controls
 {
     public class KerbalControl : IControl
     {
-        private readonly KRPCClient krpcClient;
+        private readonly KRPCClient kRPCClient;
         private readonly IHardwareClient hardwareClient;
         private readonly Logger logger;
 
         public KerbalControl(KRPCClient krpcClient, IHardwareClient hardwareClient, Logger logger)
         {
-            this.krpcClient = krpcClient;
+            this.kRPCClient = krpcClient;
             this.hardwareClient = hardwareClient;
             this.logger = logger;
         }

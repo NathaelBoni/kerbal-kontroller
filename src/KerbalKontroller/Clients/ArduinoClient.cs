@@ -43,7 +43,7 @@ namespace KerbalKontroller.Clients
             this.logger.Information("Arduino configured!");
         }
 
-        public JoystickAxis ReadLeftJoyStick()
+        public JoystickAxis ReadLeftJoystick()
         {
             return new JoystickAxis
             {
@@ -52,7 +52,7 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public JoystickAxis ReadRightJoyStick()
+        public JoystickAxis ReadRightJoystick()
         {
             return new JoystickAxis
             {
@@ -61,7 +61,7 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public JoystickAxis ReadExtraLeftJoyStick()
+        public JoystickAxis ReadExtraLeftJoystick()
         {
             return new JoystickAxis
             {
@@ -70,7 +70,7 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public JoystickAxis ReadExtraRightJoyStick()
+        public JoystickAxis ReadExtraRightJoystick()
         {
             return new JoystickAxis
             {

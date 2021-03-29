@@ -4,10 +4,10 @@ namespace KerbalKontroller.Interfaces
 {
     public interface IHardwareClient
     {
-        JoystickAxis ReadLeftJoyStick();
-        JoystickAxis ReadExtraLeftJoyStick();
-        JoystickAxis ReadRightJoyStick();
-        JoystickAxis ReadExtraRightJoyStick();
+        JoystickAxis ReadLeftJoystick();
+        JoystickAxis ReadExtraLeftJoystick();
+        JoystickAxis ReadRightJoystick();
+        JoystickAxis ReadExtraRightJoystick();
         JoystickAxis ReadAnalogThrottle();
         ButtonState ReadFullThrottleButton();
         ButtonState ReadCutOffThrottleButton();

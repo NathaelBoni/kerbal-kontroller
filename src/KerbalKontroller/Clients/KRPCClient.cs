@@ -1,4 +1,5 @@
-﻿using KRPC.Client;
+﻿using KerbalKontroller.Resources;
+using KRPC.Client;
 using KRPC.Client.Services.KRPC;
 using KRPC.Client.Services.SpaceCenter;
 using Polly;
@@ -68,58 +69,37 @@ namespace KerbalKontroller.Clients
         public bool IsGamePaused() => krpc.Paused;
         
         public void SetPaused() => krpc.Paused = !krpc.Paused;
+
+        public void QuickSave() => spaceCenter.Quicksave();
         
+        public void QuickLoad() => spaceCenter.Quickload();
+
         public void SwitchCameras()
         {
             var currentCamera = spaceCenter.Camera.Mode;
             spaceCenter.Camera.Mode = (CameraMode)((int)currentCamera++ % 7);
         }
         
-        public void IncreaseTimeWarp()
+        public void SetVesselRotation(JoystickAxis joystickAxis, JoystickAxis joystickAxisExtra)
         {
-            if (spaceCenter.RailsWarpFactor < 7) spaceCenter.RailsWarpFactor++;
+            var vessel = GetActiveVessel();
+            vessel.Control.Pitch = joystickAxis.YValue;
+            vessel.Control.Yaw = joystickAxis.XValue;
+            vessel.Control.Roll = joystickAxisExtra.XValue;
         }
 
-        public void DecreaseTimeWarp()
+        public void SetVesselTranslation(JoystickAxis joystickAxis, JoystickAxis joystickAxisExtra)
         {
-            if (spaceCenter.RailsWarpFactor > 0) spaceCenter.RailsWarpFactor--;
+            var vessel = GetActiveVessel();
+            vessel.Control.Up = joystickAxis.YValue;
+            vessel.Control.Right = joystickAxis.XValue;
+            vessel.Control.Forward = joystickAxisExtra.XValue;
         }
 
-        public void NextVessel()
+        public void SetThrottle(JoystickAxis joystickAxis)
         {
-            var activeVessel = GetActiveVessel();
-            var vessels = spaceCenter.Vessels.Where(_ => GetDistance(activeVessel, _) < 100);
-
-            if (!vessels.Any()) return;
-
-            spaceCenter.ActiveVessel = vessels.First();
-        }
-
-        public void PreviousVessel()
-        {
-            var activeVessel = GetActiveVessel();
-            var vessels = spaceCenter.Vessels.Where(_ => GetDistance(activeVessel, _) < 100);
-
-            if (!vessels.Any()) return;
-
-            spaceCenter.ActiveVessel = vessels.Last();
-        }
-
-        public void QuickSave() => spaceCenter.Quicksave();
-
-        public void QuickLoad() => spaceCenter.Quickload();
-
-        private double GetDistance(Vessel vessel1, Vessel vessel2)
-        {
-            var referenceFrame = vessel1.ReferenceFrame;
-            var vessel1Position = vessel1.Position(referenceFrame);
-            var vessel2Position = vessel2.Position(referenceFrame);
-
-            return Math.Sqrt(
-                Math.Pow(vessel1Position.Item1 - vessel2Position.Item1, 2) +
-                Math.Pow(vessel1Position.Item2 - vessel2Position.Item2, 2) +
-                Math.Pow(vessel1Position.Item3 - vessel2Position.Item3, 2)
-            );
+            var vessel = GetActiveVessel();
+            vessel.Control.Throttle = joystickAxis.YValue;
         }
     }
 }
