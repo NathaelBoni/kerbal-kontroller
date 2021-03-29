@@ -44,11 +44,12 @@ namespace KerbalKontroller.Interfaces
         ButtonState ReadKerbalParachute();
         ButtonState ReadKerbalJetPack();
         ButtonState ReadOrbitalViewButton();
-        ButtonState ReadTimeWarpPlusButton();
-        ButtonState ReadTimeWarpMinusButton();
+        ButtonState ReadIncreaseTimeWarpButton();
+        ButtonState ReadDecreaseTimeWarpButton();
         ButtonState ReadNextVesselButton();
         ButtonState ReadPreviousVesselButton();
         ButtonState ReadPauseButton();
+        ButtonState ReadUnpauseButton();
         ButtonState ReadQuickSaveButton();
         ButtonState ReadQuickLoadButton();
         void WriteLandingGearLed(bool ledState);

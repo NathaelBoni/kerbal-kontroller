@@ -93,9 +93,9 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input)]
         public byte OrbitalViewButton { get; set; }
         [PinMode(PinModes.Input)]
-        public byte TimeWarpPlusButton { get; set; }
+        public byte IncreaseTimeWarpButton { get; set; }
         [PinMode(PinModes.Input)]
-        public byte TimeWarpMinusButton { get; set; }
+        public byte DecreaseTimeWarpsButton { get; set; }
         [PinMode(PinModes.Input)]
         public byte NextVesselButton { get; set; }
         [PinMode(PinModes.Input)]

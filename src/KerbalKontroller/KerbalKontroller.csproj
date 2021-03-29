@@ -228,9 +228,13 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\InputSimulator.1.0.4.0\lib\net20\WindowsInput.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\ArduinoClient.cs" />
+    <Compile Include="Clients\KeyboardInputClient.cs" />
     <Compile Include="Controls\GameControl.cs" />
     <Compile Include="Controls\KerbalControl.cs" />
     <Compile Include="Controls\PlaneControl.cs" />

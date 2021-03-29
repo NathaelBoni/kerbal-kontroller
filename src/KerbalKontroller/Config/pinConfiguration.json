@@ -1,6 +1,5 @@
 {
   "leftJoystickX": 0,
   "leftJoystickY": 1,
-  "sasSwitch": 8,
-  "sasLed": 13
+  "nextVesselButton": 8
 }

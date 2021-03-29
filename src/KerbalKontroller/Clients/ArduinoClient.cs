@@ -28,7 +28,7 @@ namespace KerbalKontroller.Clients
             {
                 arduinoDriver = new ArduinoDriver.ArduinoDriver(model, true);
             }
-            catch (System.IO.IOException ex)
+            catch (Exception ex)
             {
                 this.logger.Error(ex, "Fatal error - unable to connect to Arduino");
                 throw;
@@ -367,19 +367,19 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public ButtonState ReadTimeWarpPlusButton()
+        public ButtonState ReadIncreaseTimeWarpButton()
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.TimeWarpPlusButton)
+                Active = ReadFromDigitalPin(pinConfiguration.IncreaseTimeWarpButton)
             };
         }
 
-        public ButtonState ReadTimeWarpMinusButton()
+        public ButtonState ReadDecreaseTimeWarpButton()
         {
             return new ButtonState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.TimeWarpMinusButton)
+                Active = ReadFromDigitalPin(pinConfiguration.DecreaseTimeWarpsButton)
             };
         }
 

@@ -60,6 +60,8 @@ namespace KerbalKontroller
                 return new ArduinoClient(pinConfiguration, appSettings, GetArduinoModel(appSettings.ArduinoModel), logger);
             });
 
+            services.AddSingleton<KeyboardInputClient>();
+
             services.AddSingleton<IControl, SpaceShipControl>();
             services.AddSingleton<IControl, PlaneControl>();
             services.AddSingleton<IControl, RoverControl>();
