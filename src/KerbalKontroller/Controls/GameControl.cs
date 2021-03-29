@@ -34,6 +34,15 @@ namespace KerbalKontroller.Controls
             ControlType? activeControl = null;
             IControl control;
 
+            bool currentIncreaseTimeWarpButtonState, lastIncreaseTimeWarpButtonState = false;
+            bool currentDecreaseTimeWarpButtonState, lastDecreaseTimeWarpButtonState = false;
+            bool currentNextVesselButtonState, lastNextVesselButtonState = false;
+            bool currentPreviousVesselButtonState, lastPreviousVesselButtonState = false;
+            bool currentOrbitalViewButtonState, lastOrbitalViewButtonState = false;
+            bool currentPauseButtonState, lastPauseButtonState = false;
+            bool currentQuickSaveButtonState, lastQuickSaveButtonState = false;
+            bool currentQuickLoadButtonState, lastQuickLoadButtonState = false;
+
             while (true)
             {
                 if (!kRPCClient.IsInFlight() || kRPCClient.IsGamePaused()) activeControl = null;
@@ -56,15 +65,32 @@ namespace KerbalKontroller.Controls
 
                 if (kRPCClient.IsInFlight())
                 {
-                    if (hardwareClient.ReadIncreaseTimeWarpButton().Active) keyboardInputClient.IncreaseTimeWarp();
-                    if (hardwareClient.ReadDecreaseTimeWarpButton().Active) keyboardInputClient.DecreaseTimeWarp();
-                    if (hardwareClient.ReadNextVesselButton().Active) keyboardInputClient.NextVessel();
-                    if (hardwareClient.ReadPreviousVesselButton().Active) keyboardInputClient.PreviousVessel();
-                    if (hardwareClient.ReadOrbitalViewButton().Active) keyboardInputClient.SetOrbitalView();
-                    if (hardwareClient.ReadPauseButton().Active) kRPCClient.PauseGame();
-                    if (hardwareClient.ReadUnpauseButton().Active) kRPCClient.UnpauseGame();
-                    if (hardwareClient.ReadQuickSaveButton().Active) kRPCClient.QuickSave();
-                    if (hardwareClient.ReadQuickLoadButton().Active) kRPCClient.QuickLoad();
+                    currentIncreaseTimeWarpButtonState = hardwareClient.ReadIncreaseTimeWarpButton().Active;
+                    currentDecreaseTimeWarpButtonState = hardwareClient.ReadDecreaseTimeWarpButton().Active;
+                    currentNextVesselButtonState = hardwareClient.ReadNextVesselButton().Active;
+                    currentPreviousVesselButtonState = hardwareClient.ReadPreviousVesselButton().Active;
+                    currentOrbitalViewButtonState = hardwareClient.ReadOrbitalViewButton().Active;
+                    currentPauseButtonState = hardwareClient.ReadPauseButton().Active;
+                    currentQuickSaveButtonState = hardwareClient.ReadQuickSaveButton().Active;
+                    currentQuickLoadButtonState = hardwareClient.ReadQuickLoadButton().Active;
+
+                    if (currentIncreaseTimeWarpButtonState && !lastIncreaseTimeWarpButtonState) keyboardInputClient.IncreaseTimeWarp();
+                    if (currentDecreaseTimeWarpButtonState && !lastDecreaseTimeWarpButtonState) keyboardInputClient.DecreaseTimeWarp();
+                    if (currentNextVesselButtonState && !lastNextVesselButtonState) keyboardInputClient.NextVessel();
+                    if (currentPreviousVesselButtonState && !lastPreviousVesselButtonState) keyboardInputClient.PreviousVessel();
+                    if (currentOrbitalViewButtonState && !lastOrbitalViewButtonState) keyboardInputClient.SetOrbitalView();
+                    if (currentPauseButtonState && !lastPauseButtonState) kRPCClient.SetPaused();
+                    if (currentQuickSaveButtonState && !lastQuickSaveButtonState) kRPCClient.QuickSave();
+                    if (currentQuickLoadButtonState && !lastQuickLoadButtonState) kRPCClient.QuickLoad();
+
+                    lastIncreaseTimeWarpButtonState = currentIncreaseTimeWarpButtonState;
+                    lastDecreaseTimeWarpButtonState = currentDecreaseTimeWarpButtonState;
+                    lastNextVesselButtonState = currentNextVesselButtonState;
+                    lastPreviousVesselButtonState = currentPreviousVesselButtonState;
+                    lastOrbitalViewButtonState = currentOrbitalViewButtonState;
+                    lastPauseButtonState = currentPauseButtonState;
+                    lastQuickSaveButtonState = currentQuickSaveButtonState;
+                    lastQuickLoadButtonState = currentQuickLoadButtonState;
                 }
             }
         }

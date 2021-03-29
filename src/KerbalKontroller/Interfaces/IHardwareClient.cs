@@ -49,7 +49,6 @@ namespace KerbalKontroller.Interfaces
         ButtonState ReadNextVesselButton();
         ButtonState ReadPreviousVesselButton();
         ButtonState ReadPauseButton();
-        ButtonState ReadUnpauseButton();
         ButtonState ReadQuickSaveButton();
         ButtonState ReadQuickLoadButton();
         void WriteLandingGearLed(bool ledState);

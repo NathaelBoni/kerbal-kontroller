@@ -67,9 +67,7 @@ namespace KerbalKontroller.Clients
         
         public bool IsGamePaused() => krpc.Paused;
         
-        public void PauseGame() => krpc.Paused = true;
-        
-        public void UnpauseGame() => krpc.Paused = false;
+        public void SetPaused() => krpc.Paused = !krpc.Paused;
         
         public void SwitchCameras()
         {

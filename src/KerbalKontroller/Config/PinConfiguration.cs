@@ -103,8 +103,6 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input)]
         public byte PauseButton { get; set; }
         [PinMode(PinModes.Input)]
-        public byte UnpauseButton { get; set; }
-        [PinMode(PinModes.Input)]
         public byte QuickSaveButton { get; set; }
         [PinMode(PinModes.Input)]
         public byte QuickLoadButton { get; set; }

@@ -407,14 +407,6 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public ButtonState ReadUnpauseButton()
-        {
-            return new ButtonState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.UnpauseButton)
-            };
-        }
-
         public ButtonState ReadQuickSaveButton()
         {
             return new ButtonState
