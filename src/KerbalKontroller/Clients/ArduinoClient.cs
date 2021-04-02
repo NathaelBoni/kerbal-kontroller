@@ -87,345 +87,345 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public ButtonState ReadFullThrottleButton()
+        public DigitalState ReadFullThrottleButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.FullThrottleButton)
             };
         }
 
-        public ButtonState ReadCutOffThrottleButton()
+        public DigitalState ReadCutOffThrottleButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.CutOffThrottleButton)
             };
         }
 
-        public ButtonState ReadStageButton()
+        public DigitalState ReadStageButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.StageButton)
             };
         }
 
-        public ButtonState ReadAbortButton()
+        public DigitalState ReadAbortButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.AbortButton)
             };
         }
 
-        public ButtonState ReadLandingGearSwitch()
+        public DigitalState ReadLandingGearSwitch()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.LandingGearSwitch)
             };
         }
 
-        public ButtonState ReadBrakesSwitch()
+        public DigitalState ReadBrakesSwitch()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.BrakesSwitch)
             };
         }
 
-        public ButtonState ReadBrakesButton()
+        public DigitalState ReadBrakesButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.BrakesButton)
             };
         }
 
-        public ButtonState ReadLightsSwitch()
+        public DigitalState ReadLightsSwitch()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.LightsSwitch)
             };
         }
 
-        public ButtonState ReadSASSwitch()
+        public DigitalState ReadSASSwitch()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASSwitch)
             };
         }
 
-        public ButtonState ReadRCSSwitch()
+        public DigitalState ReadRCSSwitch()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.RCSSwitch)
             };
         }
 
-        public ButtonState ReadPrecisionSwitch()
+        public DigitalState ReadPrecisionSwitch()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.PrecisionSwitch)
             };
         }
 
-        public ButtonState ReadAction1Button()
+        public DigitalState ReadAction1Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action1Button)
             };
         }
 
-        public ButtonState ReadAction2Button()
+        public DigitalState ReadAction2Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action2Button)
             };
         }
 
-        public ButtonState ReadAction3Button()
+        public DigitalState ReadAction3Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action3Button)
             };
         }
 
-        public ButtonState ReadAction4Button()
+        public DigitalState ReadAction4Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action4Button)
             };
         }
 
-        public ButtonState ReadAction5Button()
+        public DigitalState ReadAction5Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action5Button)
             };
         }
 
-        public ButtonState ReadAction6Button()
+        public DigitalState ReadAction6Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action6Button)
             };
         }
 
-        public ButtonState ReadAction7Button()
+        public DigitalState ReadAction7Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action7Button)
             };
         }
 
-        public ButtonState ReadAction8Button()
+        public DigitalState ReadAction8Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action8Button)
             };
         }
 
-        public ButtonState ReadAction9Button()
+        public DigitalState ReadAction9Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action9Button)
             };
         }
 
-        public ButtonState ReadAction10Button()
+        public DigitalState ReadAction10Button()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.Action10Button)
             };
         }
 
-        public ButtonState ReadSASFreeButton()
+        public DigitalState ReadSASFreeButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASFreeButton)
             };
         }
 
-        public ButtonState ReadSASManeuverButton()
+        public DigitalState ReadSASManeuverButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASManeuverButton)
             };
         }
 
-        public ButtonState ReadSASProgradeButton()
+        public DigitalState ReadSASProgradeButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASProgradeButton)
             };
         }
 
-        public ButtonState ReadSASRetrogadeButton()
+        public DigitalState ReadSASRetrogadeButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASRetrogadeButton)
             };
         }
 
-        public ButtonState ReadSASRadialInButton()
+        public DigitalState ReadSASRadialInButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASRadialInButton)
             };
         }
 
-        public ButtonState ReadSASRadialOutButton()
+        public DigitalState ReadSASRadialOutButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASRadialOutButton)
             };
         }
 
-        public ButtonState ReadSASNormalButton()
+        public DigitalState ReadSASNormalButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASNormalButton)
             };
         }
 
-        public ButtonState ReadSASAntiNormalButton()
+        public DigitalState ReadSASAntiNormalButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASAntiNormalButton)
             };
         }
 
-        public ButtonState ReadSASTargetButton()
+        public DigitalState ReadSASTargetButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASTargetButton)
             };
         }
 
-        public ButtonState ReadSASAntiTargetButton()
+        public DigitalState ReadSASAntiTargetButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.SASAntiTargetButton)
             };
         }
 
-        public ButtonState ReadKerbalUseButton()
+        public DigitalState ReadKerbalUseButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.KerbalUseButton)
             };
         }
 
-        public ButtonState ReadKerbalBoard()
+        public DigitalState ReadKerbalBoard()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.KerbalBoardButton)
             };
         }
 
-        public ButtonState ReadKerbalParachute()
+        public DigitalState ReadKerbalParachute()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.KerbalParachuteButton)
             };
         }
 
-        public ButtonState ReadKerbalJetPack()
+        public DigitalState ReadKerbalJetPack()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.KerbalJetPackButton)
             };
         }
 
-        public ButtonState ReadOrbitalViewButton()
+        public DigitalState ReadOrbitalViewButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.OrbitalViewButton)
             };
         }
 
-        public ButtonState ReadIncreaseTimeWarpButton()
+        public DigitalState ReadIncreaseTimeWarpButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.IncreaseTimeWarpButton)
             };
         }
 
-        public ButtonState ReadDecreaseTimeWarpButton()
+        public DigitalState ReadDecreaseTimeWarpButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.DecreaseTimeWarpsButton)
             };
         }
 
-        public ButtonState ReadNextVesselButton()
+        public DigitalState ReadNextVesselButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.NextVesselButton)
             };
         }
 
-        public ButtonState ReadPreviousVesselButton()
+        public DigitalState ReadPreviousVesselButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.PreviousVesselButton)
             };
         }
 
-        public ButtonState ReadPauseButton()
+        public DigitalState ReadPauseButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.PauseButton)
             };
         }
 
-        public ButtonState ReadQuickSaveButton()
+        public DigitalState ReadQuickSaveButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.QuickSaveButton)
             };
         }
 
-        public ButtonState ReadQuickLoadButton()
+        public DigitalState ReadQuickLoadButton()
         {
-            return new ButtonState
+            return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.QuickLoadButton)
             };

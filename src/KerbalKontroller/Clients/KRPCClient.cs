@@ -18,7 +18,7 @@ namespace KerbalKontroller.Clients
         public KRPCClient(Logger logger)
         {
             this.logger = logger;
-            
+
             this.logger.Information($"Connecting to KRPC...");
 
             var retryPolicy = CreateRetryPolicy();
@@ -100,6 +100,53 @@ namespace KerbalKontroller.Clients
         {
             var vessel = GetActiveVessel();
             vessel.Control.Throttle = joystickAxis.YValue;
+        }
+
+        public void SetLandingGear(DigitalState digitalState)
+        {
+            var vessel = GetActiveVessel();
+            vessel.Control.Gear = digitalState.Active;
+        }
+
+        public void SetBrakes(DigitalState digitalState)
+        {
+            var vessel = GetActiveVessel();
+            vessel.Control.Brakes = digitalState.Active;
+        }
+
+        public void SetLights(DigitalState digitalState)
+        {
+            var vessel = GetActiveVessel();
+            vessel.Control.Lights = digitalState.Active;
+        }
+
+        public void SetSASMode(DigitalState digitalState)
+        {
+            var vessel = GetActiveVessel();
+            vessel.Control.SAS = digitalState.Active;
+        }
+
+        public void SetRCSMode(DigitalState digitalState)
+        {
+            var vessel = GetActiveVessel();
+            vessel.Control.RCS = digitalState.Active;
+        }
+
+        public void SetSASModeFree() => SetSASMode(SASMode.StabilityAssist);
+        public void SetSASModeManeuver() => SetSASMode(SASMode.Maneuver);
+        public void SetSASModePrograde() => SetSASMode(SASMode.Prograde);
+        public void SetSASModeRetrograde() => SetSASMode(SASMode.Retrograde);
+        public void SetSASModeNormal() => SetSASMode(SASMode.Normal);
+        public void SetSASModeAntiNormal() => SetSASMode(SASMode.AntiNormal);
+        public void SetSASModeRadialIn() => SetSASMode(SASMode.Radial);
+        public void SetSASModeRadialOut() => SetSASMode(SASMode.AntiRadial);
+        public void SetSASModeTarget() => SetSASMode(SASMode.Target);
+        public void SetSASModeAntiTarget() => SetSASMode(SASMode.AntiTarget);
+
+        private void SetSASMode(SASMode sasMode)
+        {
+            var vessel = GetActiveVessel();
+            vessel.Control.SASMode = sasMode;
         }
     }
 }
