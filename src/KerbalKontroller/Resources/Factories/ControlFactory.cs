@@ -27,13 +27,13 @@ namespace KerbalKontroller.Resources.Factories
 
         public Action GetControlAction(Vessel vessel)
         {
-            if (vessel == null) return null;
+            if (vessel == null) return () => { };
             if (vessel.Parts.Root.Name.StartsWith("kerbalEVA")) return kerbalControl.ControlLoop;
             if (spaceShipControlTypes.Contains(vessel.Type)) return spaceShipControl.ControlLoop;
             if (planeControlTypes.Contains(vessel.Type)) return planeControl.ControlLoop;
             if (roverControlTypes.Contains(vessel.Type)) return roverControl.ControlLoop;
 
-            return null;
+            return () => { };
         }
     }
 }

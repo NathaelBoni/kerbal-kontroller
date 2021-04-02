@@ -28,7 +28,7 @@ namespace KerbalKontroller.Controls
         {
             logger.Information("Controls added - starting KerbalKontroller");
 
-            Vessel activeVessel = null;
+            Vessel activeVessel;
             Action controlAction;
 
             bool currentIncreaseTimeWarpButtonState, lastIncreaseTimeWarpButtonState = false;
@@ -43,54 +43,51 @@ namespace KerbalKontroller.Controls
 
             while (true)
             {
-                if (kRPCClient.IsInFlight() && !kRPCClient.IsGamePaused())
-                {
-                    activeVessel = kRPCClient.GetActiveVessel();
+                if (kRPCClient.IsGamePaused() || !kRPCClient.IsInFlight())
+                    continue;
 
-                    try
-                    {
-                        controlAction = controlFactory.GetControlAction(activeVessel);
-                        controlAction.Invoke();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex, $"Fatal error - control action threw an exception");
-                        throw;
-                    }
+                activeVessel = kRPCClient.GetActiveVessel();
+
+                try
+                {
+                    controlAction = controlFactory.GetControlAction(activeVessel);
+                    controlAction.Invoke();
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, $"Fatal error - control action threw an exception");
+                    throw;
                 }
 
-                if (kRPCClient.IsInFlight())
-                {
-                    currentIncreaseTimeWarpButtonState = hardwareClient.ReadIncreaseTimeWarpButton().Active;
-                    currentDecreaseTimeWarpButtonState = hardwareClient.ReadDecreaseTimeWarpButton().Active;
-                    currentNextVesselButtonState = hardwareClient.ReadNextVesselButton().Active;
-                    currentPreviousVesselButtonState = hardwareClient.ReadPreviousVesselButton().Active;
-                    currentCameraCycleButtonState = hardwareClient.ReadCameraCycleButton().Active;
-                    currentOrbitalViewButtonState = hardwareClient.ReadOrbitalViewButton().Active;
-                    currentPauseButtonState = hardwareClient.ReadPauseButton().Active;
-                    currentQuickSaveButtonState = hardwareClient.ReadQuickSaveButton().Active;
-                    currentQuickLoadButtonState = hardwareClient.ReadQuickLoadButton().Active;
+                currentIncreaseTimeWarpButtonState = hardwareClient.ReadIncreaseTimeWarpButton().Active;
+                currentDecreaseTimeWarpButtonState = hardwareClient.ReadDecreaseTimeWarpButton().Active;
+                currentNextVesselButtonState = hardwareClient.ReadNextVesselButton().Active;
+                currentPreviousVesselButtonState = hardwareClient.ReadPreviousVesselButton().Active;
+                currentCameraCycleButtonState = hardwareClient.ReadCameraCycleButton().Active;
+                currentOrbitalViewButtonState = hardwareClient.ReadOrbitalViewButton().Active;
+                currentPauseButtonState = hardwareClient.ReadPauseButton().Active;
+                currentQuickSaveButtonState = hardwareClient.ReadQuickSaveButton().Active;
+                currentQuickLoadButtonState = hardwareClient.ReadQuickLoadButton().Active;
 
-                    if (currentIncreaseTimeWarpButtonState && !lastIncreaseTimeWarpButtonState) keyboardInputClient.IncreaseTimeWarp();
-                    if (currentDecreaseTimeWarpButtonState && !lastDecreaseTimeWarpButtonState) keyboardInputClient.DecreaseTimeWarp();
-                    if (currentNextVesselButtonState && !lastNextVesselButtonState) keyboardInputClient.NextVessel();
-                    if (currentPreviousVesselButtonState && !lastPreviousVesselButtonState) keyboardInputClient.PreviousVessel();
-                    if (currentCameraCycleButtonState && !lastCameraCycleButtonState) keyboardInputClient.CameraCycle();
-                    if (currentOrbitalViewButtonState && !lastOrbitalViewButtonState) keyboardInputClient.SetOrbitalView();
-                    if (currentPauseButtonState && !lastPauseButtonState) kRPCClient.SetPaused();
-                    if (currentQuickSaveButtonState && !lastQuickSaveButtonState) kRPCClient.QuickSave();
-                    if (currentQuickLoadButtonState && !lastQuickLoadButtonState) kRPCClient.QuickLoad();
+                if (currentIncreaseTimeWarpButtonState && !lastIncreaseTimeWarpButtonState) keyboardInputClient.IncreaseTimeWarp();
+                if (currentDecreaseTimeWarpButtonState && !lastDecreaseTimeWarpButtonState) keyboardInputClient.DecreaseTimeWarp();
+                if (currentNextVesselButtonState && !lastNextVesselButtonState) keyboardInputClient.NextVessel();
+                if (currentPreviousVesselButtonState && !lastPreviousVesselButtonState) keyboardInputClient.PreviousVessel();
+                if (currentCameraCycleButtonState && !lastCameraCycleButtonState) keyboardInputClient.CameraCycle();
+                if (currentOrbitalViewButtonState && !lastOrbitalViewButtonState) keyboardInputClient.SetOrbitalView();
+                if (currentPauseButtonState && !lastPauseButtonState) kRPCClient.SetPaused();
+                if (currentQuickSaveButtonState && !lastQuickSaveButtonState) kRPCClient.QuickSave();
+                if (currentQuickLoadButtonState && !lastQuickLoadButtonState) kRPCClient.QuickLoad();
 
-                    lastIncreaseTimeWarpButtonState = currentIncreaseTimeWarpButtonState;
-                    lastDecreaseTimeWarpButtonState = currentDecreaseTimeWarpButtonState;
-                    lastNextVesselButtonState = currentNextVesselButtonState;
-                    lastPreviousVesselButtonState = currentPreviousVesselButtonState;
-                    lastCameraCycleButtonState = currentCameraCycleButtonState;
-                    lastOrbitalViewButtonState = currentOrbitalViewButtonState;
-                    lastPauseButtonState = currentPauseButtonState;
-                    lastQuickSaveButtonState = currentQuickSaveButtonState;
-                    lastQuickLoadButtonState = currentQuickLoadButtonState;
-                }
+                lastIncreaseTimeWarpButtonState = currentIncreaseTimeWarpButtonState;
+                lastDecreaseTimeWarpButtonState = currentDecreaseTimeWarpButtonState;
+                lastNextVesselButtonState = currentNextVesselButtonState;
+                lastPreviousVesselButtonState = currentPreviousVesselButtonState;
+                lastCameraCycleButtonState = currentCameraCycleButtonState;
+                lastOrbitalViewButtonState = currentOrbitalViewButtonState;
+                lastPauseButtonState = currentPauseButtonState;
+                lastQuickSaveButtonState = currentQuickSaveButtonState;
+                lastQuickLoadButtonState = currentQuickLoadButtonState;
             }
         }
     }
