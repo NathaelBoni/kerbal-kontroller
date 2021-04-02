@@ -119,6 +119,16 @@ namespace KerbalKontroller.Clients
             ActiveVessel.Control.RCS = digitalState.Active;
         }
 
+        public void Abort()
+        {
+            ActiveVessel.Control.Abort = true;
+        }
+
+        public void Stage()
+        {
+            ActiveVessel.Control.ActivateNextStage();
+        }
+
         public void SetSASModeFree() => SetSASMode(SASMode.StabilityAssist);
         public void SetSASModeManeuver() => SetSASMode(SASMode.Maneuver);
         public void SetSASModePrograde() => SetSASMode(SASMode.Prograde);
