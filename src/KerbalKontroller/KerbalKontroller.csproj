@@ -241,7 +241,7 @@
     <Compile Include="Controls\RoverControl.cs" />
     <Compile Include="Controls\SpaceShipControl.cs" />
     <Compile Include="Interfaces\IControl.cs" />
-    <Compile Include="Resources\ButtonState.cs" />
+    <Compile Include="Resources\DigitalState.cs" />
     <Compile Include="Resources\ControlType.cs" />
     <Compile Include="Resources\Helpers\ActiveControlHelper.cs" />
     <Compile Include="Resources\JoystickAxis.cs" />

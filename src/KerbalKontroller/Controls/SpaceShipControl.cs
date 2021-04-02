@@ -1,6 +1,7 @@
 ﻿using KerbalKontroller.Clients;
 using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
+using KRPC.Client.Services.SpaceCenter;
 using Serilog.Core;
 using System;
 

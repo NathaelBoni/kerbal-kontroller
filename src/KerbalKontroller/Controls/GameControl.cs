@@ -30,7 +30,7 @@ namespace KerbalKontroller.Controls
         {
             logger.Information("Controls added - starting KerbalKontroller");
 
-            Vessel activeVessel;
+            Vessel activeVessel = null;
             ControlType? activeControl = null;
             IControl control;
 

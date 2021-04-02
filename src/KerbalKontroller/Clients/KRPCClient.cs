@@ -14,6 +14,7 @@ namespace KerbalKontroller.Clients
         private readonly KRPC.Client.Services.SpaceCenter.Service spaceCenter;
         private readonly KRPC.Client.Services.KRPC.Service krpc;
         private readonly Logger logger;
+        private Vessel ActiveVessel;
 
         public KRPCClient(Logger logger)
         {
@@ -56,7 +57,8 @@ namespace KerbalKontroller.Clients
         {
             try
             {
-                return spaceCenter.ActiveVessel;
+                ActiveVessel = spaceCenter.ActiveVessel;
+                return ActiveVessel;
             }
             catch
             {
@@ -79,57 +81,49 @@ namespace KerbalKontroller.Clients
             var currentCamera = spaceCenter.Camera.Mode;
             spaceCenter.Camera.Mode = (CameraMode)((int)currentCamera++ % 7);
         }
-        
+
         public void SetVesselRotation(JoystickAxis joystickAxis, JoystickAxis joystickAxisExtra)
         {
-            var vessel = GetActiveVessel();
-            vessel.Control.Pitch = joystickAxis.YValue;
-            vessel.Control.Yaw = joystickAxis.XValue;
-            vessel.Control.Roll = joystickAxisExtra.XValue;
+            ActiveVessel.Control.Pitch = joystickAxis.YValue;
+            ActiveVessel.Control.Yaw = joystickAxis.XValue;
+            ActiveVessel.Control.Roll = joystickAxisExtra.XValue;
         }
 
         public void SetVesselTranslation(JoystickAxis joystickAxis, JoystickAxis joystickAxisExtra)
         {
-            var vessel = GetActiveVessel();
-            vessel.Control.Up = joystickAxis.YValue;
-            vessel.Control.Right = joystickAxis.XValue;
-            vessel.Control.Forward = joystickAxisExtra.XValue;
+            ActiveVessel.Control.Up = joystickAxis.YValue;
+            ActiveVessel.Control.Right = joystickAxis.XValue;
+            ActiveVessel.Control.Forward = joystickAxisExtra.XValue;
         }
 
         public void SetThrottle(JoystickAxis joystickAxis)
         {
-            var vessel = GetActiveVessel();
-            vessel.Control.Throttle = joystickAxis.YValue;
+            ActiveVessel.Control.Throttle = joystickAxis.YValue;
         }
 
         public void SetLandingGear(DigitalState digitalState)
         {
-            var vessel = GetActiveVessel();
-            vessel.Control.Gear = digitalState.Active;
+            ActiveVessel.Control.Gear = digitalState.Active;
         }
 
         public void SetBrakes(DigitalState digitalState)
         {
-            var vessel = GetActiveVessel();
-            vessel.Control.Brakes = digitalState.Active;
+            ActiveVessel.Control.Brakes = digitalState.Active;
         }
 
         public void SetLights(DigitalState digitalState)
         {
-            var vessel = GetActiveVessel();
-            vessel.Control.Lights = digitalState.Active;
+            ActiveVessel.Control.Lights = digitalState.Active;
         }
 
         public void SetSASMode(DigitalState digitalState)
         {
-            var vessel = GetActiveVessel();
-            vessel.Control.SAS = digitalState.Active;
+            ActiveVessel.Control.SAS = digitalState.Active;
         }
 
         public void SetRCSMode(DigitalState digitalState)
         {
-            var vessel = GetActiveVessel();
-            vessel.Control.RCS = digitalState.Active;
+            ActiveVessel.Control.RCS = digitalState.Active;
         }
 
         public void SetSASModeFree() => SetSASMode(SASMode.StabilityAssist);

@@ -1,4 +1,5 @@
 ﻿using KerbalKontroller.Resources;
+using KRPC.Client.Services.SpaceCenter;
 
 namespace KerbalKontroller.Interfaces
 {
