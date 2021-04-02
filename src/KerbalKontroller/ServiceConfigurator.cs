@@ -3,6 +3,7 @@ using KerbalKontroller.Clients;
 using KerbalKontroller.Config;
 using KerbalKontroller.Controls;
 using KerbalKontroller.Interfaces;
+using KerbalKontroller.Resources.Factories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -61,6 +62,8 @@ namespace KerbalKontroller
             });
 
             services.AddSingleton<KeyboardInputClient>();
+
+            services.AddSingleton<ControlFactory>();
 
             services.AddSingleton<IControl, SpaceShipControl>();
             services.AddSingleton<IControl, PlaneControl>();

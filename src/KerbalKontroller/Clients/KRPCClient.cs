@@ -5,7 +5,6 @@ using KRPC.Client.Services.SpaceCenter;
 using Polly;
 using Serilog.Core;
 using System;
-using System.Linq;
 
 namespace KerbalKontroller.Clients
 {
@@ -48,7 +47,7 @@ namespace KerbalKontroller.Clients
                 .CircuitBreaker(1, TimeSpan.FromSeconds(5), (ex, t) =>
                 {
                     logger.Information(ex, "Fatal error - unable to connect to KRPC");
-                }, () => { });
+                }, null);
 
             return circuitBreakerPolicy.Wrap(retryPolicy);
         }

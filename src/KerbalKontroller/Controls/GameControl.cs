@@ -1,28 +1,26 @@
 ﻿using KerbalKontroller.Clients;
 using KerbalKontroller.Interfaces;
-using KerbalKontroller.Resources;
-using KerbalKontroller.Resources.Helpers;
+using KerbalKontroller.Resources.Factories;
 using KRPC.Client.Services.SpaceCenter;
 using Serilog.Core;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 
 namespace KerbalKontroller.Controls
 {
     public class GameControl
     {
-        private readonly IEnumerable<IControl> controls;
         private readonly KRPCClient kRPCClient;
         private readonly IHardwareClient hardwareClient;
         private readonly KeyboardInputClient keyboardInputClient;
+        private readonly ControlFactory controlFactory;
         private readonly Logger logger;
 
-        public GameControl(IEnumerable<IControl> controls, KRPCClient kRPCClient, IHardwareClient hardwareClient, KeyboardInputClient keyboardInputClient, Logger logger)
+        public GameControl(KRPCClient kRPCClient, IHardwareClient hardwareClient, KeyboardInputClient keyboardInputClient, ControlFactory controlFactory, Logger logger)
         {
-            this.controls = controls;
             this.kRPCClient = kRPCClient;
             this.hardwareClient = hardwareClient;
             this.keyboardInputClient = keyboardInputClient;
+            this.controlFactory = controlFactory;
             this.logger = logger;
         }
 
@@ -31,8 +29,7 @@ namespace KerbalKontroller.Controls
             logger.Information("Controls added - starting KerbalKontroller");
 
             Vessel activeVessel = null;
-            ControlType? activeControl = null;
-            IControl control;
+            Action controlAction;
 
             bool currentIncreaseTimeWarpButtonState, lastIncreaseTimeWarpButtonState = false;
             bool currentDecreaseTimeWarpButtonState, lastDecreaseTimeWarpButtonState = false;
@@ -46,22 +43,20 @@ namespace KerbalKontroller.Controls
 
             while (true)
             {
-                if (!kRPCClient.IsInFlight() || kRPCClient.IsGamePaused()) activeControl = null;
-                else
+                if (kRPCClient.IsInFlight() && !kRPCClient.IsGamePaused())
                 {
                     activeVessel = kRPCClient.GetActiveVessel();
-                    activeControl = ActiveControlHelper.SelectControlType(activeVessel);
-                }
 
-                try
-                {
-                    control = controls.FirstOrDefault(_ => _.ControlType == activeControl);
-                    if (control != null) control.ControlLoop();
-                }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex, $"Fatal error - {activeControl} control type failed");
-                    throw;
+                    try
+                    {
+                        controlAction = controlFactory.GetControlAction(activeVessel);
+                        controlAction.Invoke();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex, $"Fatal error - control action threw an exception");
+                        throw;
+                    }
                 }
 
                 if (kRPCClient.IsInFlight())
