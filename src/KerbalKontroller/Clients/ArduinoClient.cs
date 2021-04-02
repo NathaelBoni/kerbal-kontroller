@@ -263,6 +263,14 @@ namespace KerbalKontroller.Clients
             };
         }
 
+        public ButtonState ReadSASManeuverButton()
+        {
+            return new ButtonState
+            {
+                Active = ReadFromDigitalPin(pinConfiguration.SASManeuverButton)
+            };
+        }
+
         public ButtonState ReadSASProgradeButton()
         {
             return new ButtonState

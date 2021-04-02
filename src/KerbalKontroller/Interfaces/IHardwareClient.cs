@@ -31,6 +31,7 @@ namespace KerbalKontroller.Interfaces
         ButtonState ReadAction9Button();
         ButtonState ReadAction10Button();
         ButtonState ReadSASFreeButton();
+        ButtonState ReadSASManeuverButton();
         ButtonState ReadSASProgradeButton();
         ButtonState ReadSASRetrogadeButton();
         ButtonState ReadSASRadialInButton();

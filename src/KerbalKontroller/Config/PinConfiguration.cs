@@ -67,6 +67,8 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input)]
         public byte SASFreeButton { get; set; }
         [PinMode(PinModes.Input)]
+        public byte SASManeuverButton { get; set; }
+        [PinMode(PinModes.Input)]
         public byte SASProgradeButton { get; set; }
         [PinMode(PinModes.Input)]
         public byte SASRetrogadeButton { get; set; }
