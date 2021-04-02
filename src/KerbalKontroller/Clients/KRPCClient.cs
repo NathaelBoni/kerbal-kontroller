@@ -76,12 +76,6 @@ namespace KerbalKontroller.Clients
         
         public void QuickLoad() => spaceCenter.Quickload();
 
-        public void SwitchCameras()
-        {
-            var currentCamera = spaceCenter.Camera.Mode;
-            spaceCenter.Camera.Mode = (CameraMode)((int)currentCamera++ % 7);
-        }
-
         public void SetVesselRotation(JoystickAxis joystickAxis, JoystickAxis joystickAxisExtra)
         {
             ActiveVessel.Control.Pitch = joystickAxis.YValue;

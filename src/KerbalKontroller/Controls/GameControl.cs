@@ -38,6 +38,7 @@ namespace KerbalKontroller.Controls
             bool currentDecreaseTimeWarpButtonState, lastDecreaseTimeWarpButtonState = false;
             bool currentNextVesselButtonState, lastNextVesselButtonState = false;
             bool currentPreviousVesselButtonState, lastPreviousVesselButtonState = false;
+            bool currentCameraCycleButtonState, lastCameraCycleButtonState = false;
             bool currentOrbitalViewButtonState, lastOrbitalViewButtonState = false;
             bool currentPauseButtonState, lastPauseButtonState = false;
             bool currentQuickSaveButtonState, lastQuickSaveButtonState = false;
@@ -69,6 +70,7 @@ namespace KerbalKontroller.Controls
                     currentDecreaseTimeWarpButtonState = hardwareClient.ReadDecreaseTimeWarpButton().Active;
                     currentNextVesselButtonState = hardwareClient.ReadNextVesselButton().Active;
                     currentPreviousVesselButtonState = hardwareClient.ReadPreviousVesselButton().Active;
+                    currentCameraCycleButtonState = hardwareClient.ReadCameraCycleButton().Active;
                     currentOrbitalViewButtonState = hardwareClient.ReadOrbitalViewButton().Active;
                     currentPauseButtonState = hardwareClient.ReadPauseButton().Active;
                     currentQuickSaveButtonState = hardwareClient.ReadQuickSaveButton().Active;
@@ -78,6 +80,7 @@ namespace KerbalKontroller.Controls
                     if (currentDecreaseTimeWarpButtonState && !lastDecreaseTimeWarpButtonState) keyboardInputClient.DecreaseTimeWarp();
                     if (currentNextVesselButtonState && !lastNextVesselButtonState) keyboardInputClient.NextVessel();
                     if (currentPreviousVesselButtonState && !lastPreviousVesselButtonState) keyboardInputClient.PreviousVessel();
+                    if (currentCameraCycleButtonState && !lastCameraCycleButtonState) keyboardInputClient.CameraCycle();
                     if (currentOrbitalViewButtonState && !lastOrbitalViewButtonState) keyboardInputClient.SetOrbitalView();
                     if (currentPauseButtonState && !lastPauseButtonState) kRPCClient.SetPaused();
                     if (currentQuickSaveButtonState && !lastQuickSaveButtonState) kRPCClient.QuickSave();
@@ -87,6 +90,7 @@ namespace KerbalKontroller.Controls
                     lastDecreaseTimeWarpButtonState = currentDecreaseTimeWarpButtonState;
                     lastNextVesselButtonState = currentNextVesselButtonState;
                     lastPreviousVesselButtonState = currentPreviousVesselButtonState;
+                    lastCameraCycleButtonState = currentCameraCycleButtonState;
                     lastOrbitalViewButtonState = currentOrbitalViewButtonState;
                     lastPauseButtonState = currentPauseButtonState;
                     lastQuickSaveButtonState = currentQuickSaveButtonState;

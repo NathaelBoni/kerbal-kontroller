@@ -93,6 +93,8 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input)]
         public byte KerbalJetPackButton { get; set; }
         [PinMode(PinModes.Input)]
+        public byte CameraCycleButton { get; set; }
+        [PinMode(PinModes.Input)]
         public byte OrbitalViewButton { get; set; }
         [PinMode(PinModes.Input)]
         public byte IncreaseTimeWarpButton { get; set; }

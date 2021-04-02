@@ -32,6 +32,11 @@ namespace KerbalKontroller.Clients
             inputSimulator.Keyboard.KeyPress(VirtualKeyCode.OEM_1);
         }
 
+        public void CameraCycle()
+        {
+            inputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_V);
+        }
+
         public void SetOrbitalView()
         {
             inputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_M);

@@ -44,6 +44,7 @@ namespace KerbalKontroller.Interfaces
         DigitalState ReadKerbalBoard();
         DigitalState ReadKerbalParachute();
         DigitalState ReadKerbalJetPack();
+        DigitalState ReadCameraCycleButton();
         DigitalState ReadOrbitalViewButton();
         DigitalState ReadIncreaseTimeWarpButton();
         DigitalState ReadDecreaseTimeWarpButton();

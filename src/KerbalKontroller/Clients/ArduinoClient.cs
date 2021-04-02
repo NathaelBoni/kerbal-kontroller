@@ -367,6 +367,14 @@ namespace KerbalKontroller.Clients
             };
         }
 
+        public DigitalState ReadCameraCycleButton()
+        {
+            return new DigitalState
+            {
+                Active = ReadFromDigitalPin(pinConfiguration.CameraCycleButton)
+            };
+        }
+
         public DigitalState ReadOrbitalViewButton()
         {
             return new DigitalState
