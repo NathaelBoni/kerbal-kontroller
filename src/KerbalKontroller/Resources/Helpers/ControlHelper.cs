@@ -1,5 +1,6 @@
 ﻿using KerbalKontroller.Clients;
 using KerbalKontroller.Interfaces;
+using KerbalKontroller.Resources.Debounces;
 using System;
 
 namespace KerbalKontroller.Resources.Helpers
@@ -44,6 +45,20 @@ namespace KerbalKontroller.Resources.Helpers
             kRPCClient.SetLights(lightsToggle);
             kRPCClient.SetSASMode(sasToggle);
             kRPCClient.SetRCSMode(rcsToggle);
+        }
+
+        public static void ActionGroup(VesselControlDebounce debounce, KRPCClient kRPCClient)
+        {
+            if (debounce.GetAction1ButtonState()) kRPCClient.ActivateAction(1);
+            if (debounce.GetAction2ButtonState()) kRPCClient.ActivateAction(2);
+            if (debounce.GetAction3ButtonState()) kRPCClient.ActivateAction(3);
+            if (debounce.GetAction4ButtonState()) kRPCClient.ActivateAction(4);
+            if (debounce.GetAction5ButtonState()) kRPCClient.ActivateAction(5);
+            if (debounce.GetAction6ButtonState()) kRPCClient.ActivateAction(6);
+            if (debounce.GetAction7ButtonState()) kRPCClient.ActivateAction(7);
+            if (debounce.GetAction8ButtonState()) kRPCClient.ActivateAction(8);
+            if (debounce.GetAction9ButtonState()) kRPCClient.ActivateAction(9);
+            if (debounce.GetAction10ButtonState()) kRPCClient.ActivateAction(10);
         }
     }
 }

@@ -11,15 +11,15 @@ namespace KerbalKontroller.Controls
     {
         private readonly KRPCClient kRPCClient;
         private readonly IHardwareClient hardwareClient;
+        private VesselControlDebounce debounce;
         private readonly Logger logger;
-        private SpaceShipControlDebounce debounce;
 
         public SpaceShipControl(KRPCClient krpcClient, IHardwareClient hardwareClient, Logger logger)
         {
             this.kRPCClient = krpcClient;
             this.hardwareClient = hardwareClient;
+            debounce = new VesselControlDebounce(hardwareClient);
             this.logger = logger;
-            debounce = new SpaceShipControlDebounce();
         }
 
         public ControlType ControlType => ControlType.SpaceShip;
@@ -38,9 +38,10 @@ namespace KerbalKontroller.Controls
 
             ControlHelper.SetSASMode(hardwareClient, kRPCClient).Invoke();
             ControlHelper.SetToggleSwitches(hardwareClient, kRPCClient);
+            ControlHelper.ActionGroup(debounce, kRPCClient);
 
-            if (debounce.GetAbortButtonState(hardwareClient.ReadAbortButton().Active)) kRPCClient.Abort();
-            if (debounce.GetStageButtonState(hardwareClient.ReadStageButton().Active)) kRPCClient.Stage();
+            if (debounce.GetAbortButtonState()) kRPCClient.Abort();
+            if (debounce.GetStageButtonState()) kRPCClient.Stage();
 
             debounce.UpdateState();
         }

@@ -141,6 +141,13 @@ namespace KerbalKontroller.Clients
             ActiveVessel.Control.ActivateNextStage();
         }
 
+        public void ActivateAction(uint actionGroup)
+        {
+            if (actionGroup < 1 || actionGroup > 10)
+                throw new IndexOutOfRangeException("Action Group Index is out of bounds");
+            ActiveVessel.Control.ToggleActionGroup(actionGroup);
+        }
+
         public void SetSASModeFree() => SetSASMode(SASMode.StabilityAssist);
         public void SetSASModeManeuver() => SetSASMode(SASMode.Maneuver);
         public void SetSASModePrograde() => SetSASMode(SASMode.Prograde);

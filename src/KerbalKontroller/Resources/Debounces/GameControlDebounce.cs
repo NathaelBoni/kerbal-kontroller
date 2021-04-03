@@ -1,4 +1,6 @@
-﻿namespace KerbalKontroller.Resources.Debounces
+﻿using KerbalKontroller.Interfaces;
+
+namespace KerbalKontroller.Resources.Debounces
 {
     public class GameControlDebounce
     {
@@ -12,57 +14,64 @@
         private bool currentQuickSaveButtonState, lastQuickSaveButtonState;
         private bool currentQuickLoadButtonState, lastQuickLoadButtonState;
 
-        public bool GetIncreaseTimeWarpButtonState(bool buttonState)
+        private readonly IHardwareClient hardwareClient;
+
+        public GameControlDebounce(IHardwareClient hardwareClient)
         {
-            currentIncreaseTimeWarpButtonState = buttonState;
+            this.hardwareClient = hardwareClient;
+        }
+
+        public bool GetIncreaseTimeWarpButtonState()
+        {
+            currentIncreaseTimeWarpButtonState = hardwareClient.ReadIncreaseTimeWarpButton().Active;
             return currentIncreaseTimeWarpButtonState && !lastIncreaseTimeWarpButtonState;
         }
 
-        public bool GetDecreaseTimeWarpButtonState(bool buttonState)
+        public bool GetDecreaseTimeWarpButtonState()
         {
-            currentDecreaseTimeWarpButtonState = buttonState;
+            currentDecreaseTimeWarpButtonState = hardwareClient.ReadDecreaseTimeWarpButton().Active;
             return currentDecreaseTimeWarpButtonState && !lastDecreaseTimeWarpButtonState;
         }
 
-        public bool GetNextVesselButtonState(bool buttonState)
+        public bool GetNextVesselButtonState()
         {
-            currentNextVesselButtonState = buttonState;
+            currentNextVesselButtonState = hardwareClient.ReadNextVesselButton().Active;
             return currentNextVesselButtonState && !lastNextVesselButtonState;
         }
 
-        public bool GetPreviousVesselButtonState(bool buttonState)
+        public bool GetPreviousVesselButtonState()
         {
-            currentPreviousVesselButtonState = buttonState;
+            currentPreviousVesselButtonState = hardwareClient.ReadPreviousVesselButton().Active;
             return currentPreviousVesselButtonState && !lastPreviousVesselButtonState;
         }
 
-        public bool GetCameraCycleButtonState(bool buttonState)
+        public bool GetCameraCycleButtonState()
         {
-            currentCameraCycleButtonState = buttonState;
+            currentCameraCycleButtonState = hardwareClient.ReadCameraCycleButton().Active;
             return currentCameraCycleButtonState && !lastCameraCycleButtonState;
         }
 
-        public bool GetOrbitalViewButtonState(bool buttonState)
+        public bool GetOrbitalViewButtonState()
         {
-            currentOrbitalViewButtonState = buttonState;
+            currentOrbitalViewButtonState = hardwareClient.ReadOrbitalViewButton().Active;
             return currentOrbitalViewButtonState && !lastOrbitalViewButtonState;
         }
 
-        public bool GetPauseButtonState(bool buttonState)
+        public bool GetPauseButtonState()
         {
-            currentPauseButtonState = buttonState;
+            currentPauseButtonState = hardwareClient.ReadPauseButton().Active;
             return currentPauseButtonState && !lastPauseButtonState;
         }
 
-        public bool GetQuickSaveButtonState(bool buttonState)
+        public bool GetQuickSaveButtonState()
         {
-            currentQuickSaveButtonState = buttonState;
+            currentQuickSaveButtonState = hardwareClient.ReadQuickSaveButton().Active;
             return currentQuickSaveButtonState && !lastQuickSaveButtonState;
         }
 
-        public bool GetQuickLoadButtonState(bool buttonState)
+        public bool GetQuickLoadButtonState()
         {
-            currentQuickLoadButtonState = buttonState;
+            currentQuickLoadButtonState = hardwareClient.ReadQuickLoadButton().Active;
             return currentQuickLoadButtonState && !lastQuickLoadButtonState;
         }
 

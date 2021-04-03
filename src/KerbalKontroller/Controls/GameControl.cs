@@ -11,20 +11,18 @@ namespace KerbalKontroller.Controls
     public class GameControl
     {
         private readonly KRPCClient kRPCClient;
-        private readonly IHardwareClient hardwareClient;
         private readonly KeyboardInputClient keyboardInputClient;
         private readonly ControlFactory controlFactory;
-        private readonly Logger logger;
         private readonly GameControlDebounce debounce;
+        private readonly Logger logger;
 
-        public GameControl(KRPCClient kRPCClient, IHardwareClient hardwareClient, KeyboardInputClient keyboardInputClient, ControlFactory controlFactory, Logger logger)
+        public GameControl(KRPCClient kRPCClient, KeyboardInputClient keyboardInputClient, ControlFactory controlFactory, IHardwareClient hardwareClient, Logger logger)
         {
             this.kRPCClient = kRPCClient;
-            this.hardwareClient = hardwareClient;
             this.keyboardInputClient = keyboardInputClient;
             this.controlFactory = controlFactory;
+            debounce = new GameControlDebounce(hardwareClient);
             this.logger = logger;
-            debounce = new GameControlDebounce();
         }
 
         public void Start()
@@ -52,15 +50,15 @@ namespace KerbalKontroller.Controls
                     throw;
                 }
 
-                if (debounce.GetIncreaseTimeWarpButtonState(hardwareClient.ReadIncreaseTimeWarpButton().Active)) keyboardInputClient.IncreaseTimeWarp();
-                if (debounce.GetDecreaseTimeWarpButtonState(hardwareClient.ReadDecreaseTimeWarpButton().Active)) keyboardInputClient.DecreaseTimeWarp();
-                if (debounce.GetNextVesselButtonState(hardwareClient.ReadNextVesselButton().Active)) keyboardInputClient.NextVessel();
-                if (debounce.GetPreviousVesselButtonState(hardwareClient.ReadPreviousVesselButton().Active)) keyboardInputClient.PreviousVessel();
-                if (debounce.GetCameraCycleButtonState(hardwareClient.ReadCameraCycleButton().Active)) keyboardInputClient.CameraCycle();
-                if (debounce.GetOrbitalViewButtonState(hardwareClient.ReadOrbitalViewButton().Active)) keyboardInputClient.SetOrbitalView();
-                if (debounce.GetPauseButtonState(hardwareClient.ReadPauseButton().Active)) kRPCClient.SetPaused();
-                if (debounce.GetQuickSaveButtonState(hardwareClient.ReadQuickSaveButton().Active)) kRPCClient.QuickSave();
-                if (debounce.GetQuickLoadButtonState(hardwareClient.ReadQuickLoadButton().Active)) kRPCClient.QuickLoad();
+                if (debounce.GetIncreaseTimeWarpButtonState()) keyboardInputClient.IncreaseTimeWarp();
+                if (debounce.GetDecreaseTimeWarpButtonState()) keyboardInputClient.DecreaseTimeWarp();
+                if (debounce.GetNextVesselButtonState()) keyboardInputClient.NextVessel();
+                if (debounce.GetPreviousVesselButtonState()) keyboardInputClient.PreviousVessel();
+                if (debounce.GetCameraCycleButtonState()) keyboardInputClient.CameraCycle();
+                if (debounce.GetOrbitalViewButtonState()) keyboardInputClient.SetOrbitalView();
+                if (debounce.GetPauseButtonState()) kRPCClient.SetPaused();
+                if (debounce.GetQuickSaveButtonState()) kRPCClient.QuickSave();
+                if (debounce.GetQuickLoadButtonState()) kRPCClient.QuickLoad();
             }
         }
     }

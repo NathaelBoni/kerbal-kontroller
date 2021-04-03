@@ -236,6 +236,8 @@
     <Compile Include="Clients\ArduinoClient.cs" />
     <Compile Include="Clients\KeyboardInputClient.cs" />
     <Compile Include="Controls\GameControl.cs" />
+    <Compile Include="Resources\Debounces\VesselControlDebounce.cs" />
+    <Compile Include="Resources\Debounces\GameControlDebounce.cs" />
     <Compile Include="Controls\KerbalControl.cs" />
     <Compile Include="Controls\PlaneControl.cs" />
     <Compile Include="Controls\RoverControl.cs" />
@@ -244,6 +246,7 @@
     <Compile Include="Resources\DigitalState.cs" />
     <Compile Include="Resources\ControlType.cs" />
     <Compile Include="Resources\Factories\ControlFactory.cs" />
+    <Compile Include="Resources\Helpers\ControlHelper.cs" />
     <Compile Include="Resources\JoystickAxis.cs" />
     <Compile Include="Config\AppSettings.cs" />
     <Compile Include="Config\PinConfiguration.cs" />
@@ -265,5 +268,6 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

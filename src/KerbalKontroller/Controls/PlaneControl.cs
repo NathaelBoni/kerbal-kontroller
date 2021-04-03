@@ -11,15 +11,15 @@ namespace KerbalKontroller.Controls
     {
         private readonly KRPCClient kRPCClient;
         private readonly IHardwareClient hardwareClient;
+        private readonly VesselControlDebounce debounce;
         private readonly Logger logger;
-        private readonly PlaneControlDebounce debounce;
 
         public PlaneControl(KRPCClient krpcClient, IHardwareClient hardwareClient, Logger logger)
         {
             this.kRPCClient = krpcClient;
             this.hardwareClient = hardwareClient;
+            debounce = new VesselControlDebounce(hardwareClient);
             this.logger = logger;
-            debounce = new PlaneControlDebounce();
         }
 
         public ControlType ControlType => ControlType.Plane;
@@ -38,6 +38,11 @@ namespace KerbalKontroller.Controls
 
             ControlHelper.SetSASMode(hardwareClient, kRPCClient).Invoke();
             ControlHelper.SetToggleSwitches(hardwareClient, kRPCClient);
+            ControlHelper.ActionGroup(debounce, kRPCClient);
+
+            kRPCClient.SetBrakes(hardwareClient.ReadBrakesButton());
+
+            debounce.UpdateState();
         }
     }
 }
