@@ -26,8 +26,9 @@ namespace KerbalKontroller.Controls
 
         public void ControlLoop()
         {
-            var leftJoystick = hardwareClient.ReadLeftJoystick();
+            var leftJoystick = hardwareClient.ReadLeftJoystick(yAxisInverted: true);
             var extraLeftJoystick = hardwareClient.ReadExtraLeftJoystick();
+
             var rightJoystick = hardwareClient.ReadRightJoystick();
             var extraRightJoystick = hardwareClient.ReadExtraRightJoystick();
             var throttleAxis = hardwareClient.ReadAnalogThrottle();

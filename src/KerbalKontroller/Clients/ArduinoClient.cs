@@ -43,41 +43,32 @@ namespace KerbalKontroller.Clients
             this.logger.Information("Arduino configured!");
         }
 
-        public JoystickAxis ReadLeftJoystick(bool isAbsolute = false)
+        public JoystickAxis ReadLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
         {
-            return ReadJoystickAxis(pinConfiguration.LeftJoyStickX, pinConfiguration.LeftJoyStickY, isAbsolute);
+            return ReadJoystickAxis(pinConfiguration.LeftJoyStickX, pinConfiguration.LeftJoyStickY, xAxisInverted, yAxisInverted);
         }
 
-        public JoystickAxis ReadRightJoystick(bool isAbsolute = false)
+        public JoystickAxis ReadRightJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
         {
-            return ReadJoystickAxis(pinConfiguration.RightJoyStickX, pinConfiguration.RightJoyStickY, isAbsolute);
+            return ReadJoystickAxis(pinConfiguration.RightJoyStickX, pinConfiguration.RightJoyStickY, xAxisInverted, yAxisInverted);
         }
 
-        public JoystickAxis ReadExtraLeftJoystick(bool isAbsolute = false)
+        public JoystickAxis ReadExtraLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
         {
-            return ReadJoystickAxis(pinConfiguration.ExtraLeftJoyStickX, pinConfiguration.ExtraLeftJoyStickY, isAbsolute);
+            return ReadJoystickAxis(pinConfiguration.ExtraLeftJoyStickX, pinConfiguration.ExtraLeftJoyStickY, xAxisInverted, yAxisInverted);
         }
 
-        public JoystickAxis ReadExtraRightJoystick(bool isAbsolute = false)
+        public JoystickAxis ReadExtraRightJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
         {
-            return ReadJoystickAxis(pinConfiguration.ExtraRightJoyStickX, pinConfiguration.ExtraRightJoyStickY, isAbsolute);
+            return ReadJoystickAxis(pinConfiguration.ExtraRightJoyStickX, pinConfiguration.ExtraRightJoyStickY, xAxisInverted, yAxisInverted);
         }
 
-        private JoystickAxis ReadJoystickAxis(byte joystickX, byte joystickY, bool isAbsolute)
+        private JoystickAxis ReadJoystickAxis(byte joystickX, byte joystickY, bool xAxisInverted = false, bool yAxisInverted = false)
         {
-            var analogXValue = ReadFromAnalogPin(joystickX);
-            var analogYValue = ReadFromAnalogPin(joystickY);
-
-            if (isAbsolute)
-            {
-                analogXValue = analogXValue == 0 ? 0 : analogXValue > 0 ? 1 : -1;
-                analogYValue = analogYValue == 0 ? 0 : analogYValue > 0 ? 1 : -1;
-            }
-
             return new JoystickAxis
             {
-                XValue = analogXValue,
-                YValue = analogYValue
+                XValue = ReadFromAnalogPin(joystickX, xAxisInverted),
+                YValue = ReadFromAnalogPin(joystickY, yAxisInverted)
             };
         }
 
@@ -353,11 +344,27 @@ namespace KerbalKontroller.Clients
             };
         }
 
+        public DigitalState ReadKerbalRunButton()
+        {
+            return new DigitalState
+            {
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalRunButton)
+            };
+        }
+
         public DigitalState ReadKerbalBoardButton()
         {
             return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.KerbalBoardButton)
+            };
+        }
+
+        public DigitalState ReadKerbalLetGoButton()
+        {
+            return new DigitalState
+            {
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalLetGoButton)
             };
         }
 

@@ -29,7 +29,7 @@ namespace KerbalKontroller.Resources.Helpers
                 return kRPCClient.SetSASModeTarget;
             if (hardwareClient.ReadSASAntiTargetButton().Active)
                 return kRPCClient.SetSASModeAntiTarget;
-            return null;
+            return () => { };
         }
 
         public static void SetToggleSwitches(IHardwareClient hardwareClient, KRPCClient kRPCClient)

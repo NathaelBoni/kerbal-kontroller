@@ -1,5 +1,19 @@
 {
   "leftJoystickX": 0,
   "leftJoystickY": 1,
-  "landingGearSwitch": 8
+  "extraLeftJoystickX": 2,
+  "extraLeftJoystickY": 3,
+  "rightJoystickX": 4,
+  "rightJoystickY": 5,
+  "extraRightJoystickX": 6,
+  "extraRightJoystickY": 7,
+  "analogThrottle": 8,
+  "abortButton": 3,
+  "stageButton": 4,
+  "action1Button": 5,
+  "SASSwitch": 6,
+  "RCSSwitch": 7,
+  "lightsSwitch": 8,
+  "SASProgradeButton": 9,
+  "SASNormalButton": 10
 }

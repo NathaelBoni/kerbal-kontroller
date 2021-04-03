@@ -4,10 +4,10 @@ namespace KerbalKontroller.Interfaces
 {
     public interface IHardwareClient
     {
-        JoystickAxis ReadLeftJoystick(bool isAbsolute = false);
-        JoystickAxis ReadExtraLeftJoystick(bool isAbsolute = false);
-        JoystickAxis ReadRightJoystick(bool isAbsolute = false);
-        JoystickAxis ReadExtraRightJoystick(bool isAbsolute = false);
+        JoystickAxis ReadLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false);
+        JoystickAxis ReadExtraLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false);
+        JoystickAxis ReadRightJoystick(bool xAxisInverted = false, bool yAxisInverted = false);
+        JoystickAxis ReadExtraRightJoystick(bool xAxisInverted = false, bool yAxisInverted = false);
         JoystickAxis ReadAnalogThrottle();
         DigitalState ReadFullThrottleButton();
         DigitalState ReadCutOffThrottleButton();
@@ -42,7 +42,9 @@ namespace KerbalKontroller.Interfaces
         DigitalState ReadSASAntiTargetButton();
         DigitalState ReadKerbalUseButton();
         DigitalState ReadKerbalJumpButton();
+        DigitalState ReadKerbalRunButton();
         DigitalState ReadKerbalBoardButton();
+        DigitalState ReadKerbalLetGoButton();
         DigitalState ReadKerbalParachuteButton();
         DigitalState ReadKerbalJetPackButton();
         DigitalState ReadKerbalConstructionButton();
