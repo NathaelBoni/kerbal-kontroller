@@ -236,6 +236,7 @@
     <Compile Include="Clients\ArduinoClient.cs" />
     <Compile Include="Clients\KeyboardInputClient.cs" />
     <Compile Include="Controls\GameControl.cs" />
+    <Compile Include="Resources\Debounces\KerbalControlDebounce.cs" />
     <Compile Include="Resources\Debounces\VesselControlDebounce.cs" />
     <Compile Include="Resources\Debounces\GameControlDebounce.cs" />
     <Compile Include="Controls\KerbalControl.cs" />

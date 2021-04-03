@@ -12,6 +12,126 @@ namespace KerbalKontroller.Clients
             inputSimulator = new InputSimulator();
         }
 
+        public void KerbalWalkForward()
+        {
+            KerbalRun();
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_W)) return;
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_S))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_S);
+            inputSimulator.Keyboard.KeyDown(VirtualKeyCode.VK_W);
+        }
+
+        public void KerbalWalkBackward()
+        {
+            KerbalRun();
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_S)) return;
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_W))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_W);
+            inputSimulator.Keyboard.KeyDown(VirtualKeyCode.VK_S);
+        }
+
+        public void KerbalWalkLeft()
+        {
+            KerbalRun();
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_A)) return;
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_D))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_D);
+            inputSimulator.Keyboard.KeyDown(VirtualKeyCode.VK_A);
+        }
+
+        public void KerbalWalkRight()
+        {
+            KerbalRun();
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_D)) return;
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_A))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_A);
+            inputSimulator.Keyboard.KeyDown(VirtualKeyCode.VK_D);
+        }
+
+        public void KerbalStopLateralMovement()
+        {
+            KerbalStopRun();
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_A))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_A);
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_D))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_D);
+        }
+
+        public void KerbalStopForwardMovement()
+        {
+            KerbalStopRun();
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_W))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_W);
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_S))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_S);
+        }
+
+        public void KerbalJetPackUp()
+        {
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.LSHIFT)) return;
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.LCONTROL))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.LCONTROL);
+            inputSimulator.Keyboard.KeyDown(VirtualKeyCode.LSHIFT);
+        }
+
+        public void KerbalJetPackDown()
+        {
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.LCONTROL)) return;
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.LSHIFT))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.LSHIFT);
+            inputSimulator.Keyboard.KeyDown(VirtualKeyCode.LCONTROL);
+        }
+
+        public void KerbalStopVerticalMovement()
+        {
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_W))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_W);
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.VK_S))
+                inputSimulator.Keyboard.KeyUp(VirtualKeyCode.VK_S);
+        }
+
+        private void KerbalRun()
+        {
+            if (inputSimulator.InputDeviceState.IsHardwareKeyDown(VirtualKeyCode.LSHIFT)) return;
+            inputSimulator.Keyboard.KeyDown(VirtualKeyCode.LSHIFT);
+        }
+
+        private void KerbalStopRun()
+        {
+            if (inputSimulator.InputDeviceState.IsHardwareKeyUp(VirtualKeyCode.LSHIFT)) return;
+            inputSimulator.Keyboard.KeyUp(VirtualKeyCode.LSHIFT);
+        }
+
+        public void KerbalUse()
+        {
+            inputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_F);
+        }
+
+        public void KerbalJump()
+        {
+            inputSimulator.Keyboard.KeyPress(VirtualKeyCode.SPACE);
+        }
+
+        public void KerbalBoard()
+        {
+            inputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_B);
+        }
+
+        public void KerbalParachuteDeploy()
+        {
+            inputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_P);
+        }
+
+        public void KerbalJetpackToggle()
+        {
+            inputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_R);
+        }
+
+        public void KerbalConstructionModeToggle()
+        {
+            inputSimulator.Keyboard.KeyPress(VirtualKeyCode.VK_I);
+        }
+
         public void IncreaseTimeWarp()
         {
             inputSimulator.Keyboard.KeyPress(VirtualKeyCode.OEM_PERIOD);

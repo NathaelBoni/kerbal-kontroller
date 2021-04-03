@@ -87,11 +87,15 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input)]
         public byte KerbalUseButton { get; set; }
         [PinMode(PinModes.Input)]
+        public byte KerbalJumpButton { get; set; }
+        [PinMode(PinModes.Input)]
         public byte KerbalBoardButton { get; set; }
         [PinMode(PinModes.Input)]
         public byte KerbalParachuteButton { get; set; }
         [PinMode(PinModes.Input)]
         public byte KerbalJetPackButton { get; set; }
+        [PinMode(PinModes.Input)]
+        public byte KerbalConstructionMode { get; set; }
         [PinMode(PinModes.Input)]
         public byte CameraCycleButton { get; set; }
         [PinMode(PinModes.Input)]

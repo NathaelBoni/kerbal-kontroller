@@ -16,8 +16,8 @@ namespace KerbalKontroller.Clients
 
         private readonly ArduinoDriver.ArduinoDriver arduinoDriver;
         private readonly PinConfiguration pinConfiguration;
+        private readonly AppSettings settings;
         private readonly Logger logger;
-        private readonly float deadZoneThreshold;
 
         public ArduinoClient(PinConfiguration pinConfiguration, AppSettings appSettings, ArduinoModel model, Logger logger)
         {
@@ -35,7 +35,7 @@ namespace KerbalKontroller.Clients
             }
 
             this.pinConfiguration = pinConfiguration;
-            deadZoneThreshold = appSettings.JoystickDeadZone;
+            this.settings = appSettings;
 
             SetInputPins();
             SetOutputPins();
@@ -43,39 +43,41 @@ namespace KerbalKontroller.Clients
             this.logger.Information("Arduino configured!");
         }
 
-        public JoystickAxis ReadLeftJoystick()
+        public JoystickAxis ReadLeftJoystick(bool isAbsolute = false)
         {
-            return new JoystickAxis
-            {
-                XValue = ReadFromAnalogPin(pinConfiguration.LeftJoyStickX),
-                YValue = ReadFromAnalogPin(pinConfiguration.LeftJoyStickY, true)
-            };
+            return ReadJoystickAxis(pinConfiguration.LeftJoyStickX, pinConfiguration.LeftJoyStickY, isAbsolute);
         }
 
-        public JoystickAxis ReadRightJoystick()
+        public JoystickAxis ReadRightJoystick(bool isAbsolute = false)
         {
-            return new JoystickAxis
-            {
-                XValue = ReadFromAnalogPin(pinConfiguration.RightJoyStickX),
-                YValue = ReadFromAnalogPin(pinConfiguration.RightJoyStickY)
-            };
+            return ReadJoystickAxis(pinConfiguration.RightJoyStickX, pinConfiguration.RightJoyStickY, isAbsolute);
         }
 
-        public JoystickAxis ReadExtraLeftJoystick()
+        public JoystickAxis ReadExtraLeftJoystick(bool isAbsolute = false)
         {
-            return new JoystickAxis
-            {
-                XValue = ReadFromAnalogPin(pinConfiguration.ExtraLeftJoyStickX),
-                YValue = ReadFromAnalogPin(pinConfiguration.ExtraLeftJoyStickY, true)
-            };
+            return ReadJoystickAxis(pinConfiguration.ExtraLeftJoyStickX, pinConfiguration.ExtraLeftJoyStickY, isAbsolute);
         }
 
-        public JoystickAxis ReadExtraRightJoystick()
+        public JoystickAxis ReadExtraRightJoystick(bool isAbsolute = false)
         {
+            return ReadJoystickAxis(pinConfiguration.ExtraRightJoyStickX, pinConfiguration.ExtraRightJoyStickY, isAbsolute);
+        }
+
+        private JoystickAxis ReadJoystickAxis(byte joystickX, byte joystickY, bool isAbsolute)
+        {
+            var analogXValue = ReadFromAnalogPin(joystickX);
+            var analogYValue = ReadFromAnalogPin(joystickY);
+
+            if (isAbsolute)
+            {
+                analogXValue = analogXValue == 0 ? 0 : analogXValue > 0 ? 1 : -1;
+                analogYValue = analogYValue == 0 ? 0 : analogYValue > 0 ? 1 : -1;
+            }
+
             return new JoystickAxis
             {
-                XValue = ReadFromAnalogPin(pinConfiguration.ExtraRightJoyStickX),
-                YValue = ReadFromAnalogPin(pinConfiguration.ExtraRightJoyStickY)
+                XValue = analogXValue,
+                YValue = analogYValue
             };
         }
 
@@ -343,7 +345,15 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public DigitalState ReadKerbalBoard()
+        public DigitalState ReadKerbalJumpButton()
+        {
+            return new DigitalState
+            {
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalJumpButton)
+            };
+        }
+
+        public DigitalState ReadKerbalBoardButton()
         {
             return new DigitalState
             {
@@ -351,7 +361,7 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public DigitalState ReadKerbalParachute()
+        public DigitalState ReadKerbalParachuteButton()
         {
             return new DigitalState
             {
@@ -359,11 +369,19 @@ namespace KerbalKontroller.Clients
             };
         }
 
-        public DigitalState ReadKerbalJetPack()
+        public DigitalState ReadKerbalJetPackButton()
         {
             return new DigitalState
             {
                 Active = ReadFromDigitalPin(pinConfiguration.KerbalJetPackButton)
+            };
+        }
+
+        public DigitalState ReadKerbalConstructionButton()
+        {
+            return new DigitalState
+            {
+                Active = ReadFromDigitalPin(pinConfiguration.KerbalConstructionMode)
             };
         }
 
@@ -555,10 +573,9 @@ namespace KerbalKontroller.Clients
 
         private float AnalogConversor(int analogValue, bool inverted)
         {
-            var deadZone = deadZoneThreshold;
             var convertedValue = (analogValue / HALF_MAXIMUM_INPUT) - 1;
 
-            if (Math.Abs(convertedValue) < deadZone) return 0;
+            if (Math.Abs(convertedValue) < settings.JoystickDeadZone) return 0;
             return inverted ? -convertedValue : convertedValue;
         }
     }

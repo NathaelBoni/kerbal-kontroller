@@ -4,5 +4,6 @@
     {
         public string ArduinoModel { get; set; }
         public float JoystickDeadZone { get; set; }
+        public bool InvertedYAxis { get; set; }
     }
 }
