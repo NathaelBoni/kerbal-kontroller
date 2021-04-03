@@ -101,6 +101,12 @@ namespace KerbalKontroller.Clients
             SetVesselTranslation(joystickAxis, joystickAxisExtra);
         }
 
+        public void SetRoverMovement(JoystickAxis joystickAxis)
+        {
+            ActiveVessel.Control.WheelThrottle = joystickAxis.YValue;
+            ActiveVessel.Control.WheelSteering = joystickAxis.XValue;
+        }
+
         public void SetThrottle(JoystickAxis joystickAxis)
         {
             ActiveVessel.Control.Throttle = joystickAxis.YValue;

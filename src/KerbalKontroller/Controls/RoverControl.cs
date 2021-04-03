@@ -1,8 +1,9 @@
 ﻿using KerbalKontroller.Clients;
 using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
+using KerbalKontroller.Resources.Debounces;
+using KerbalKontroller.Resources.Helpers;
 using Serilog.Core;
-using System;
 
 namespace KerbalKontroller.Controls
 {
@@ -10,12 +11,14 @@ namespace KerbalKontroller.Controls
     {
         private readonly KRPCClient kRPCClient;
         private readonly IHardwareClient hardwareClient;
+        private readonly VesselControlDebounce debounce;
         private readonly Logger logger;
 
         public RoverControl(KRPCClient krpcClient, IHardwareClient hardwareClient, Logger logger)
         {
             this.kRPCClient = krpcClient;
             this.hardwareClient = hardwareClient;
+            debounce = new VesselControlDebounce(hardwareClient);
             this.logger = logger;
         }
 
@@ -23,7 +26,18 @@ namespace KerbalKontroller.Controls
 
         public void ControlLoop()
         {
-            throw new NotImplementedException();
+            var leftJoystick = hardwareClient.ReadLeftJoystick();
+
+            kRPCClient.SetRoverMovement(leftJoystick);
+            kRPCClient.SetBrakes(hardwareClient.ReadBrakesButton());
+
+            ControlHelper.SetSASMode(hardwareClient, kRPCClient).Invoke();
+            ControlHelper.SetToggleSwitches(hardwareClient, kRPCClient);
+            ControlHelper.ActionGroup(debounce, kRPCClient);
+
+            if (debounce.GetStageButtonState()) kRPCClient.Stage();
+
+            debounce.UpdateState();
         }
     }
 }
