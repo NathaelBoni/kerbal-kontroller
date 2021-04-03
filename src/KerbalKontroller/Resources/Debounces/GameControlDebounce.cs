@@ -66,7 +66,6 @@
             return currentQuickLoadButtonState && !lastQuickLoadButtonState;
         }
 
-
         public void UpdateState()
         {
             lastIncreaseTimeWarpButtonState = currentIncreaseTimeWarpButtonState;

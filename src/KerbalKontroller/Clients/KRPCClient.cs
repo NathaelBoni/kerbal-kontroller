@@ -89,6 +89,18 @@ namespace KerbalKontroller.Clients
             ActiveVessel.Control.Forward = joystickAxisExtra.XValue;
         }
 
+        public void SetPlaneRotation(JoystickAxis joystickAxis, JoystickAxis joystickAxisExtra)
+        {
+            ActiveVessel.Control.Pitch = joystickAxis.YValue;
+            ActiveVessel.Control.Yaw = joystickAxisExtra.XValue;
+            ActiveVessel.Control.Roll = joystickAxis.XValue;
+        }
+
+        public void SetPlaneTranslation(JoystickAxis joystickAxis, JoystickAxis joystickAxisExtra)
+        {
+            SetVesselTranslation(joystickAxis, joystickAxisExtra);
+        }
+
         public void SetThrottle(JoystickAxis joystickAxis)
         {
             ActiveVessel.Control.Throttle = joystickAxis.YValue;

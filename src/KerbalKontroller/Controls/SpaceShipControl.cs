@@ -2,8 +2,8 @@
 using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
 using KerbalKontroller.Resources.Debounces;
+using KerbalKontroller.Resources.Helpers;
 using Serilog.Core;
-using System;
 
 namespace KerbalKontroller.Controls
 {
@@ -32,53 +32,17 @@ namespace KerbalKontroller.Controls
             var extraRightJoystick = hardwareClient.ReadExtraRightJoystick();
             var throttleAxis = hardwareClient.ReadAnalogThrottle();
 
-            var landingGearToggle = hardwareClient.ReadLandingGearSwitch();
-            var brakesToggle = hardwareClient.ReadBrakesSwitch();
-            var lightsToggle = hardwareClient.ReadLightsSwitch();
-            var sasToggle = hardwareClient.ReadSASSwitch();
-            var rcsToggle = hardwareClient.ReadRCSSwitch();
-
             kRPCClient.SetVesselRotation(leftJoystick, extraLeftJoystick);
             kRPCClient.SetVesselTranslation(rightJoystick, extraRightJoystick);
             kRPCClient.SetThrottle(throttleAxis);
 
-            SetSASMode().Invoke();
-
-            kRPCClient.SetLandingGear(landingGearToggle);
-            kRPCClient.SetBrakes(brakesToggle);
-            kRPCClient.SetLights(lightsToggle);
-            kRPCClient.SetSASMode(sasToggle);
-            kRPCClient.SetRCSMode(rcsToggle);
+            ControlHelper.SetSASMode(hardwareClient, kRPCClient).Invoke();
+            ControlHelper.SetToggleSwitches(hardwareClient, kRPCClient);
 
             if (debounce.GetAbortButtonState(hardwareClient.ReadAbortButton().Active)) kRPCClient.Abort();
             if (debounce.GetStageButtonState(hardwareClient.ReadStageButton().Active)) kRPCClient.Stage();
 
             debounce.UpdateState();
-        }
-
-        private Action SetSASMode()
-        {
-            if (hardwareClient.ReadSASFreeButton().Active)
-                return kRPCClient.SetSASModeFree;
-            if (hardwareClient.ReadSASManeuverButton().Active)
-                return kRPCClient.SetSASModeManeuver;
-            if (hardwareClient.ReadSASProgradeButton().Active)
-                return kRPCClient.SetSASModePrograde;
-            if (hardwareClient.ReadSASRetrogadeButton().Active)
-                return kRPCClient.SetSASModeRetrograde;
-            if (hardwareClient.ReadSASRadialInButton().Active)
-                return kRPCClient.SetSASModeRadialIn;
-            if (hardwareClient.ReadSASRadialOutButton().Active)
-                return kRPCClient.SetSASModeRadialOut;
-            if (hardwareClient.ReadSASNormalButton().Active)
-                return kRPCClient.SetSASModeNormal;
-            if (hardwareClient.ReadSASAntiNormalButton().Active)
-                return kRPCClient.SetSASModeAntiNormal;
-            if (hardwareClient.ReadSASTargetButton().Active)
-                return kRPCClient.SetSASModeTarget;
-            if (hardwareClient.ReadSASAntiTargetButton().Active)
-                return kRPCClient.SetSASModeAntiTarget;
-            return null;
         }
     }
 }
