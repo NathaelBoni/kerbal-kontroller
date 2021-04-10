@@ -1,12 +1,13 @@
 ﻿using ArduinoDriver.SerialProtocol;
 using ArduinoDriver;
-using ArduinoUploader.Hardware;
 using KerbalKontroller.Config;
 using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
 using System;
 using System.Linq;
 using Serilog.Core;
+using KerbalKontroller.Resources.Attributes;
+using System.Collections.Generic;
 
 namespace KerbalKontroller.Clients
 {
@@ -15,24 +16,29 @@ namespace KerbalKontroller.Clients
         private const float HALF_MAXIMUM_INPUT = 511.5f;
 
         private readonly ArduinoDriver.ArduinoDriver arduinoDriver;
+        private readonly int numberOfDigitalPorts;
+        private readonly byte[] serialPorts;
         private readonly PinConfiguration pinConfiguration;
         private readonly AppSettings settings;
         private readonly Logger logger;
 
-        public ArduinoClient(PinConfiguration pinConfiguration, AppSettings appSettings, ArduinoModel model, Logger logger)
+        public ArduinoClient(PinConfiguration pinConfiguration, AppSettings appSettings, ArduinoInfo model, Logger logger)
         {
             this.logger = logger;
             this.logger.Information("Configuring Arduino...");
 
             try
             {
-                arduinoDriver = new ArduinoDriver.ArduinoDriver(model, true);
+                arduinoDriver = new ArduinoDriver.ArduinoDriver(model.ArduinoModel, true);
             }
             catch (Exception ex)
             {
                 this.logger.Error(ex, "Fatal error - unable to connect to Arduino");
                 throw;
             }
+
+            this.numberOfDigitalPorts = model.NumberOfDigitalPorts;
+            this.serialPorts = new byte[] { 0, 1 };
 
             this.pinConfiguration = pinConfiguration;
             this.settings = appSettings;
@@ -541,22 +547,51 @@ namespace KerbalKontroller.Clients
 
         private void SetInputPins()
         {
-            var inputPins = pinConfiguration.GetType().GetProperties()
-                .Where(_ => _.CustomAttributes.Any(__ => __.AttributeType == typeof(PinModeAttribute) &&
-                    (PinModes)__.ConstructorArguments[0].Value == PinModes.Input));
+            var analogPins = GetAnalogPins(pinConfiguration, PinModes.Input);
+            var digitalPins = GetDigitalPins(pinConfiguration, PinModes.Input);
 
-            foreach (var prop in inputPins)
-                arduinoDriver.Send(new PinModeRequest((byte)prop.GetValue(pinConfiguration), PinMode.Input));
+            var pins = new List<byte>();
+            pins.AddRange(analogPins);
+            pins.AddRange(digitalPins);
+
+            foreach (var pin in pins)
+                arduinoDriver.Send(new PinModeRequest(pin, PinMode.Input));
         }
 
         private void SetOutputPins()
         {
-            var outputPins = pinConfiguration.GetType().GetProperties()
-                .Where(_ => _.CustomAttributes.Any(__ => __.AttributeType == typeof(PinModeAttribute) &&
-                    (PinModes)__.ConstructorArguments[0].Value == PinModes.Output));
+            var analogPins = GetAnalogPins(pinConfiguration, PinModes.Output);
+            var digitalPins = GetDigitalPins(pinConfiguration, PinModes.Output);
 
-            foreach (var prop in outputPins)
-                arduinoDriver.Send(new PinModeRequest((byte)prop.GetValue(pinConfiguration), PinMode.Output));
+            var pins = new List<byte>();
+            pins.AddRange(analogPins);
+            pins.AddRange(digitalPins);
+
+            foreach (var pin in pins)
+                arduinoDriver.Send(new PinModeRequest(pin, PinMode.Output));
+        }
+
+        private IEnumerable<byte> GetAnalogPins(PinConfiguration pins, PinModes pinMode)
+        {
+            return pins.GetType().GetProperties()
+                .Where(_ => _.CustomAttributes.Any(__ => __.AttributeType == typeof(PinTypeAttribute) &&
+                    (PinTypes)__.ConstructorArguments[0].Value == PinTypes.Analog))
+                .Where(_ => _.CustomAttributes.Any(__ => __.AttributeType == typeof(PinModeAttribute) &&
+                    (PinModes)__.ConstructorArguments[0].Value == pinMode))
+                .Select(_ => (byte)_.GetValue(pinConfiguration))
+                .Where(_ => !serialPorts.Contains(_))
+                .Select(_ => (byte)(_ + numberOfDigitalPorts));
+        }
+
+        private IEnumerable<byte> GetDigitalPins(PinConfiguration pins, PinModes pinMode)
+        {
+            return pins.GetType().GetProperties()
+                .Where(_ => _.CustomAttributes.Any(__ => __.AttributeType == typeof(PinTypeAttribute) &&
+                    (PinTypes)__.ConstructorArguments[0].Value == PinTypes.Digital))
+                .Where(_ => _.CustomAttributes.Any(__ => __.AttributeType == typeof(PinModeAttribute) &&
+                    (PinModes)__.ConstructorArguments[0].Value == pinMode))
+                .Select(_ => (byte)_.GetValue(pinConfiguration))
+                .Where(_ => !serialPorts.Contains(_));
         }
 
         private float ReadFromAnalogPin(byte pin, bool inverted = false)

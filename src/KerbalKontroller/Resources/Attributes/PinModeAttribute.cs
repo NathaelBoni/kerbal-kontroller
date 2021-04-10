@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KerbalKontroller.Resources
+namespace KerbalKontroller.Resources.Attributes
 {
     public class PinModeAttribute : Attribute
     {

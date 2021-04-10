@@ -3,6 +3,7 @@ using KerbalKontroller.Clients;
 using KerbalKontroller.Config;
 using KerbalKontroller.Controls;
 using KerbalKontroller.Interfaces;
+using KerbalKontroller.Resources;
 using KerbalKontroller.Resources.Factories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,7 +59,7 @@ namespace KerbalKontroller
                 var appSettings = _.GetService<AppSettings>();
                 var logger = _.GetService<Logger>();
 
-                return new ArduinoClient(pinConfiguration, appSettings, GetArduinoModel(appSettings.ArduinoModel), logger);
+                return new ArduinoClient(pinConfiguration, appSettings, GetArduinoInfo(appSettings.ArduinoModel), logger);
             });
 
             services.AddSingleton<KeyboardInputClient>();
@@ -74,20 +75,18 @@ namespace KerbalKontroller
             return services.BuildServiceProvider();
         }
 
-        private static ArduinoModel GetArduinoModel(string model)
+        private static ArduinoInfo GetArduinoInfo(string model)
         {
             switch (model)
             {
                 case "leonardo":
-                    return ArduinoModel.Leonardo;
+                    return new ArduinoInfo { ArduinoModel = ArduinoModel.Leonardo, NumberOfDigitalPorts = 14 };
                 case "uno":
-                    return ArduinoModel.UnoR3;
-                case "mega1284":
-                    return ArduinoModel.Mega1284;
-                case "mega2560":
-                    return ArduinoModel.Mega2560;
+                    return new ArduinoInfo { ArduinoModel = ArduinoModel.UnoR3, NumberOfDigitalPorts = 14 };
+                case "mega":
+                    return new ArduinoInfo { ArduinoModel = ArduinoModel.Mega2560, NumberOfDigitalPorts = 54 };
                 default:
-                    throw new NotSupportedException("Arduino model not accepted. Possible choices are: leonardo, uno, mega1284 or mega2560");
+                    throw new NotSupportedException("Arduino model not accepted. Possible choices are: leonardo | uno | mega");
             }
         }
     }
