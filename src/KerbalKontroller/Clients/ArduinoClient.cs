@@ -505,12 +505,17 @@ namespace KerbalKontroller.Clients
             WriteToDigitalPin(pinConfiguration.SASFreeLed, ledState);
         }
 
+        public void WriteSASManeuverLed(bool ledState)
+        {
+            WriteToDigitalPin(pinConfiguration.SASManeuverButton, ledState);
+        }
+
         public void WriteSASProgradeLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASProgradeLed, ledState);
         }
 
-        public void WriteSASRetrogadeLed(bool ledState)
+        public void WriteSASRetrogradeLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASRetrogadeLed, ledState);
         }

@@ -64,8 +64,9 @@ namespace KerbalKontroller.Interfaces
         void WriteRCSLed(bool ledState);
         void WritePrecisionLed(bool ledState);
         void WriteSASFreeLed(bool ledState);
+        void WriteSASManeuverLed(bool ledState);
         void WriteSASProgradeLed(bool ledState);
-        void WriteSASRetrogadeLed(bool ledState);
+        void WriteSASRetrogradeLed(bool ledState);
         void WriteSASRadialInLed(bool ledState);
         void WriteSASRadialOutLed(bool ledState);
         void WriteSASNormalLed(bool ledState);
