@@ -31,7 +31,7 @@ namespace KerbalKontroller.Controls
             kRPCClient.SetRoverMovement(leftJoystick);
             kRPCClient.SetBrakes(hardwareClient.ReadBrakesButton());
 
-            ControlHelper.SetSASMode(hardwareClient, kRPCClient).Invoke();
+            ControlHelper.SetSASMode(hardwareClient, kRPCClient);
             ControlHelper.SetToggleSwitches(hardwareClient, kRPCClient);
             ControlHelper.ActionGroup(debounce, kRPCClient);
 

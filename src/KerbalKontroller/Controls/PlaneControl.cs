@@ -36,7 +36,7 @@ namespace KerbalKontroller.Controls
             kspClient.SetPlaneTranslation(rightJoystick, extraRightJoystick);
             kspClient.SetThrottle(throttleAxis);
 
-            ControlHelper.SetSASMode(hardwareClient, kspClient).Invoke();
+            ControlHelper.SetSASMode(hardwareClient, kspClient);
             ControlHelper.SetToggleSwitches(hardwareClient, kspClient);
             ControlHelper.ActionGroup(debounce, kspClient);
 

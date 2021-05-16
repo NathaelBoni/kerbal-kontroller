@@ -20,6 +20,8 @@ namespace KerbalKontroller.Clients
         private readonly byte[] serialPorts;
         private readonly PinConfiguration pinConfiguration;
         private readonly AppSettings settings;
+        private readonly IDictionary<SASModes, byte> SASModeToLedPin;
+        private readonly IDictionary<byte, SASModes> ButtonPinToSASMode;
         private readonly Logger logger;
 
         public ArduinoClient(PinConfiguration pinConfiguration, AppSettings appSettings, ArduinoInfo model, Logger logger)
@@ -46,7 +48,43 @@ namespace KerbalKontroller.Clients
             SetInputPins();
             SetOutputPins();
 
+            this.SASModeToLedPin = CreateSASModeToLedPinConversion();
+            this.ButtonPinToSASMode = CreateButtonPinToSASModeConversion();
             this.logger.Information("Arduino configured!");
+        }
+
+        private IDictionary<SASModes, byte> CreateSASModeToLedPinConversion()
+        {
+            return new Dictionary<SASModes, byte>()
+            {
+                { SASModes.Free, pinConfiguration.SASFreeLed },
+                { SASModes.Maneuver, pinConfiguration.SASManeuverLed },
+                { SASModes.Prograde, pinConfiguration.SASProgradeLed },
+                { SASModes.Retrograde, pinConfiguration.SASRetrogradeLed },
+                { SASModes.RadialIn, pinConfiguration.SASRadialInLed },
+                { SASModes.RadialOut, pinConfiguration.SASRadialOutLed },
+                { SASModes.Normal, pinConfiguration.SASNormalLed },
+                { SASModes.AntiNormal, pinConfiguration.SASAntiNormalLed },
+                { SASModes.Target, pinConfiguration.SASTargetLed },
+                { SASModes.AntiTarget, pinConfiguration.SASAntiTargetLed }
+            };
+        }
+
+        private IDictionary<byte, SASModes> CreateButtonPinToSASModeConversion()
+        {
+            return new Dictionary<byte, SASModes>()
+            {
+                { pinConfiguration.SASFreeButton, SASModes.Free },
+                { pinConfiguration.SASManeuverButton, SASModes.Maneuver },
+                { pinConfiguration.SASProgradeButton, SASModes.Prograde },
+                { pinConfiguration.SASRetrogradeButton, SASModes.Retrograde },
+                { pinConfiguration.SASRadialInButton, SASModes.RadialIn },
+                { pinConfiguration.SASRadialOutButton, SASModes.RadialOut },
+                { pinConfiguration.SASNormalButton, SASModes.Normal },
+                { pinConfiguration.SASAntiNormalButton, SASModes.AntiNormal },
+                { pinConfiguration.SASTargetButton, SASModes.Target },
+                { pinConfiguration.SASAntiTargetButton, SASModes.AntiTarget }
+            };
         }
 
         public JoystickAxis ReadLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
@@ -254,6 +292,16 @@ namespace KerbalKontroller.Clients
             };
         }
 
+        public SASModes? ReadSASModesButtons()
+        {
+            foreach (var pinToSASModePair in ButtonPinToSASMode)
+            {
+                if (ReadFromDigitalPin(pinToSASModePair.Key))
+                    return pinToSASModePair.Value;
+            }
+            return null;
+        }
+
         public DigitalState ReadSASFreeButton()
         {
             return new DigitalState
@@ -282,7 +330,7 @@ namespace KerbalKontroller.Clients
         {
             return new DigitalState
             {
-                Active = ReadFromDigitalPin(pinConfiguration.SASRetrogadeButton)
+                Active = ReadFromDigitalPin(pinConfiguration.SASRetrogradeButton)
             };
         }
 
@@ -500,6 +548,17 @@ namespace KerbalKontroller.Clients
             WriteToDigitalPin(pinConfiguration.PrecisionLed, ledState);
         }
 
+        public void WriteSASModeLed(SASModes sasMode)
+        {
+            foreach(var sasModeToPinPair in SASModeToLedPin)
+            {
+                if(sasModeToPinPair.Key == sasMode)
+                    WriteToDigitalPin(sasModeToPinPair.Value, true);
+                else
+                    WriteToDigitalPin(sasModeToPinPair.Value, false);
+            }
+        }
+
         public void WriteSASFreeLed(bool ledState)
         {
             WriteToDigitalPin(pinConfiguration.SASFreeLed, ledState);
@@ -517,7 +576,7 @@ namespace KerbalKontroller.Clients
 
         public void WriteSASRetrogradeLed(bool ledState)
         {
-            WriteToDigitalPin(pinConfiguration.SASRetrogadeLed, ledState);
+            WriteToDigitalPin(pinConfiguration.SASRetrogradeLed, ledState);
         }
 
         public void WriteSASRadialInLed(bool ledState)

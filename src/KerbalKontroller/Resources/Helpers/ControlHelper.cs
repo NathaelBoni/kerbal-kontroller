@@ -1,40 +1,18 @@
-﻿using KerbalKontroller.Clients;
-using KerbalKontroller.Interfaces;
+﻿using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources.Debounces;
-using System;
 
 namespace KerbalKontroller.Resources.Helpers
 {
     public static class ControlHelper
     {
-        public static Action SetSASMode(IHardwareClient hardwareClient, IKSPClient kspClient)
+        public static void SetSASMode(IHardwareClient hardwareClient, IKSPClient kspClient)
         {
-            if (hardwareClient.ReadSASFreeButton().Active)
-                return kspClient.SetSASModeFree;
-            if (hardwareClient.ReadSASManeuverButton().Active)
-                return kspClient.SetSASModeManeuver;
-            if (hardwareClient.ReadSASProgradeButton().Active)
-                return kspClient.SetSASModePrograde;
-            if (hardwareClient.ReadSASRetrogadeButton().Active)
-                return kspClient.SetSASModeRetrograde;
-            if (hardwareClient.ReadSASRadialInButton().Active)
-                return kspClient.SetSASModeRadialIn;
-            if (hardwareClient.ReadSASRadialOutButton().Active)
-                return kspClient.SetSASModeRadialOut;
-            if (hardwareClient.ReadSASNormalButton().Active)
-                return kspClient.SetSASModeNormal;
-            if (hardwareClient.ReadSASAntiNormalButton().Active)
-                return kspClient.SetSASModeAntiNormal;
-            if (hardwareClient.ReadSASTargetButton().Active)
-                return kspClient.SetSASModeTarget;
-            if (hardwareClient.ReadSASAntiTargetButton().Active)
-                return kspClient.SetSASModeAntiTarget;
-            return () => { };
-        }
+            var sasMode = hardwareClient.ReadSASModesButtons();
+            if (sasMode == null || sasMode == kspClient.GetSASMode())
+                return;
 
-        public static void WriteSasLed(IHardwareClient hardwareClient, IKSPClient kspClient)
-        {
-            var sasMode = kspClient.GetSASMode();
+            kspClient.SetSASMode(sasMode.Value);
+            hardwareClient.WriteSASModeLed(sasMode.Value);
         }
 
         public static void SetToggleSwitches(IHardwareClient hardwareClient, IKSPClient kspClient)
@@ -48,7 +26,7 @@ namespace KerbalKontroller.Resources.Helpers
             kspClient.SetLandingGear(landingGearToggle);
             kspClient.SetBrakes(brakesToggle);
             kspClient.SetLights(lightsToggle);
-            kspClient.SetSASMode(sasToggle);
+            kspClient.SetSASActive(sasToggle);
             kspClient.SetRCSMode(rcsToggle);
         }
 

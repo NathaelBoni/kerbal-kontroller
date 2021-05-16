@@ -136,7 +136,7 @@ namespace KerbalKontroller.Clients
             ActiveVessel.Control.Lights = digitalState.Active;
         }
 
-        public void SetSASMode(DigitalState digitalState)
+        public void SetSASActive(DigitalState digitalState)
         {
             ActiveVessel.Control.SAS = digitalState.Active;
         }
@@ -166,6 +166,11 @@ namespace KerbalKontroller.Clients
         public SASModes GetSASMode()
         {
             return (SASModes)ActiveVessel.Control.SASMode;
+        }
+
+        public void SetSASMode(SASModes sasMode)
+        {
+            ActiveVessel.Control.SASMode = (SASMode)sasMode;
         }
 
         public void SetSASModeFree() => SetSASMode(SASMode.StabilityAssist);

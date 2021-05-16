@@ -20,12 +20,13 @@ namespace KerbalKontroller.Interfaces
         void SetLandingGear(DigitalState digitalState);
         void SetBrakes(DigitalState digitalState);
         void SetLights(DigitalState digitalState);
-        void SetSASMode(DigitalState digitalState);
+        void SetSASActive(DigitalState digitalState);
         void SetRCSMode(DigitalState digitalState);
         void Abort();
         void Stage();
         void ActivateAction(uint actionGroup);
         SASModes GetSASMode();
+        void SetSASMode(SASModes sasMode);
         void SetSASModeFree();
         void SetSASModeManeuver();
         void SetSASModePrograde();

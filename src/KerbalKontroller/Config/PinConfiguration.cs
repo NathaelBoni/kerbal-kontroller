@@ -72,7 +72,7 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
         public byte SASProgradeButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte SASRetrogadeButton { get; set; }
+        public byte SASRetrogradeButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
         public byte SASRadialInButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
@@ -134,9 +134,11 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
         public byte SASFreeLed { get; set; }
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
+        public byte SASManeuverLed { get; set; }
+        [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
         public byte SASProgradeLed { get; set; }
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASRetrogadeLed { get; set; }
+        public byte SASRetrogradeLed { get; set; }
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
         public byte SASRadialInLed { get; set; }
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]

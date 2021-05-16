@@ -8,8 +8,8 @@
         Retrograde = 3,
         Normal = 4,
         AntiNormal = 5,
-        Radial = 6,
-        AntiRadial = 7,
+        RadialIn = 6,
+        RadialOut = 7,
         Target = 8,
         AntiTarget = 9
     }

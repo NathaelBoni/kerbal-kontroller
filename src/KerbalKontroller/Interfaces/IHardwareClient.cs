@@ -30,6 +30,7 @@ namespace KerbalKontroller.Interfaces
         DigitalState ReadAction8Button();
         DigitalState ReadAction9Button();
         DigitalState ReadAction10Button();
+        SASModes? ReadSASModesButtons();
         DigitalState ReadSASFreeButton();
         DigitalState ReadSASManeuverButton();
         DigitalState ReadSASProgradeButton();
@@ -63,6 +64,7 @@ namespace KerbalKontroller.Interfaces
         void WriteSASLed(bool ledState);
         void WriteRCSLed(bool ledState);
         void WritePrecisionLed(bool ledState);
+        void WriteSASModeLed(SASModes sasMode);
         void WriteSASFreeLed(bool ledState);
         void WriteSASManeuverLed(bool ledState);
         void WriteSASProgradeLed(bool ledState);
