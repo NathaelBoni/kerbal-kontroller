@@ -5,7 +5,7 @@ namespace KerbalKontroller.Interfaces
 {
     public interface IControl
     {
-        ControlType ControlType { get; }
+        VesselTypes ControlType { get; }
         void ControlLoop();
     }
 }

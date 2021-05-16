@@ -10,22 +10,22 @@ namespace KerbalKontroller.Controls
 {
     public class KerbalControl : IControl
     {
-        private readonly KRPCClient kRPCClient;
+        private readonly IKSPClient kspClient;
         private readonly IHardwareClient hardwareClient;
         private readonly KeyboardInputClient keyboardInputClient;
         private readonly KerbalControlDebounce debounce;
         private readonly Logger logger;
 
-        public KerbalControl(KRPCClient krpcClient, IHardwareClient hardwareClient, KeyboardInputClient keyboardInputClient, Logger logger)
+        public KerbalControl(IKSPClient kspClient, IHardwareClient hardwareClient, KeyboardInputClient keyboardInputClient, Logger logger)
         {
-            this.kRPCClient = krpcClient;
+            this.kspClient = kspClient;
             this.hardwareClient = hardwareClient;
             this.keyboardInputClient = keyboardInputClient;
             debounce = new KerbalControlDebounce(hardwareClient);
             this.logger = logger;
         }
 
-        public ControlType ControlType => ControlType.Kerbal;
+        public VesselTypes ControlType => VesselTypes.Kerbal;
 
         public void ControlLoop()
         {
@@ -44,7 +44,7 @@ namespace KerbalKontroller.Controls
             else if (extraLeftJoystick.YValue < 0) keyboardInputClient.KerbalJetPackDown();
             else keyboardInputClient.KerbalStopVerticalMovement();
 
-            ControlHelper.SetToggleSwitches(hardwareClient, kRPCClient);
+            ControlHelper.SetToggleSwitches(hardwareClient, kspClient);
 
             if (debounce.GetKerbalUseButtonState()) keyboardInputClient.KerbalUse();
             if (debounce.GetKerbalJumpButtonState()) keyboardInputClient.KerbalJump();

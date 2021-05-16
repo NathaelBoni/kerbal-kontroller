@@ -51,7 +51,7 @@ namespace KerbalKontroller
                 return config.Get<AppSettings>();
             });
 
-            services.AddSingleton<KRPCClient>();
+            services.AddSingleton<IKSPClient, KRPCClient>();
 
             services.AddSingleton<IHardwareClient>(_ =>
             {

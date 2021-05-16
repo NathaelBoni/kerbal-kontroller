@@ -7,32 +7,37 @@ namespace KerbalKontroller.Resources.Helpers
 {
     public static class ControlHelper
     {
-        public static Action SetSASMode(IHardwareClient hardwareClient, KRPCClient kRPCClient)
+        public static Action SetSASMode(IHardwareClient hardwareClient, IKSPClient kspClient)
         {
             if (hardwareClient.ReadSASFreeButton().Active)
-                return kRPCClient.SetSASModeFree;
+                return kspClient.SetSASModeFree;
             if (hardwareClient.ReadSASManeuverButton().Active)
-                return kRPCClient.SetSASModeManeuver;
+                return kspClient.SetSASModeManeuver;
             if (hardwareClient.ReadSASProgradeButton().Active)
-                return kRPCClient.SetSASModePrograde;
+                return kspClient.SetSASModePrograde;
             if (hardwareClient.ReadSASRetrogadeButton().Active)
-                return kRPCClient.SetSASModeRetrograde;
+                return kspClient.SetSASModeRetrograde;
             if (hardwareClient.ReadSASRadialInButton().Active)
-                return kRPCClient.SetSASModeRadialIn;
+                return kspClient.SetSASModeRadialIn;
             if (hardwareClient.ReadSASRadialOutButton().Active)
-                return kRPCClient.SetSASModeRadialOut;
+                return kspClient.SetSASModeRadialOut;
             if (hardwareClient.ReadSASNormalButton().Active)
-                return kRPCClient.SetSASModeNormal;
+                return kspClient.SetSASModeNormal;
             if (hardwareClient.ReadSASAntiNormalButton().Active)
-                return kRPCClient.SetSASModeAntiNormal;
+                return kspClient.SetSASModeAntiNormal;
             if (hardwareClient.ReadSASTargetButton().Active)
-                return kRPCClient.SetSASModeTarget;
+                return kspClient.SetSASModeTarget;
             if (hardwareClient.ReadSASAntiTargetButton().Active)
-                return kRPCClient.SetSASModeAntiTarget;
+                return kspClient.SetSASModeAntiTarget;
             return () => { };
         }
 
-        public static void SetToggleSwitches(IHardwareClient hardwareClient, KRPCClient kRPCClient)
+        public static void WriteSasLed(IHardwareClient hardwareClient, IKSPClient kspClient)
+        {
+            var sasMode = kspClient.GetSASMode();
+        }
+
+        public static void SetToggleSwitches(IHardwareClient hardwareClient, IKSPClient kspClient)
         {
             var landingGearToggle = hardwareClient.ReadLandingGearSwitch();
             var brakesToggle = hardwareClient.ReadBrakesSwitch();
@@ -40,25 +45,25 @@ namespace KerbalKontroller.Resources.Helpers
             var sasToggle = hardwareClient.ReadSASSwitch();
             var rcsToggle = hardwareClient.ReadRCSSwitch();
 
-            kRPCClient.SetLandingGear(landingGearToggle);
-            kRPCClient.SetBrakes(brakesToggle);
-            kRPCClient.SetLights(lightsToggle);
-            kRPCClient.SetSASMode(sasToggle);
-            kRPCClient.SetRCSMode(rcsToggle);
+            kspClient.SetLandingGear(landingGearToggle);
+            kspClient.SetBrakes(brakesToggle);
+            kspClient.SetLights(lightsToggle);
+            kspClient.SetSASMode(sasToggle);
+            kspClient.SetRCSMode(rcsToggle);
         }
 
-        public static void ActionGroup(VesselControlDebounce debounce, KRPCClient kRPCClient)
+        public static void ActionGroup(VesselControlDebounce debounce, IKSPClient kspClient)
         {
-            if (debounce.GetAction1ButtonState()) kRPCClient.ActivateAction(1);
-            if (debounce.GetAction2ButtonState()) kRPCClient.ActivateAction(2);
-            if (debounce.GetAction3ButtonState()) kRPCClient.ActivateAction(3);
-            if (debounce.GetAction4ButtonState()) kRPCClient.ActivateAction(4);
-            if (debounce.GetAction5ButtonState()) kRPCClient.ActivateAction(5);
-            if (debounce.GetAction6ButtonState()) kRPCClient.ActivateAction(6);
-            if (debounce.GetAction7ButtonState()) kRPCClient.ActivateAction(7);
-            if (debounce.GetAction8ButtonState()) kRPCClient.ActivateAction(8);
-            if (debounce.GetAction9ButtonState()) kRPCClient.ActivateAction(9);
-            if (debounce.GetAction10ButtonState()) kRPCClient.ActivateAction(10);
+            if (debounce.GetAction1ButtonState()) kspClient.ActivateAction(1);
+            if (debounce.GetAction2ButtonState()) kspClient.ActivateAction(2);
+            if (debounce.GetAction3ButtonState()) kspClient.ActivateAction(3);
+            if (debounce.GetAction4ButtonState()) kspClient.ActivateAction(4);
+            if (debounce.GetAction5ButtonState()) kspClient.ActivateAction(5);
+            if (debounce.GetAction6ButtonState()) kspClient.ActivateAction(6);
+            if (debounce.GetAction7ButtonState()) kspClient.ActivateAction(7);
+            if (debounce.GetAction8ButtonState()) kspClient.ActivateAction(8);
+            if (debounce.GetAction9ButtonState()) kspClient.ActivateAction(9);
+            if (debounce.GetAction10ButtonState()) kspClient.ActivateAction(10);
         }
     }
 }

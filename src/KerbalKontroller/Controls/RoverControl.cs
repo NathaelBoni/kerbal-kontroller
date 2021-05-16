@@ -22,7 +22,7 @@ namespace KerbalKontroller.Controls
             this.logger = logger;
         }
 
-        public ControlType ControlType => ControlType.Rover;
+        public VesselTypes ControlType => VesselTypes.Rover;
 
         public void ControlLoop()
         {

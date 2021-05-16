@@ -10,17 +10,15 @@ namespace KerbalKontroller.Controls
 {
     public class GameControl
     {
-        private readonly KRPCClient kRPCClient;
+        private readonly IKSPClient kspClient;
         private readonly KeyboardInputClient keyboardInputClient;
-        private readonly ControlFactory controlFactory;
         private readonly GameControlDebounce debounce;
         private readonly Logger logger;
 
-        public GameControl(KRPCClient kRPCClient, KeyboardInputClient keyboardInputClient, ControlFactory controlFactory, IHardwareClient hardwareClient, Logger logger)
+        public GameControl(IKSPClient kspClient, KeyboardInputClient keyboardInputClient, IHardwareClient hardwareClient, Logger logger)
         {
-            this.kRPCClient = kRPCClient;
+            this.kspClient = kspClient;
             this.keyboardInputClient = keyboardInputClient;
-            this.controlFactory = controlFactory;
             debounce = new GameControlDebounce(hardwareClient);
             this.logger = logger;
         }
@@ -29,19 +27,14 @@ namespace KerbalKontroller.Controls
         {
             logger.Information("Controls added - starting KerbalKontroller");
 
-            Vessel activeVessel;
-            Action controlAction;
-
             while (true)
             {
-                if (kRPCClient.IsGamePaused() || !kRPCClient.IsInFlight())
+                if (kspClient.IsGamePaused() || !kspClient.IsInFlight())
                     continue;
-
-                activeVessel = kRPCClient.GetActiveVessel();
 
                 try
                 {
-                    controlAction = controlFactory.GetControlAction(activeVessel);
+                    var controlAction = kspClient.GetActiveVesselControl();
                     controlAction.Invoke();
                 }
                 catch (Exception ex)
@@ -56,9 +49,9 @@ namespace KerbalKontroller.Controls
                 if (debounce.GetPreviousVesselButtonState()) keyboardInputClient.PreviousVessel();
                 if (debounce.GetCameraCycleButtonState()) keyboardInputClient.CameraCycle();
                 if (debounce.GetOrbitalViewButtonState()) keyboardInputClient.SetOrbitalView();
-                if (debounce.GetPauseButtonState()) kRPCClient.SetPaused();
-                if (debounce.GetQuickSaveButtonState()) kRPCClient.QuickSave();
-                if (debounce.GetQuickLoadButtonState()) kRPCClient.QuickLoad();
+                if (debounce.GetPauseButtonState()) kspClient.SetPaused();
+                if (debounce.GetQuickSaveButtonState()) kspClient.QuickSave();
+                if (debounce.GetQuickLoadButtonState()) kspClient.QuickLoad();
             }
         }
     }

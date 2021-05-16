@@ -9,20 +9,20 @@ namespace KerbalKontroller.Controls
 {
     public class PlaneControl : IControl
     {
-        private readonly KRPCClient kRPCClient;
+        private readonly IKSPClient kspClient;
         private readonly IHardwareClient hardwareClient;
         private readonly VesselControlDebounce debounce;
         private readonly Logger logger;
 
-        public PlaneControl(KRPCClient krpcClient, IHardwareClient hardwareClient, Logger logger)
+        public PlaneControl(IKSPClient kspClient, IHardwareClient hardwareClient, Logger logger)
         {
-            this.kRPCClient = krpcClient;
+            this.kspClient = kspClient;
             this.hardwareClient = hardwareClient;
             debounce = new VesselControlDebounce(hardwareClient);
             this.logger = logger;
         }
 
-        public ControlType ControlType => ControlType.Plane;
+        public VesselTypes ControlType => VesselTypes.Plane;
 
         public void ControlLoop()
         {
@@ -32,15 +32,15 @@ namespace KerbalKontroller.Controls
             var extraRightJoystick = hardwareClient.ReadExtraRightJoystick();
             var throttleAxis = hardwareClient.ReadAnalogThrottle();
 
-            kRPCClient.SetPlaneRotation(leftJoystick, extraLeftJoystick);
-            kRPCClient.SetPlaneTranslation(rightJoystick, extraRightJoystick);
-            kRPCClient.SetThrottle(throttleAxis);
+            kspClient.SetPlaneRotation(leftJoystick, extraLeftJoystick);
+            kspClient.SetPlaneTranslation(rightJoystick, extraRightJoystick);
+            kspClient.SetThrottle(throttleAxis);
 
-            ControlHelper.SetSASMode(hardwareClient, kRPCClient).Invoke();
-            ControlHelper.SetToggleSwitches(hardwareClient, kRPCClient);
-            ControlHelper.ActionGroup(debounce, kRPCClient);
+            ControlHelper.SetSASMode(hardwareClient, kspClient).Invoke();
+            ControlHelper.SetToggleSwitches(hardwareClient, kspClient);
+            ControlHelper.ActionGroup(debounce, kspClient);
 
-            kRPCClient.SetBrakes(hardwareClient.ReadBrakesButton());
+            kspClient.SetBrakes(hardwareClient.ReadBrakesButton());
 
             debounce.UpdateState();
         }

@@ -1,4 +1,6 @@
-﻿using KerbalKontroller.Resources;
+﻿using KerbalKontroller.Interfaces;
+using KerbalKontroller.Resources;
+using KerbalKontroller.Resources.Factories;
 using KRPC.Client;
 using KRPC.Client.Services.KRPC;
 using KRPC.Client.Services.SpaceCenter;
@@ -8,16 +10,18 @@ using System;
 
 namespace KerbalKontroller.Clients
 {
-    public class KRPCClient
+    public class KRPCClient : IKSPClient
     {
         private readonly KRPC.Client.Services.SpaceCenter.Service spaceCenter;
         private readonly KRPC.Client.Services.KRPC.Service krpc;
+        private readonly ControlFactory controlFactory;
         private readonly Logger logger;
         private Vessel ActiveVessel;
 
-        public KRPCClient(Logger logger)
+        public KRPCClient(Logger logger, ControlFactory controlFactory)
         {
             this.logger = logger;
+            this.controlFactory = controlFactory;
 
             this.logger.Information($"Connecting to KRPC...");
 
@@ -52,17 +56,22 @@ namespace KerbalKontroller.Clients
             return circuitBreakerPolicy.Wrap(retryPolicy);
         }
 
-        public Vessel GetActiveVessel()
+        public Action GetActiveVesselControl()
         {
             try
             {
-                ActiveVessel = spaceCenter.ActiveVessel;
-                return ActiveVessel;
+                UpdateActiveVessel();
+                return controlFactory.GetControlAction(ActiveVessel);
             }
             catch
             {
                 return null;
             }
+        }
+
+        private void UpdateActiveVessel()
+        {
+            ActiveVessel = spaceCenter.ActiveVessel;
         }
 
         public bool IsInFlight() => krpc.CurrentGameScene == GameScene.Flight;
@@ -154,6 +163,11 @@ namespace KerbalKontroller.Clients
             ActiveVessel.Control.ToggleActionGroup(actionGroup);
         }
 
+        public SASModes GetSASMode()
+        {
+            return (SASModes)ActiveVessel.Control.SASMode;
+        }
+
         public void SetSASModeFree() => SetSASMode(SASMode.StabilityAssist);
         public void SetSASModeManeuver() => SetSASMode(SASMode.Maneuver);
         public void SetSASModePrograde() => SetSASMode(SASMode.Prograde);
@@ -167,8 +181,7 @@ namespace KerbalKontroller.Clients
 
         private void SetSASMode(SASMode sasMode)
         {
-            var vessel = GetActiveVessel();
-            vessel.Control.SASMode = sasMode;
+            ActiveVessel.Control.SASMode = sasMode;
         }
     }
 }

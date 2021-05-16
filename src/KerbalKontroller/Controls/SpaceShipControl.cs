@@ -9,20 +9,20 @@ namespace KerbalKontroller.Controls
 {
     public class SpaceShipControl : IControl
     {
-        private readonly KRPCClient kRPCClient;
+        private readonly IKSPClient kspClient;
         private readonly IHardwareClient hardwareClient;
         private VesselControlDebounce debounce;
         private readonly Logger logger;
 
-        public SpaceShipControl(KRPCClient krpcClient, IHardwareClient hardwareClient, Logger logger)
+        public SpaceShipControl(IKSPClient kspClient, IHardwareClient hardwareClient, Logger logger)
         {
-            this.kRPCClient = krpcClient;
+            this.kspClient = kspClient;
             this.hardwareClient = hardwareClient;
             debounce = new VesselControlDebounce(hardwareClient);
             this.logger = logger;
         }
 
-        public ControlType ControlType => ControlType.SpaceShip;
+        public VesselTypes ControlType => VesselTypes.SpaceShip;
 
         public void ControlLoop()
         {
@@ -33,16 +33,16 @@ namespace KerbalKontroller.Controls
             var extraRightJoystick = hardwareClient.ReadExtraRightJoystick();
             var throttleAxis = hardwareClient.ReadAnalogThrottle();
 
-            kRPCClient.SetVesselRotation(leftJoystick, extraLeftJoystick);
-            kRPCClient.SetVesselTranslation(rightJoystick, extraRightJoystick);
-            kRPCClient.SetThrottle(throttleAxis);
+            kspClient.SetVesselRotation(leftJoystick, extraLeftJoystick);
+            kspClient.SetVesselTranslation(rightJoystick, extraRightJoystick);
+            kspClient.SetThrottle(throttleAxis);
 
-            ControlHelper.SetSASMode(hardwareClient, kRPCClient).Invoke();
-            ControlHelper.SetToggleSwitches(hardwareClient, kRPCClient);
-            ControlHelper.ActionGroup(debounce, kRPCClient);
+            ControlHelper.SetSASMode(hardwareClient, kspClient).Invoke();
+            ControlHelper.SetToggleSwitches(hardwareClient, kspClient);
+            ControlHelper.ActionGroup(debounce, kspClient);
 
-            if (debounce.GetAbortButtonState()) kRPCClient.Abort();
-            if (debounce.GetStageButtonState()) kRPCClient.Stage();
+            if (debounce.GetAbortButtonState()) kspClient.Abort();
+            if (debounce.GetStageButtonState()) kspClient.Stage();
 
             debounce.UpdateState();
         }

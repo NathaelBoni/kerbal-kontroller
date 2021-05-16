@@ -236,6 +236,7 @@
     <Compile Include="Clients\ArduinoClient.cs" />
     <Compile Include="Clients\KeyboardInputClient.cs" />
     <Compile Include="Controls\GameControl.cs" />
+    <Compile Include="Interfaces\IKSPClient.cs" />
     <Compile Include="Resources\ArduinoInfo.cs" />
     <Compile Include="Resources\Attributes\PinTypeAttribute.cs" />
     <Compile Include="Resources\Debounces\KerbalControlDebounce.cs" />
@@ -247,7 +248,7 @@
     <Compile Include="Controls\SpaceShipControl.cs" />
     <Compile Include="Interfaces\IControl.cs" />
     <Compile Include="Resources\DigitalState.cs" />
-    <Compile Include="Resources\ControlType.cs" />
+    <Compile Include="Resources\VesselTypes.cs" />
     <Compile Include="Resources\Factories\ControlFactory.cs" />
     <Compile Include="Resources\Helpers\ControlHelper.cs" />
     <Compile Include="Resources\JoystickAxis.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Resources\PinModes.cs" />
     <Compile Include="Resources\Attributes\PinModeAttribute.cs" />
     <Compile Include="Resources\PinTypes.cs" />
+    <Compile Include="Resources\SASModes.cs" />
     <Compile Include="ServiceConfigurator.cs" />
   </ItemGroup>
   <ItemGroup>

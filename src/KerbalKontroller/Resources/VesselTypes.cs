@@ -1,6 +1,6 @@
 ﻿namespace KerbalKontroller.Resources
 {
-    public enum ControlType
+    public enum VesselTypes
     {
         SpaceShip,
         Plane,

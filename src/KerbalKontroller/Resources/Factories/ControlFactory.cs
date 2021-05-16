@@ -19,10 +19,10 @@ namespace KerbalKontroller.Resources.Factories
 
         public ControlFactory(IEnumerable<IControl> controls)
         {
-            spaceShipControl = controls.FirstOrDefault(_ => _.ControlType == ControlType.SpaceShip);
-            planeControl = controls.FirstOrDefault(_ => _.ControlType == ControlType.Plane);
-            roverControl = controls.FirstOrDefault(_ => _.ControlType == ControlType.Rover);
-            kerbalControl = controls.FirstOrDefault(_ => _.ControlType == ControlType.Kerbal);
+            spaceShipControl = controls.FirstOrDefault(_ => _.ControlType == VesselTypes.SpaceShip);
+            planeControl = controls.FirstOrDefault(_ => _.ControlType == VesselTypes.Plane);
+            roverControl = controls.FirstOrDefault(_ => _.ControlType == VesselTypes.Rover);
+            kerbalControl = controls.FirstOrDefault(_ => _.ControlType == VesselTypes.Kerbal);
         }
 
         public Action GetControlAction(Vessel vessel)
