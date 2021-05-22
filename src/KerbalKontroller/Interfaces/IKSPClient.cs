@@ -6,6 +6,7 @@ namespace KerbalKontroller.Interfaces
     public interface IKSPClient
     {
         Action GetActiveVesselControl();
+        object GetActiveVessel();
         bool IsInFlight();
         bool IsGamePaused();
         void SetPaused();
@@ -21,21 +22,11 @@ namespace KerbalKontroller.Interfaces
         void SetBrakes(DigitalState digitalState);
         void SetLights(DigitalState digitalState);
         void SetSASActive(DigitalState digitalState);
+        SASModes GetSASMode();
         void SetRCSMode(DigitalState digitalState);
         void Abort();
         void Stage();
         void ActivateAction(uint actionGroup);
-        SASModes GetSASMode();
         void SetSASMode(SASModes sasMode);
-        void SetSASModeFree();
-        void SetSASModeManeuver();
-        void SetSASModePrograde();
-        void SetSASModeRetrograde();
-        void SetSASModeNormal();
-        void SetSASModeAntiNormal();
-        void SetSASModeRadialIn();
-        void SetSASModeRadialOut();
-        void SetSASModeTarget();
-        void SetSASModeAntiTarget();
     }
 }

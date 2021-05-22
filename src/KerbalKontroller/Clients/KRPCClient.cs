@@ -14,14 +14,14 @@ namespace KerbalKontroller.Clients
     {
         private readonly KRPC.Client.Services.SpaceCenter.Service spaceCenter;
         private readonly KRPC.Client.Services.KRPC.Service krpc;
-        private readonly ControlFactory controlFactory;
+        //private readonly ControlFactory controlFactory;
         private readonly Logger logger;
         private Vessel ActiveVessel;
 
-        public KRPCClient(Logger logger, ControlFactory controlFactory)
+        public KRPCClient(Logger logger/*, ControlFactory controlFactory*/)
         {
             this.logger = logger;
-            this.controlFactory = controlFactory;
+            //this.controlFactory = controlFactory;
 
             this.logger.Information($"Connecting to KRPC...");
 
@@ -58,15 +58,22 @@ namespace KerbalKontroller.Clients
 
         public Action GetActiveVesselControl()
         {
-            try
-            {
-                UpdateActiveVessel();
-                return controlFactory.GetControlAction(ActiveVessel);
-            }
-            catch
-            {
-                return null;
-            }
+            throw new NotImplementedException();
+            //try
+            //{
+            //    UpdateActiveVessel();
+            //    return controlFactory.GetControlAction(ActiveVessel);
+            //}
+            //catch
+            //{
+            //    return null;
+            //}
+        }
+
+        public object GetActiveVessel()
+        {
+            UpdateActiveVessel();
+            return ActiveVessel;
         }
 
         private void UpdateActiveVessel()
@@ -171,22 +178,6 @@ namespace KerbalKontroller.Clients
         public void SetSASMode(SASModes sasMode)
         {
             ActiveVessel.Control.SASMode = (SASMode)sasMode;
-        }
-
-        public void SetSASModeFree() => SetSASMode(SASMode.StabilityAssist);
-        public void SetSASModeManeuver() => SetSASMode(SASMode.Maneuver);
-        public void SetSASModePrograde() => SetSASMode(SASMode.Prograde);
-        public void SetSASModeRetrograde() => SetSASMode(SASMode.Retrograde);
-        public void SetSASModeNormal() => SetSASMode(SASMode.Normal);
-        public void SetSASModeAntiNormal() => SetSASMode(SASMode.AntiNormal);
-        public void SetSASModeRadialIn() => SetSASMode(SASMode.Radial);
-        public void SetSASModeRadialOut() => SetSASMode(SASMode.AntiRadial);
-        public void SetSASModeTarget() => SetSASMode(SASMode.Target);
-        public void SetSASModeAntiTarget() => SetSASMode(SASMode.AntiTarget);
-
-        private void SetSASMode(SASMode sasMode)
-        {
-            ActiveVessel.Control.SASMode = sasMode;
         }
     }
 }

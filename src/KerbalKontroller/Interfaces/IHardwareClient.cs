@@ -20,6 +20,7 @@ namespace KerbalKontroller.Interfaces
         DigitalState ReadSASSwitch();
         DigitalState ReadRCSSwitch();
         DigitalState ReadPrecisionSwitch();
+        DigitalState ReadPrecisionButton();
         DigitalState ReadAction1Button();
         DigitalState ReadAction2Button();
         DigitalState ReadAction3Button();
@@ -31,16 +32,6 @@ namespace KerbalKontroller.Interfaces
         DigitalState ReadAction9Button();
         DigitalState ReadAction10Button();
         SASModes? ReadSASModesButtons();
-        DigitalState ReadSASFreeButton();
-        DigitalState ReadSASManeuverButton();
-        DigitalState ReadSASProgradeButton();
-        DigitalState ReadSASRetrogadeButton();
-        DigitalState ReadSASRadialInButton();
-        DigitalState ReadSASRadialOutButton();
-        DigitalState ReadSASNormalButton();
-        DigitalState ReadSASAntiNormalButton();
-        DigitalState ReadSASTargetButton();
-        DigitalState ReadSASAntiTargetButton();
         DigitalState ReadKerbalUseButton();
         DigitalState ReadKerbalJumpButton();
         DigitalState ReadKerbalRunButton();
@@ -65,15 +56,5 @@ namespace KerbalKontroller.Interfaces
         void WriteRCSLed(bool ledState);
         void WritePrecisionLed(bool ledState);
         void WriteSASModeLed(SASModes sasMode);
-        void WriteSASFreeLed(bool ledState);
-        void WriteSASManeuverLed(bool ledState);
-        void WriteSASProgradeLed(bool ledState);
-        void WriteSASRetrogradeLed(bool ledState);
-        void WriteSASRadialInLed(bool ledState);
-        void WriteSASRadialOutLed(bool ledState);
-        void WriteSASNormalLed(bool ledState);
-        void WriteSASAntiNormalLed(bool ledState);
-        void WriteSASTargetLed(bool ledState);
-        void WriteSASAntiTargetLed(bool ledState);
     }
 }

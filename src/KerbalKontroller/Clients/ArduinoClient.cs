@@ -31,7 +31,7 @@ namespace KerbalKontroller.Clients
 
             try
             {
-                arduinoDriver = new ArduinoDriver.ArduinoDriver(model.ArduinoModel, true);
+                arduinoDriver = new ArduinoDriver.ArduinoDriver(model.ArduinoModel, "COM11", true);
             }
             catch (Exception ex)
             {
@@ -72,19 +72,20 @@ namespace KerbalKontroller.Clients
 
         private IDictionary<byte, SASModes> CreateButtonPinToSASModeConversion()
         {
-            return new Dictionary<byte, SASModes>()
-            {
-                { pinConfiguration.SASFreeButton, SASModes.Free },
-                { pinConfiguration.SASManeuverButton, SASModes.Maneuver },
-                { pinConfiguration.SASProgradeButton, SASModes.Prograde },
-                { pinConfiguration.SASRetrogradeButton, SASModes.Retrograde },
-                { pinConfiguration.SASRadialInButton, SASModes.RadialIn },
-                { pinConfiguration.SASRadialOutButton, SASModes.RadialOut },
-                { pinConfiguration.SASNormalButton, SASModes.Normal },
-                { pinConfiguration.SASAntiNormalButton, SASModes.AntiNormal },
-                { pinConfiguration.SASTargetButton, SASModes.Target },
-                { pinConfiguration.SASAntiTargetButton, SASModes.AntiTarget }
-            };
+            var pinToSASModeConversion = new Dictionary<byte, SASModes>();
+
+            if (!serialPorts.Contains(pinConfiguration.SASFreeButton)) pinToSASModeConversion.Add(pinConfiguration.SASFreeButton, SASModes.Free);
+            if (!serialPorts.Contains(pinConfiguration.SASManeuverButton)) pinToSASModeConversion.Add(pinConfiguration.SASManeuverButton, SASModes.Maneuver);
+            if (!serialPorts.Contains(pinConfiguration.SASProgradeButton)) pinToSASModeConversion.Add(pinConfiguration.SASProgradeButton, SASModes.Prograde);
+            if (!serialPorts.Contains(pinConfiguration.SASRetrogradeButton)) pinToSASModeConversion.Add(pinConfiguration.SASRetrogradeButton, SASModes.Retrograde);
+            if (!serialPorts.Contains(pinConfiguration.SASRadialInButton)) pinToSASModeConversion.Add(pinConfiguration.SASRadialInButton, SASModes.RadialIn);
+            if (!serialPorts.Contains(pinConfiguration.SASRadialOutButton)) pinToSASModeConversion.Add(pinConfiguration.SASRadialOutButton, SASModes.RadialOut);
+            if (!serialPorts.Contains(pinConfiguration.SASNormalButton)) pinToSASModeConversion.Add(pinConfiguration.SASNormalButton, SASModes.Normal);
+            if (!serialPorts.Contains(pinConfiguration.SASAntiNormalButton)) pinToSASModeConversion.Add(pinConfiguration.SASAntiNormalButton, SASModes.AntiNormal);
+            if (!serialPorts.Contains(pinConfiguration.SASTargetButton)) pinToSASModeConversion.Add(pinConfiguration.SASTargetButton, SASModes.Target);
+            if (!serialPorts.Contains(pinConfiguration.SASAntiTargetButton)) pinToSASModeConversion.Add(pinConfiguration.SASAntiTargetButton, SASModes.AntiTarget);
+
+            return pinToSASModeConversion;
         }
 
         public JoystickAxis ReadLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
@@ -212,6 +213,14 @@ namespace KerbalKontroller.Clients
             };
         }
 
+        public DigitalState ReadPrecisionButton()
+        {
+            return new DigitalState
+            {
+                Active = ReadFromDigitalPin(pinConfiguration.PrecisionButton)
+            };
+        }
+
         public DigitalState ReadAction1Button()
         {
             return new DigitalState
@@ -300,86 +309,6 @@ namespace KerbalKontroller.Clients
                     return pinToSASModePair.Value;
             }
             return null;
-        }
-
-        public DigitalState ReadSASFreeButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASFreeButton)
-            };
-        }
-
-        public DigitalState ReadSASManeuverButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASManeuverButton)
-            };
-        }
-
-        public DigitalState ReadSASProgradeButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASProgradeButton)
-            };
-        }
-
-        public DigitalState ReadSASRetrogadeButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASRetrogradeButton)
-            };
-        }
-
-        public DigitalState ReadSASRadialInButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASRadialInButton)
-            };
-        }
-
-        public DigitalState ReadSASRadialOutButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASRadialOutButton)
-            };
-        }
-
-        public DigitalState ReadSASNormalButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASNormalButton)
-            };
-        }
-
-        public DigitalState ReadSASAntiNormalButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASAntiNormalButton)
-            };
-        }
-
-        public DigitalState ReadSASTargetButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASTargetButton)
-            };
-        }
-
-        public DigitalState ReadSASAntiTargetButton()
-        {
-            return new DigitalState
-            {
-                Active = ReadFromDigitalPin(pinConfiguration.SASAntiTargetButton)
-            };
         }
 
         public DigitalState ReadKerbalUseButton()
@@ -557,56 +486,6 @@ namespace KerbalKontroller.Clients
                 else
                     WriteToDigitalPin(sasModeToPinPair.Value, false);
             }
-        }
-
-        public void WriteSASFreeLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASFreeLed, ledState);
-        }
-
-        public void WriteSASManeuverLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASManeuverButton, ledState);
-        }
-
-        public void WriteSASProgradeLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASProgradeLed, ledState);
-        }
-
-        public void WriteSASRetrogradeLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASRetrogradeLed, ledState);
-        }
-
-        public void WriteSASRadialInLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASRadialInLed, ledState);
-        }
-
-        public void WriteSASRadialOutLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASRadialOutLed, ledState);
-        }
-
-        public void WriteSASNormalLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASNormalLed, ledState);
-        }
-
-        public void WriteSASAntiNormalLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASAntiNormalLed, ledState);
-        }
-
-        public void WriteSASTargetLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASTargetLed, ledState);
-        }
-
-        public void WriteSASAntiTargetLed(bool ledState)
-        {
-            WriteToDigitalPin(pinConfiguration.SASAntiTargetLed, ledState);
         }
 
         private void SetInputPins()

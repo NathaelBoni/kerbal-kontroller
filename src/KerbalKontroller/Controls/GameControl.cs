@@ -12,13 +12,15 @@ namespace KerbalKontroller.Controls
     {
         private readonly IKSPClient kspClient;
         private readonly KeyboardInputClient keyboardInputClient;
+        private readonly ControlFactory controlFactory;
         private readonly GameControlDebounce debounce;
         private readonly Logger logger;
 
-        public GameControl(IKSPClient kspClient, KeyboardInputClient keyboardInputClient, IHardwareClient hardwareClient, Logger logger)
+        public GameControl(IKSPClient kspClient, KeyboardInputClient keyboardInputClient, IHardwareClient hardwareClient, ControlFactory controlFactory, Logger logger)
         {
             this.kspClient = kspClient;
             this.keyboardInputClient = keyboardInputClient;
+            this.controlFactory = controlFactory;
             debounce = new GameControlDebounce(hardwareClient);
             this.logger = logger;
         }
@@ -34,7 +36,7 @@ namespace KerbalKontroller.Controls
 
                 try
                 {
-                    var controlAction = kspClient.GetActiveVesselControl();
+                    var controlAction = controlFactory.GetControlAction((Vessel)kspClient.GetActiveVessel());
                     controlAction.Invoke();
                 }
                 catch (Exception ex)
