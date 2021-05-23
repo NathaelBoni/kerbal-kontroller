@@ -55,6 +55,6 @@ namespace KerbalKontroller.Interfaces
         void WriteSASLed(bool ledState);
         void WriteRCSLed(bool ledState);
         void WritePrecisionLed(bool ledState);
-        void WriteSASModeLed(SASModes sasMode);
+        void WriteSASModeLed(SASModes? sasMode);
     }
 }

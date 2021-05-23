@@ -477,7 +477,7 @@ namespace KerbalKontroller.Clients
             WriteToDigitalPin(pinConfiguration.PrecisionLed, ledState);
         }
 
-        public void WriteSASModeLed(SASModes sasMode)
+        public void WriteSASModeLed(SASModes? sasMode)
         {
             foreach(var sasModeToPinPair in SASModeToLedPin)
             {
