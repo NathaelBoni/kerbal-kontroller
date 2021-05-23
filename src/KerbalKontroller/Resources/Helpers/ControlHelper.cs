@@ -7,13 +7,15 @@ namespace KerbalKontroller.Resources.Helpers
     {
         public static void SetSASMode(IHardwareClient hardwareClient, IKSPClient kspClient)
         {
-            hardwareClient.WriteSASModeLed(kspClient.GetSASMode());
+            var currentSASMode = kspClient.GetSASMode();
             var sasMode = hardwareClient.ReadSASModesButtons();
-            if (sasMode == null || sasMode == kspClient.GetSASMode())
+
+            if (sasMode == null || sasMode == currentSASMode)
                 return;
 
+            hardwareClient.WriteSASModeLed(currentSASMode, sasMode);
             kspClient.SetSASMode(sasMode.Value);
-            hardwareClient.WriteSASModeLed(sasMode.Value);
+            return;
         }
 
         public static void SetToggleSwitches(IHardwareClient hardwareClient, IKSPClient kspClient)
@@ -29,9 +31,6 @@ namespace KerbalKontroller.Resources.Helpers
             kspClient.SetLights(lightsToggle);
             kspClient.SetSASActive(sasToggle);
             kspClient.SetRCSMode(rcsToggle);
-
-            if (!sasToggle.Active)
-                hardwareClient.WriteSASModeLed(null);
         }
 
         public static void ActionGroup(VesselControlDebounce debounce, IKSPClient kspClient)

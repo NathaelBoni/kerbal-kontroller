@@ -477,15 +477,12 @@ namespace KerbalKontroller.Clients
             WriteToDigitalPin(pinConfiguration.PrecisionLed, ledState);
         }
 
-        public void WriteSASModeLed(SASModes? sasMode)
+        public void WriteSASModeLed(SASModes oldSASMode, SASModes? currentSASMode)
         {
-            foreach(var sasModeToPinPair in SASModeToLedPin)
-            {
-                if(sasModeToPinPair.Key == sasMode)
-                    WriteToDigitalPin(sasModeToPinPair.Value, true);
-                else
-                    WriteToDigitalPin(sasModeToPinPair.Value, false);
-            }
+            WriteToDigitalPin(SASModeToLedPin[oldSASMode], false);
+
+            if (currentSASMode.HasValue)
+                WriteToDigitalPin(SASModeToLedPin[currentSASMode.Value], true);
         }
 
         private void SetInputPins()

@@ -1,12 +1,11 @@
 ﻿using KerbalKontroller.Resources;
-using System;
 
 namespace KerbalKontroller.Interfaces
 {
     public interface IKSPClient
     {
-        Action GetActiveVesselControl();
         object GetActiveVessel();
+        void UpdateActiveVessel();
         bool IsInFlight();
         bool IsGamePaused();
         void SetPaused();

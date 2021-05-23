@@ -28,6 +28,7 @@ namespace KerbalKontroller.Controls
         public void Start()
         {
             logger.Information("Controls added - starting KerbalKontroller");
+            kspClient.UpdateActiveVessel();
 
             while (true)
             {
@@ -47,13 +48,23 @@ namespace KerbalKontroller.Controls
 
                 if (debounce.GetIncreaseTimeWarpButtonState()) keyboardInputClient.IncreaseTimeWarp();
                 if (debounce.GetDecreaseTimeWarpButtonState()) keyboardInputClient.DecreaseTimeWarp();
-                if (debounce.GetNextVesselButtonState()) keyboardInputClient.NextVessel();
-                if (debounce.GetPreviousVesselButtonState()) keyboardInputClient.PreviousVessel();
                 if (debounce.GetCameraCycleButtonState()) keyboardInputClient.CameraCycle();
                 if (debounce.GetOrbitalViewButtonState()) keyboardInputClient.SetOrbitalView();
                 if (debounce.GetPauseButtonState()) kspClient.SetPaused();
                 if (debounce.GetQuickSaveButtonState()) kspClient.QuickSave();
                 if (debounce.GetQuickLoadButtonState()) kspClient.QuickLoad();
+
+                if (debounce.GetNextVesselButtonState())
+                {
+                    keyboardInputClient.NextVessel();
+                    kspClient.UpdateActiveVessel();
+                }
+                    
+                if (debounce.GetPreviousVesselButtonState())
+                {
+                    keyboardInputClient.PreviousVessel();
+                    kspClient.UpdateActiveVessel();
+                }
             }
         }
     }

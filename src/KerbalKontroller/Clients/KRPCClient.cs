@@ -14,14 +14,12 @@ namespace KerbalKontroller.Clients
     {
         private readonly KRPC.Client.Services.SpaceCenter.Service spaceCenter;
         private readonly KRPC.Client.Services.KRPC.Service krpc;
-        //private readonly ControlFactory controlFactory;
         private readonly Logger logger;
         private Vessel ActiveVessel;
 
-        public KRPCClient(Logger logger/*, ControlFactory controlFactory*/)
+        public KRPCClient(Logger logger)
         {
             this.logger = logger;
-            //this.controlFactory = controlFactory;
 
             this.logger.Information($"Connecting to KRPC...");
 
@@ -56,27 +54,12 @@ namespace KerbalKontroller.Clients
             return circuitBreakerPolicy.Wrap(retryPolicy);
         }
 
-        public Action GetActiveVesselControl()
-        {
-            throw new NotImplementedException();
-            //try
-            //{
-            //    UpdateActiveVessel();
-            //    return controlFactory.GetControlAction(ActiveVessel);
-            //}
-            //catch
-            //{
-            //    return null;
-            //}
-        }
-
         public object GetActiveVessel()
         {
-            UpdateActiveVessel();
             return ActiveVessel;
         }
 
-        private void UpdateActiveVessel()
+        public void UpdateActiveVessel()
         {
             ActiveVessel = spaceCenter.ActiveVessel;
         }

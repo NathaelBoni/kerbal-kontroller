@@ -44,8 +44,6 @@ namespace KerbalKontroller.Controls
             else if (extraLeftJoystick.YValue < 0) keyboardInputClient.KerbalJetPackDown();
             else keyboardInputClient.KerbalStopVerticalMovement();
 
-            ControlHelper.SetToggleSwitches(hardwareClient, kspClient);
-
             if (debounce.GetKerbalUseButtonState()) keyboardInputClient.KerbalUse();
             if (debounce.GetKerbalJumpButtonState()) keyboardInputClient.KerbalJump();
             if (debounce.GetKerbalRunButtonState()) keyboardInputClient.KerbalRun();
