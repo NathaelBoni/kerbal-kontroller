@@ -110,7 +110,7 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
         public byte IncreaseTimeWarpButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte DecreaseTimeWarpsButton { get; set; }
+        public byte DecreaseTimeWarpButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
         public byte NextVesselButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]

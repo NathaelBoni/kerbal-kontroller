@@ -32,7 +32,7 @@ namespace KerbalKontroller.Clients
 
             try
             {
-                serialPort = new SerialPort("COM11", 9600);
+                serialPort = new SerialPort(appSettings.COMPort, 9600);
                 serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedCallback);
 
                 serialPort.Open();
@@ -43,7 +43,7 @@ namespace KerbalKontroller.Clients
                 throw;
             }
 
-			controller = new ControllerFunctions();
+			controller = new ControllerFunctions(pinConfiguration, appSettings.NumberOfDigitalPorts);
 
 			this.serialPorts = new byte[] { 0, 1 };
 			ConfigurePins();
@@ -163,8 +163,8 @@ namespace KerbalKontroller.Clients
         {
 			return new JoystickAxis
 			{
-				XValue = AnalogConversor(controller.LeftJoystickX, xAxisInverted),
-				YValue = AnalogConversor(controller.LeftJoystickY, yAxisInverted)
+				XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.LeftJoyStickX), xAxisInverted),
+				YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.LeftJoyStickY), yAxisInverted)
 			};
         }
 
@@ -172,8 +172,8 @@ namespace KerbalKontroller.Clients
         {
 			return new JoystickAxis
 			{
-				XValue = AnalogConversor(controller.RightJoystickX, xAxisInverted),
-				YValue = AnalogConversor(controller.RightJoystickY, yAxisInverted)
+				XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.RightJoyStickX), xAxisInverted),
+				YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.RightJoyStickY), yAxisInverted)
 			};
 		}
 
@@ -181,8 +181,8 @@ namespace KerbalKontroller.Clients
         {
 			return new JoystickAxis
 			{
-				XValue = AnalogConversor(controller.ExtraLeftJoystickX, xAxisInverted),
-				YValue = AnalogConversor(controller.ExtraLeftJoystickY, yAxisInverted)
+				XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraLeftJoyStickX), xAxisInverted),
+				YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraLeftJoyStickY), yAxisInverted)
 			};
 		}
 
@@ -190,8 +190,8 @@ namespace KerbalKontroller.Clients
 		{
 			return new JoystickAxis
 			{
-				XValue = AnalogConversor(controller.ExtraRightJoystickX, xAxisInverted),
-				YValue = AnalogConversor(controller.ExtraRightJoystickY, yAxisInverted)
+				XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraRightJoyStickX), xAxisInverted),
+				YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraRightJoyStickY), yAxisInverted)
 			};
 		}
 
@@ -199,7 +199,7 @@ namespace KerbalKontroller.Clients
         {
 			return new JoystickAxis
 			{
-				YValue = AnalogConversor(controller.AnalogThrottle, false)
+				YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.AnalogThrottle), false)
 			};
 		}
 
@@ -215,323 +215,212 @@ namespace KerbalKontroller.Clients
 
 		public DigitalState ReadStageButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.StageButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.StageButton));
 		}
 
 		public DigitalState ReadAbortButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.AbortButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.AbortButton));
 		}
 
 		public DigitalState ReadLandingGearSwitch()
 		{
-			return new DigitalState
-			{
-				Active = controller.LandingGearSwitch
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.LandingGearSwitch));
 		}
 
 		public DigitalState ReadBrakesSwitch()
 		{
-			return new DigitalState
-			{
-				Active = controller.BrakesSwitch
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.BrakesSwitch));
 		}
 
 		public DigitalState ReadBrakesButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.BrakesButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.BrakesButton));
 		}
 
 		public DigitalState ReadLightsSwitch()
 		{
-			return new DigitalState
-			{
-				Active = controller.LightsSwitch
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.LightsSwitch));
 		}
 
 		public DigitalState ReadSASSwitch()
 		{
-			return new DigitalState
-			{
-				Active = controller.SASSwitch
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.SASSwitch));
 		}
 
 		public DigitalState ReadRCSSwitch()
 		{
-			return new DigitalState
-			{
-				Active = controller.RCSSwitch
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.RCSSwitch));
 		}
 
 		public DigitalState ReadPrecisionSwitch()
 		{
-			return new DigitalState
-			{
-				Active = controller.PrecisionSwitch
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.PrecisionSwitch));
 		}
 
 		public DigitalState ReadPrecisionButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.PrecisionButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.PrecisionButton));
 		}
 
 		public DigitalState ReadAction1Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action1Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action1Button));
 		}
 
 		public DigitalState ReadAction2Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action2Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action2Button));
 		}
 
 		public DigitalState ReadAction3Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action3Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action3Button));
 		}
 
 		public DigitalState ReadAction4Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action4Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action4Button));
 		}
 
 		public DigitalState ReadAction5Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action5Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action5Button));
 		}
 
 		public DigitalState ReadAction6Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action6Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action6Button));
 		}
 
 		public DigitalState ReadAction7Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action7Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action7Button));
 		}
 
 		public DigitalState ReadAction8Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action8Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action8Button));
 		}
 
 		public DigitalState ReadAction9Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action9Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action9Button));
 		}
 
 		public DigitalState ReadAction10Button()
 		{
-			return new DigitalState
-			{
-				Active = controller.Action10Button
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.Action10Button));
 		}
 
 		public SASModes? ReadSASModesButtons()
 		{
-			if (controller.SASFreeButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASFreeButton))
 				return SASModes.Free;
-			if (controller.SASManeuverButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASManeuverButton))
 				return SASModes.Maneuver;
-			if (controller.SASProgradeButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASProgradeButton))
 				return SASModes.Prograde;
-			if (controller.SASRetrogradeButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASRetrogradeButton))
 				return SASModes.Retrograde;
-			if (controller.SASRadialInButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASRadialInButton))
 				return SASModes.RadialIn;
-			if (controller.SASRadialOutButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASRadialOutButton))
 				return SASModes.RadialOut;
-			if (controller.SASNormalButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASNormalButton))
 				return SASModes.Normal;
-			if (controller.SASAntiNormalButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASAntiNormalButton))
 				return SASModes.AntiNormal;
-			if (controller.SASTargetButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASTargetButton))
 				return SASModes.Target;
-			if (controller.SASAntiTargetButton)
+			if (controller.GetDigitalValue(pinConfiguration.SASAntiTargetButton))
 				return SASModes.AntiTarget;
 			return null;
 		}
 
 		public DigitalState ReadKerbalUseButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.KerbalUseButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalUseButton));
 		}
 
 		public DigitalState ReadKerbalJumpButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.KerbalJumpButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalJumpButton));
 		}
 
 		public DigitalState ReadKerbalRunButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.KerbalRunButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalRunButton));
 		}
 
 		public DigitalState ReadKerbalBoardButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.KerbalBoardButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalBoardButton));
 		}
 
 		public DigitalState ReadKerbalLetGoButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.KerbalLetGoButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalLetGoButton));
 		}
 
 		public DigitalState ReadKerbalParachuteButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.KerbalParachuteButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalParachuteButton));
 		}
 
 		public DigitalState ReadKerbalJetPackButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.KerbalJetPackButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalJetPackButton));
 		}
 
 		public DigitalState ReadKerbalConstructionButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.KerbalConstructionButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalConstructionMode));
 		}
 
 		public DigitalState ReadCameraCycleButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.CameraCycleButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.CameraCycleButton));
 		}
 
 		public DigitalState ReadOrbitalViewButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.OrbitalViewButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.OrbitalViewButton));
 		}
 
 		public DigitalState ReadIncreaseTimeWarpButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.IncreaseTimeWarpButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.IncreaseTimeWarpButton));
 		}
 
 		public DigitalState ReadDecreaseTimeWarpButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.DecreaseTimeWarpButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.DecreaseTimeWarpButton));
 		}
 
 		public DigitalState ReadNextVesselButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.NextVesselButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.NextVesselButton));
 		}
 
 		public DigitalState ReadPreviousVesselButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.PreviousVesselButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.PreviousVesselButton));
 		}
 
 		public DigitalState ReadPauseButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.PauseButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.PauseButton));
 		}
 
 		public DigitalState ReadQuickSaveButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.QuickSaveButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.QuickSaveButton));
 		}
 
 		public DigitalState ReadQuickLoadButton()
 		{
-			return new DigitalState
-			{
-				Active = controller.QuickLoadButton
-			};
+			return new DigitalState(controller.GetDigitalValue(pinConfiguration.QuickLoadButton));
 		}
 
 		public void WriteLandingGearLed(bool ledState)

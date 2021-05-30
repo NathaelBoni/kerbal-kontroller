@@ -2,9 +2,7 @@
 using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
 using KerbalKontroller.Resources.Debounces;
-using KerbalKontroller.Resources.Helpers;
 using Serilog.Core;
-using System;
 
 namespace KerbalKontroller.Controls
 {

@@ -233,7 +233,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\ArduinoClient.cs" />
     <Compile Include="Clients\ArduinoSerialClient.cs" />
     <Compile Include="Clients\KeyboardInputClient.cs" />
     <Compile Include="Controls\GameControl.cs" />

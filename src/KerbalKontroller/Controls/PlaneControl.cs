@@ -1,5 +1,4 @@
-﻿using KerbalKontroller.Clients;
-using KerbalKontroller.Interfaces;
+﻿using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
 using KerbalKontroller.Resources.Debounces;
 using KerbalKontroller.Resources.Helpers;

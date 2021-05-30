@@ -1,9 +1,7 @@
-﻿using ArduinoUploader.Hardware;
-using KerbalKontroller.Clients;
+﻿using KerbalKontroller.Clients;
 using KerbalKontroller.Config;
 using KerbalKontroller.Controls;
 using KerbalKontroller.Interfaces;
-using KerbalKontroller.Resources;
 using KerbalKontroller.Resources.Factories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
