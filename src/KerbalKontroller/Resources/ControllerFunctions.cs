@@ -1,19 +1,16 @@
-﻿using KerbalKontroller.Config;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace KerbalKontroller.Resources
 {
     public class ControllerFunctions
     {
-        private readonly PinConfiguration pinConfiguration;
         private readonly int digitalPins;
 
         private Dictionary<byte, int> controllerValues;
 
-        public ControllerFunctions(PinConfiguration pinConfiguration, int digitalPins)
+        public ControllerFunctions(int digitalPins)
         {
-            this.pinConfiguration = pinConfiguration;
             this.digitalPins = digitalPins;
 
             controllerValues = new Dictionary<byte, int>();

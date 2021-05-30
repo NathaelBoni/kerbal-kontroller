@@ -43,7 +43,7 @@ namespace KerbalKontroller.Clients
                 throw;
             }
 
-			controller = new ControllerFunctions(pinConfiguration, appSettings.NumberOfDigitalPorts);
+			controller = new ControllerFunctions(appSettings.NumberOfDigitalPorts);
 
 			this.serialPorts = new byte[] { 0, 1 };
 			ConfigurePins();
@@ -142,7 +142,7 @@ namespace KerbalKontroller.Clients
 
 		private void DataReceivedCallback(object sender, SerialDataReceivedEventArgs ev)
         {
-            var data = ((SerialPort)sender).ReadExisting();
+            var data = ((SerialPort)sender).ReadLine();
 			controller.DeserializeData(data);
         }
 
