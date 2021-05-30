@@ -20,7 +20,7 @@ namespace KerbalKontroller.Resources
             controllerValues = new Dictionary<byte, int>();
 
             var index = 0;
-            foreach(var key in keys)
+            foreach (var key in keys)
             {
                 controllerValues.Add(key, values.ElementAt(index));
                 index++;
@@ -30,7 +30,7 @@ namespace KerbalKontroller.Resources
         public int GetAnalogValue(byte pin)
         {
             byte.TryParse((pin + digitalPins).ToString(), out var idx);
-            
+
             try
             {
                 return controllerValues[idx];

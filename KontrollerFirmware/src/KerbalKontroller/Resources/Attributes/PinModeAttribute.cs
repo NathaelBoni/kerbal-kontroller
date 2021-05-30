@@ -4,6 +4,6 @@ namespace KerbalKontroller.Resources.Attributes
 {
     public class PinModeAttribute : Attribute
     {
-        public PinModeAttribute(PinModes pinMode) { }
+        public PinModeAttribute(PinModes _) { }
     }
 }

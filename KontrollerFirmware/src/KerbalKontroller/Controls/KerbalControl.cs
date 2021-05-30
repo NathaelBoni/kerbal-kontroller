@@ -8,15 +8,13 @@ namespace KerbalKontroller.Controls
 {
     public class KerbalControl : IControl
     {
-        private readonly IKSPClient kspClient;
         private readonly IHardwareClient hardwareClient;
         private readonly KeyboardInputClient keyboardInputClient;
         private readonly KerbalControlDebounce debounce;
         private readonly Logger logger;
 
-        public KerbalControl(IKSPClient kspClient, IHardwareClient hardwareClient, KeyboardInputClient keyboardInputClient, Logger logger)
+        public KerbalControl(IHardwareClient hardwareClient, KeyboardInputClient keyboardInputClient, Logger logger)
         {
-            this.kspClient = kspClient;
             this.hardwareClient = hardwareClient;
             this.keyboardInputClient = keyboardInputClient;
             debounce = new KerbalControlDebounce(hardwareClient);

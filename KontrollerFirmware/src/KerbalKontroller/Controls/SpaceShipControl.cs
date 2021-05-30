@@ -1,5 +1,4 @@
-﻿using KerbalKontroller.Clients;
-using KerbalKontroller.Interfaces;
+﻿using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
 using KerbalKontroller.Resources.Debounces;
 using KerbalKontroller.Resources.Helpers;
@@ -11,7 +10,7 @@ namespace KerbalKontroller.Controls
     {
         private readonly IKSPClient kspClient;
         private readonly IHardwareClient hardwareClient;
-        private VesselControlDebounce debounce;
+        private readonly VesselControlDebounce debounce;
         private readonly Logger logger;
 
         public SpaceShipControl(IKSPClient kspClient, IHardwareClient hardwareClient, Logger logger)

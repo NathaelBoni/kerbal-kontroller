@@ -1,6 +1,5 @@
 ﻿using KerbalKontroller.Interfaces;
 using KerbalKontroller.Resources;
-using KerbalKontroller.Resources.Factories;
 using KRPC.Client;
 using KRPC.Client.Services.KRPC;
 using KRPC.Client.Services.SpaceCenter;
@@ -65,13 +64,13 @@ namespace KerbalKontroller.Clients
         }
 
         public bool IsInFlight() => krpc.CurrentGameScene == GameScene.Flight;
-        
+
         public bool IsGamePaused() => krpc.Paused;
-        
+
         public void SetPaused() => krpc.Paused = !krpc.Paused;
 
         public void QuickSave() => spaceCenter.Quicksave();
-        
+
         public void QuickLoad() => spaceCenter.Quickload();
 
         public void SetVesselRotation(JoystickAxis joystickAxis, JoystickAxis joystickAxisExtra)

@@ -34,7 +34,7 @@ namespace KerbalKontroller.Resources.Debounces
 
         public bool GetKerbalRunButtonState()
         {
-               currentKerbalRunButtonState = hardwareClient.ReadKerbalRunButton().Active;
+            currentKerbalRunButtonState = hardwareClient.ReadKerbalRunButton().Active;
             return currentKerbalRunButtonState && !lastKerbalRunButtonState;
         }
 

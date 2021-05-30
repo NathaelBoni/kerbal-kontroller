@@ -5,7 +5,7 @@ namespace KerbalKontroller
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             var serviceCollection = new ServiceCollection();
             var serviceProvider = ServiceConfigurator.Configure(serviceCollection);
