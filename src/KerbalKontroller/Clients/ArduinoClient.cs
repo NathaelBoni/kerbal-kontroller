@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace KerbalKontroller.Clients
 {
-    public class ArduinoClient : IHardwareClient
+    public class ArduinoClient : IHardwareClient, IDisposable
     {
         private const float HALF_MAXIMUM_INPUT = 511.5f;
 
@@ -477,12 +477,9 @@ namespace KerbalKontroller.Clients
             WriteToDigitalPin(pinConfiguration.PrecisionLed, ledState);
         }
 
-        public void WriteSASModeLed(SASModes oldSASMode, SASModes? currentSASMode)
+        public void WriteSASModeLed(SASModes sASMode)
         {
-            WriteToDigitalPin(SASModeToLedPin[oldSASMode], false);
-
-            if (currentSASMode.HasValue)
-                WriteToDigitalPin(SASModeToLedPin[currentSASMode.Value], true);
+            throw new NotImplementedException();
         }
 
         private void SetInputPins()
@@ -559,6 +556,11 @@ namespace KerbalKontroller.Clients
 
             if (Math.Abs(convertedValue) < settings.JoystickDeadZone) return 0;
             return inverted ? -convertedValue : convertedValue;
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

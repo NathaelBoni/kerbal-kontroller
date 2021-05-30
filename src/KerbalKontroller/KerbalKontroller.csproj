@@ -234,11 +234,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\ArduinoClient.cs" />
+    <Compile Include="Clients\ArduinoSerialClient.cs" />
     <Compile Include="Clients\KeyboardInputClient.cs" />
     <Compile Include="Controls\GameControl.cs" />
     <Compile Include="Interfaces\IKSPClient.cs" />
+    <Compile Include="Resources\ArduinoCommands.cs" />
     <Compile Include="Resources\ArduinoInfo.cs" />
     <Compile Include="Resources\Attributes\PinTypeAttribute.cs" />
+    <Compile Include="Resources\ControllerFunctions.cs" />
     <Compile Include="Resources\Debounces\KerbalControlDebounce.cs" />
     <Compile Include="Resources\Debounces\VesselControlDebounce.cs" />
     <Compile Include="Resources\Debounces\GameControlDebounce.cs" />

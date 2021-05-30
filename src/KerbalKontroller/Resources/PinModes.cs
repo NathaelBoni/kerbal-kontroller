@@ -3,6 +3,7 @@
     public enum PinModes
     {
         Input,
-        Output
+        Output,
+        SASLeds
     }
 }

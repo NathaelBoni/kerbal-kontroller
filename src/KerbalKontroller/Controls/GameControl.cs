@@ -28,7 +28,6 @@ namespace KerbalKontroller.Controls
         public void Start()
         {
             logger.Information("Controls added - starting KerbalKontroller");
-            kspClient.UpdateActiveVessel();
 
             while (true)
             {

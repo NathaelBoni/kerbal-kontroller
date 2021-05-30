@@ -1,8 +1,9 @@
 ﻿using KerbalKontroller.Resources;
+using System;
 
 namespace KerbalKontroller.Interfaces
 {
-    public interface IHardwareClient
+    public interface IHardwareClient : IDisposable
     {
         JoystickAxis ReadLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false);
         JoystickAxis ReadExtraLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false);
@@ -55,6 +56,6 @@ namespace KerbalKontroller.Interfaces
         void WriteSASLed(bool ledState);
         void WriteRCSLed(bool ledState);
         void WritePrecisionLed(bool ledState);
-        void WriteSASModeLed(SASModes oldSASMode, SASModes? currentSASMode);
+        void WriteSASModeLed(SASModes sASMode);
     }
 }

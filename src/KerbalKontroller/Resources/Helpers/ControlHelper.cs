@@ -13,8 +13,8 @@ namespace KerbalKontroller.Resources.Helpers
             if (sasMode == null || sasMode == currentSASMode)
                 return;
 
-            hardwareClient.WriteSASModeLed(currentSASMode, sasMode);
             kspClient.SetSASMode(sasMode.Value);
+            hardwareClient.WriteSASModeLed(sasMode.Value);
             return;
         }
 

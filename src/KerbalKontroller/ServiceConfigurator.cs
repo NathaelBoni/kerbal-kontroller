@@ -59,7 +59,7 @@ namespace KerbalKontroller
                 var appSettings = _.GetService<AppSettings>();
                 var logger = _.GetService<Logger>();
 
-                return new ArduinoClient(pinConfiguration, appSettings, GetArduinoInfo(appSettings.ArduinoModel), logger);
+                return new ArduinoSerialClient(pinConfiguration, appSettings, logger);
             });
 
             services.AddSingleton<KeyboardInputClient>();
@@ -73,21 +73,6 @@ namespace KerbalKontroller
             services.AddSingleton<GameControl>();
 
             return services.BuildServiceProvider();
-        }
-
-        private static ArduinoInfo GetArduinoInfo(string model)
-        {
-            switch (model)
-            {
-                case "leonardo":
-                    return new ArduinoInfo { ArduinoModel = ArduinoModel.Leonardo, NumberOfDigitalPorts = 14 };
-                case "uno":
-                    return new ArduinoInfo { ArduinoModel = ArduinoModel.UnoR3, NumberOfDigitalPorts = 14 };
-                case "mega":
-                    return new ArduinoInfo { ArduinoModel = ArduinoModel.Mega2560, NumberOfDigitalPorts = 54 };
-                default:
-                    throw new NotSupportedException("Arduino model not accepted. Possible choices are: leonardo | uno | mega");
-            }
         }
     }
 }
