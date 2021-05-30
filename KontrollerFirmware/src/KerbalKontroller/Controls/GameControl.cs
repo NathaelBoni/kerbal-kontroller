@@ -38,31 +38,32 @@ namespace KerbalKontroller.Controls
                 {
                     var controlAction = controlFactory.GetControlAction((Vessel)kspClient.GetActiveVessel());
                     controlAction.Invoke();
+
+                    if (debounce.GetIncreaseTimeWarpButtonState()) keyboardInputClient.IncreaseTimeWarp();
+                    if (debounce.GetDecreaseTimeWarpButtonState()) keyboardInputClient.DecreaseTimeWarp();
+                    if (debounce.GetCameraCycleButtonState()) keyboardInputClient.CameraCycle();
+                    if (debounce.GetOrbitalViewButtonState()) keyboardInputClient.SetOrbitalView();
+                    if (debounce.GetPauseButtonState()) kspClient.SetPaused();
+                    if (debounce.GetQuickSaveButtonState()) kspClient.QuickSave();
+                    if (debounce.GetQuickLoadButtonState()) kspClient.QuickLoad();
+
+                    if (debounce.GetNextVesselButtonState())
+                    {
+                        keyboardInputClient.NextVessel();
+                        kspClient.UpdateActiveVessel();
+                    }
+
+                    if (debounce.GetPreviousVesselButtonState())
+                    {
+                        keyboardInputClient.PreviousVessel();
+                        kspClient.UpdateActiveVessel();
+                    }
                 }
                 catch (Exception ex)
                 {
                     logger.Error(ex, $"Fatal error - control action threw an exception");
+                    kspClient.SetPaused();
                     throw;
-                }
-
-                if (debounce.GetIncreaseTimeWarpButtonState()) keyboardInputClient.IncreaseTimeWarp();
-                if (debounce.GetDecreaseTimeWarpButtonState()) keyboardInputClient.DecreaseTimeWarp();
-                if (debounce.GetCameraCycleButtonState()) keyboardInputClient.CameraCycle();
-                if (debounce.GetOrbitalViewButtonState()) keyboardInputClient.SetOrbitalView();
-                if (debounce.GetPauseButtonState()) kspClient.SetPaused();
-                if (debounce.GetQuickSaveButtonState()) kspClient.QuickSave();
-                if (debounce.GetQuickLoadButtonState()) kspClient.QuickLoad();
-
-                if (debounce.GetNextVesselButtonState())
-                {
-                    keyboardInputClient.NextVessel();
-                    kspClient.UpdateActiveVessel();
-                }
-                    
-                if (debounce.GetPreviousVesselButtonState())
-                {
-                    keyboardInputClient.PreviousVessel();
-                    kspClient.UpdateActiveVessel();
                 }
             }
         }
