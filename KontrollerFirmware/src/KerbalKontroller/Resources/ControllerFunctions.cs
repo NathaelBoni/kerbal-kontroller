@@ -6,20 +6,18 @@ namespace KerbalKontroller.Resources
     public class ControllerFunctions
     {
         private readonly int digitalPins;
-
         private Dictionary<byte, int> controllerValues;
 
         public ControllerFunctions(int digitalPins)
         {
             this.digitalPins = digitalPins;
-
-            controllerValues = new Dictionary<byte, int>();
         }
 
         public void DeserializeData(string data)
         {
             var keys = data.Split('|')[0].Split(',').Select(_ => byte.Parse(_));
             var values = data.Split('|')[1].Split(',').Select(_ => int.Parse(_));
+            controllerValues = new Dictionary<byte, int>();
 
             var index = 0;
             foreach(var key in keys)
