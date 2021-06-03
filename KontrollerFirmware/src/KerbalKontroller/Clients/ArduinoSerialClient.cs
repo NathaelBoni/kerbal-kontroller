@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using command = KerbalKontroller.Resources.ArduinoCommands;
+using argument = KerbalKontroller.Resources.ArduinoArguments;
 
 namespace KerbalKontroller.Clients
 {
@@ -56,8 +57,7 @@ namespace KerbalKontroller.Clients
         {
             SetInputPins();
             SetOutputPins();
-            SetSASLedPins();
-            WriteBytes(command.Configured, command.Nop);
+            WriteBytes(command.Configured, argument.NoArg);
         }
 
         private void WriteBytes(byte byte1, byte byte2)
@@ -91,28 +91,20 @@ namespace KerbalKontroller.Clients
                 WriteBytes(command.Output, pin);
         }
 
-        private void SetSASLedPins()
-        {
-            var sasLedPins = GetDigitalPins(pinConfiguration, PinModes.SASLeds);
-
-            foreach (var pin in sasLedPins)
-                WriteBytes(command.OutputSASLeds, pin);
-        }
-
         private IDictionary<SASModes, byte> CreateSASModeToLedPinConversion()
         {
             return new Dictionary<SASModes, byte>()
             {
-                { SASModes.Free, pinConfiguration.SASFreeLed },
-                { SASModes.Maneuver, pinConfiguration.SASManeuverLed },
-                { SASModes.Prograde, pinConfiguration.SASProgradeLed },
-                { SASModes.Retrograde, pinConfiguration.SASRetrogradeLed },
-                { SASModes.RadialIn, pinConfiguration.SASRadialInLed },
-                { SASModes.RadialOut, pinConfiguration.SASRadialOutLed },
-                { SASModes.Normal, pinConfiguration.SASNormalLed },
-                { SASModes.AntiNormal, pinConfiguration.SASAntiNormalLed },
-                { SASModes.Target, pinConfiguration.SASTargetLed },
-                { SASModes.AntiTarget, pinConfiguration.SASAntiTargetLed }
+                { SASModes.Free, argument.FreeLed },
+                { SASModes.Maneuver, argument.ManeuverLed },
+                { SASModes.Prograde, argument.ProgradeLed },
+                { SASModes.Retrograde, argument.RetrogradeLed },
+                { SASModes.RadialOut, argument.RadialOutLed },
+                { SASModes.RadialIn, argument.RadialInLed },
+                { SASModes.Normal, argument.NormalLed },
+                { SASModes.AntiNormal, argument.AntiNormalLed },
+                { SASModes.Target, argument.TargetLed },
+                { SASModes.AntiTarget, argument.AntiTargetLed }
             };
         }
 
