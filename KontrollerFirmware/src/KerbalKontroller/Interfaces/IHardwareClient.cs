@@ -10,8 +10,6 @@ namespace KerbalKontroller.Interfaces
         JoystickAxis ReadRightJoystick(bool xAxisInverted = false, bool yAxisInverted = false);
         JoystickAxis ReadExtraRightJoystick(bool xAxisInverted = false, bool yAxisInverted = false);
         JoystickAxis ReadAnalogThrottle();
-        DigitalState ReadFullThrottleButton();
-        DigitalState ReadCutOffThrottleButton();
         DigitalState ReadStageButton();
         DigitalState ReadAbortButton();
         DigitalState ReadLandingGearSwitch();
@@ -21,7 +19,8 @@ namespace KerbalKontroller.Interfaces
         DigitalState ReadSASSwitch();
         DigitalState ReadRCSSwitch();
         DigitalState ReadPrecisionSwitch();
-        DigitalState ReadPrecisionButton();
+        DigitalState ReadPrecisionLeftButton();
+        DigitalState ReadPrecisionRightButton();
         DigitalState ReadAction1Button();
         DigitalState ReadAction2Button();
         DigitalState ReadAction3Button();
@@ -50,12 +49,6 @@ namespace KerbalKontroller.Interfaces
         DigitalState ReadPauseButton();
         DigitalState ReadQuickSaveButton();
         DigitalState ReadQuickLoadButton();
-        void WriteLandingGearLed(bool ledState);
-        void WriteBrakesLed(bool ledState);
-        void WriteLightsLed(bool ledState);
-        void WriteSASLed(bool ledState);
-        void WriteRCSLed(bool ledState);
-        void WritePrecisionLed(bool ledState);
         void WriteSASModeLed(SASModes sASMode);
     }
 }

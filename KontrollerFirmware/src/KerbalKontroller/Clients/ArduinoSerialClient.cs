@@ -142,47 +142,57 @@ namespace KerbalKontroller.Clients
             serialPort.Close();
         }
 
-        private float AnalogConversor(int analogValue, bool inverted)
+        private float AnalogConversor(int analogValue, bool inverted, bool precision)
         {
-            var convertedValue = (analogValue / appSettings.HalfMaximumInput) - 1;
+            var convertedValue = (analogValue / (appSettings.MaximumInput/2)) - 1;
 
             if (Math.Abs(convertedValue) < appSettings.JoystickDeadZone) return 0;
-            return inverted ? -convertedValue : convertedValue;
+
+            convertedValue = inverted ? -convertedValue : convertedValue;
+
+            if (precision)
+                return convertedValue * appSettings.PrecisionValue;
+
+            return convertedValue;
         }
 
         public JoystickAxis ReadLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
         {
+            var isPrecisionEnabled = ReadPrecisionLeftButton().Active;
             return new JoystickAxis
             {
-                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.LeftJoyStickX), xAxisInverted),
-                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.LeftJoyStickY), yAxisInverted)
+                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.LeftJoyStickX), xAxisInverted, isPrecisionEnabled),
+                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.LeftJoyStickY), yAxisInverted, isPrecisionEnabled)
             };
         }
 
         public JoystickAxis ReadRightJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
         {
+            var isPrecisionEnabled = ReadPrecisionRightButton().Active;
             return new JoystickAxis
             {
-                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.RightJoyStickX), xAxisInverted),
-                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.RightJoyStickY), yAxisInverted)
+                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.RightJoyStickX), xAxisInverted, isPrecisionEnabled),
+                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.RightJoyStickY), yAxisInverted, isPrecisionEnabled)
             };
         }
 
         public JoystickAxis ReadExtraLeftJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
         {
+            var isPrecisionEnabled = ReadPrecisionLeftButton().Active;
             return new JoystickAxis
             {
-                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraLeftJoyStickX), xAxisInverted),
-                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraLeftJoyStickY), yAxisInverted)
+                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraLeftJoyStickX), xAxisInverted, isPrecisionEnabled),
+                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraLeftJoyStickY), yAxisInverted, isPrecisionEnabled)
             };
         }
 
         public JoystickAxis ReadExtraRightJoystick(bool xAxisInverted = false, bool yAxisInverted = false)
         {
+            var isPrecisionEnabled = ReadPrecisionRightButton().Active;
             return new JoystickAxis
             {
-                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraRightJoyStickX), xAxisInverted),
-                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraRightJoyStickY), yAxisInverted)
+                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraRightJoyStickX), xAxisInverted, isPrecisionEnabled),
+                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraRightJoyStickY), yAxisInverted, isPrecisionEnabled)
             };
         }
 
@@ -190,18 +200,8 @@ namespace KerbalKontroller.Clients
         {
             return new JoystickAxis
             {
-                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.AnalogThrottle), false)
+                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.AnalogThrottle), false, false)
             };
-        }
-
-        public DigitalState ReadFullThrottleButton()
-        {
-            throw new NotImplementedException();
-        }
-
-        public DigitalState ReadCutOffThrottleButton()
-        {
-            throw new NotImplementedException();
         }
 
         public DigitalState ReadStageButton()
@@ -249,9 +249,14 @@ namespace KerbalKontroller.Clients
             return new DigitalState(controller.GetDigitalValue(pinConfiguration.PrecisionSwitch));
         }
 
-        public DigitalState ReadPrecisionButton()
+        public DigitalState ReadPrecisionLeftButton()
         {
-            return new DigitalState(controller.GetDigitalValue(pinConfiguration.PrecisionButton));
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.PrecisionLeftButton));
+        }
+
+        public DigitalState ReadPrecisionRightButton()
+        {
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.PrecisionRightButton));
         }
 
         public DigitalState ReadAction1Button()
@@ -412,36 +417,6 @@ namespace KerbalKontroller.Clients
         public DigitalState ReadQuickLoadButton()
         {
             return new DigitalState(controller.GetDigitalValue(pinConfiguration.QuickLoadButton));
-        }
-
-        public void WriteLandingGearLed(bool ledState)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void WriteBrakesLed(bool ledState)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void WriteLightsLed(bool ledState)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void WriteSASLed(bool ledState)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void WriteRCSLed(bool ledState)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void WritePrecisionLed(bool ledState)
-        {
-            throw new NotImplementedException();
         }
 
         public void WriteSASModeLed(SASModes sASMode)

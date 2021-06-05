@@ -46,7 +46,9 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
         public byte PrecisionSwitch { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte PrecisionButton { get; set; }
+        public byte PrecisionLeftButton { get; set; }
+        [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
+        public byte PrecisionRightButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
         public byte Action1Button { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
