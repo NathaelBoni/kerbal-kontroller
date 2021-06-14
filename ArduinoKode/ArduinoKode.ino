@@ -48,7 +48,7 @@ void loop() {
     if (Serial.available() > 0) {
       ReadSerial();
       if (cmd == 0x20){
-        PORTA = arg;
+        PORTA = (PORTA & 0xF0) | arg;
       }
     }
   }
