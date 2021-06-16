@@ -31,7 +31,13 @@ namespace KerbalKontroller.Controls
 
             while (true)
             {
-                if (kspClient.IsGamePaused() || !kspClient.IsInFlight())
+                if (kspClient.IsGamePaused())
+                {
+                    if (debounce.GetPauseButtonState()) kspClient.SetPaused();
+                    continue;
+                }
+
+                if (!kspClient.IsInFlight())
                     continue;
 
                 try
