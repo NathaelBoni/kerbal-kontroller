@@ -37,6 +37,11 @@ namespace KerbalKontroller.Controls
                     continue;
                 }
 
+                if (kspClient.IsInEditor())
+                {
+
+                }
+
                 if (!kspClient.IsInFlight())
                     continue;
 

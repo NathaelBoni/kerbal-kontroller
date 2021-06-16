@@ -7,6 +7,7 @@ namespace KerbalKontroller.Interfaces
         object GetActiveVessel();
         void UpdateActiveVessel();
         bool IsInFlight();
+        bool IsInEditor();
         bool IsGamePaused();
         void SetPaused();
         void QuickSave();
