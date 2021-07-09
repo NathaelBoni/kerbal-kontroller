@@ -181,8 +181,7 @@ namespace KerbalKontroller.Clients
             var isPrecisionEnabled = ReadPrecisionLeftButton().Active;
             return new JoystickAxis
             {
-                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraLeftJoyStickX), xAxisInverted, isPrecisionEnabled),
-                YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraLeftJoyStickY), yAxisInverted, isPrecisionEnabled)
+                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraLeftJoyStickX), xAxisInverted, isPrecisionEnabled)
             };
         }
 
@@ -191,7 +190,6 @@ namespace KerbalKontroller.Clients
             var isPrecisionEnabled = ReadPrecisionRightButton().Active;
             return new JoystickAxis
             {
-                XValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraRightJoyStickX), xAxisInverted, isPrecisionEnabled),
                 YValue = AnalogConversor(controller.GetAnalogValue(pinConfiguration.ExtraRightJoyStickY), yAxisInverted, isPrecisionEnabled)
             };
         }
@@ -336,42 +334,42 @@ namespace KerbalKontroller.Clients
 
         public DigitalState ReadKerbalUseButton()
         {
-            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalUseButton));
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KeyF));
         }
 
         public DigitalState ReadKerbalJumpButton()
         {
-            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalJumpButton));
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KeyC));
         }
 
         public DigitalState ReadKerbalRunButton()
         {
-            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalRunButton));
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KeyE));
         }
 
         public DigitalState ReadKerbalBoardButton()
         {
-            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalBoardButton));
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KeyB));
         }
 
         public DigitalState ReadKerbalLetGoButton()
         {
-            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalLetGoButton));
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KeyC));
         }
 
         public DigitalState ReadKerbalParachuteButton()
         {
-            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalParachuteButton));
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KeyP));
         }
 
         public DigitalState ReadKerbalJetPackButton()
         {
-            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalJetPackButton));
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KeyR));
         }
 
         public DigitalState ReadKerbalConstructionButton()
         {
-            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KerbalConstructionMode));
+            return new DigitalState(controller.GetDigitalValue(pinConfiguration.KeyI));
         }
 
         public DigitalState ReadCameraCycleButton()

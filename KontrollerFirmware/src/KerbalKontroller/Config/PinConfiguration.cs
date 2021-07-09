@@ -12,19 +12,13 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input), PinType(PinTypes.Analog)]
         public byte ExtraLeftJoyStickX { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Analog)]
-        public byte ExtraLeftJoyStickY { get; set; }
-        [PinMode(PinModes.Input), PinType(PinTypes.Analog)]
         public byte RightJoyStickX { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Analog)]
         public byte RightJoyStickY { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Analog)]
-        public byte ExtraRightJoyStickX { get; set; }
-        [PinMode(PinModes.Input), PinType(PinTypes.Analog)]
         public byte ExtraRightJoyStickY { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Analog)]
         public byte AnalogThrottle { get; set; }
-        [PinMode(PinModes.Input), PinType(PinTypes.Analog)]
-        public byte FullThrottleButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
         public byte CutOffThrottleButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
@@ -90,21 +84,29 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
         public byte SASAntiTargetButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte KerbalUseButton { get; set; }
+        public byte KeyQ { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte KerbalJumpButton { get; set; }
+        public byte KeyW { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte KerbalRunButton { get; set; }
+        public byte KeyE { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte KerbalBoardButton { get; set; }
+        public byte KeyA { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte KerbalLetGoButton { get; set; }
+        public byte KeyS { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte KerbalParachuteButton { get; set; }
+        public byte KeyD { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte KerbalJetPackButton { get; set; }
+        public byte KeyC { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
-        public byte KerbalConstructionMode { get; set; }
+        public byte KeyF { get; set; }
+        [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
+        public byte KeyB { get; set; }
+        [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
+        public byte KeyR { get; set; }
+        [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
+        public byte KeyP { get; set; }
+        [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
+        public byte KeyI { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
         public byte CameraCycleButton { get; set; }
         [PinMode(PinModes.Input), PinType(PinTypes.Digital)]
@@ -136,24 +138,12 @@ namespace KerbalKontroller.Config
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
         public byte PrecisionLed { get; set; }
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASFreeLed { get; set; }
+        public byte SASLedS0 { get; set; }
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASManeuverLed { get; set; }
+        public byte SASLedS1 { get; set; }
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASProgradeLed { get; set; }
+        public byte SASLedS2 { get; set; }
         [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASRetrogradeLed { get; set; }
-        [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASRadialInLed { get; set; }
-        [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASRadialOutLed { get; set; }
-        [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASNormalLed { get; set; }
-        [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASAntiNormalLed { get; set; }
-        [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASTargetLed { get; set; }
-        [PinMode(PinModes.Output), PinType(PinTypes.Digital)]
-        public byte SASAntiTargetLed { get; set; }
+        public byte SASLedS3 { get; set; }
     }
 }
