@@ -1,89 +1,42 @@
-#include "header.h"
+#include "KerbalSimpit.h"
+#include "PinHelper.h"
+#include "KerbalActions.h"
+#include "ActionHelper.h"
 
-ControllerPin *inputHead, *currentInput;
-
-const int BUFFER_SIZE = 2;
-
-byte cmd;
-byte arg;
-String inputPins, commandData;
-bool initialSetupDone;
-
-void setup() {
-  Serial.begin(9600);
-  inputHead = NULL;
-  inputPins = "";
-  initialSetupDone = false;
+void setup(){
+  InitializePinsArray();
+  SetPinMode();
+  InitializeActions();
 }
 
-void loop() {
-  if (!initialSetupDone) {
-    if (Serial.available() > 0) {
-      ReadSerial();
-
-      switch(cmd){
-        case 0x01:
-          AddInputPin(arg);
-          break;
-        case 0x02:
-          pinMode(arg, OUTPUT);
-          break;
-        case 0x10:
-          initialSetupDone = true;
-          inputPins = inputPins + "|";
-          break;
-      }
-    }
-  } else {
-    currentInput = inputHead;
-    commandData = "";
-    while(currentInput != NULL){
-      commandData.concat(String(GetPinValue(currentInput->pin)) + ",");
-      currentInput = currentInput->next;
+void loop(){
+  if(gameStatus == EVA){
+    ProcessKerbalWalking();
+  }else{
+    ReadActionButtons();
+    if(flightType == SpaceShip){
+      ProcessRotationSpaceShip();
+      ProcessTranslation();
+      ProcessThrottle();
+    }else if (flightType == Plane){
+      ProcessRotationPlane();
+      ProcessTranslation();
+      ProcessThrottle();
+    }else if (flightType == Rover){
+      ProcessRoverWheels();
+      ProcessTranslation();
     }
 
-    commandData.remove(commandData.length()-1);
-    Serial.println(inputPins + commandData);
-    
-    if (Serial.available() > 0) {
-      ReadSerial();
-      if (cmd == 0x20){
-        PORTA = (PORTA & 0xF0) | arg;
-      }
-    }
+    ReadActionButtons();
+    ReadSASButtons();
+    SetSASLed(currentSASMode);
+    ReadSwitches();
+    ReadAbortStage();
+    ReadPrecisionButtons();
   }
-}
 
-void AddInputPin(byte pin){
-  ControllerPin *newPin = (ControllerPin*)malloc(sizeof(ControllerPin));
-  newPin->pin = pin;
-  newPin->next = NULL;
+  ReadKeys();
+  ReadGameButtons();
 
-  pinMode(newPin->pin, INPUT);
-
-  if(inputHead == NULL){
-    inputHead = newPin;
-    inputPins.concat(String(pin));
-  } else {
-    ControllerPin *current = inputHead;
-    while(current->next != NULL){
-      current = current->next;
-    }
-    current->next = newPin;
-    inputPins.concat("," + String(pin, DEC));
-  }
-}
-
-int GetPinValue(byte pin){
-  if(pin >= numberOfDigitalPorts){
-    return analogRead(pin);
-  }
-  return digitalRead(pin);
-}
-
-void ReadSerial(){
-  char buf[BUFFER_SIZE];
-  Serial.readBytes(buf, BUFFER_SIZE);
-  cmd = buf[0];
-  arg = buf[1];
+  SimpitUpdate();
 }
