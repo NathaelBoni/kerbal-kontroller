@@ -5,8 +5,6 @@
 
 KerbalSimpit simpit(Serial);
 
-timewarpMessage timewarp;
-
 bool leftPrecisionEnabled, rightPrecisionEnabled;
 int leftMaxValue, leftMinValue;
 int rightMaxValue, rightMinValue;
@@ -193,28 +191,28 @@ void Press5() {
 
 void ToggleLandingGear() {
   simpit.toggleAction(GEAR_ACTION);
-  UpdateVesselActions();
+  //UpdateVesselActions();
 }
 
 void ToggleBrakes() {
   simpit.toggleAction(BRAKES_ACTION);
-  UpdateVesselActions();
+  //UpdateVesselActions();
 }
 
 void ToggleLights() {
   simpit.toggleAction(LIGHT_ACTION);
-  UpdateVesselActions();
+  //UpdateVesselActions();
 }
 
 void ToggleSAS() {
   simpit.toggleAction(SAS_ACTION);
-  UpdateVesselActions();
+  //UpdateVesselActions();
 }
 
 void ToggleRCS() {
   if (gameStatus == Flight){
     simpit.toggleAction(RCS_ACTION);
-    UpdateVesselActions();
+    //UpdateVesselActions();
   }else{
     PressR();
   }
@@ -269,13 +267,17 @@ void SetSASAntiTarget() {
 }
 
 void DecreaseTimeWarp() {
-  timewarp.command = TIMEWARP_UP;
-  simpit.send(TIMEWARP_MESSAGE, timewarp);
+  //timewarpMessage timewarp;
+  //timewarp.command = TIMEWARP_DOWN;
+  //simpit.send(TIMEWARP_MESSAGE, timewarp);
+  PressKey(InputComma);
 }
 
 void IncreaseTimeWarp() {
-  timewarp.command = TIMEWARP_DOWN;
-  simpit.send(TIMEWARP_MESSAGE, timewarp);
+  //timewarpMessage timewarp;
+  //timewarp.command = TIMEWARP_UP;
+  //simpit.send(TIMEWARP_MESSAGE, timewarp);
+  PressKey(InputDot);
 }
 
 void PreviousVessel() {

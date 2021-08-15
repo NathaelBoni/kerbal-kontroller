@@ -63,8 +63,8 @@
 #define SASTargetButton 17
 #define SASAntiTargetButton 26
 
-#define DecreaseTimeWarpButton 7
-#define IncreaseTimeWarpButton 2
+#define DecreaseTimeWarpButton 2
+#define IncreaseTimeWarpButton 7
 #define PreviousVesselButton 3
 #define NextVesselButton 8
 #define CameraCycleButton 4
@@ -118,5 +118,7 @@
 #define InputF5 0x74
 #define InputF9 0x78
 #define InputF12 0x7B
+#define InputComma 0xBC
+#define InputDot 0xBE
 
 #endif
